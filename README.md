@@ -1,2 +1,2 @@
 # hr.gewinns.com
-This is the back up for ERPNext System.
+This is the back up code for ERPNext System.
