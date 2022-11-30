@@ -1,0 +1,11 @@
+eid = frappe.db.sql("""select name from `tabEmployee` where user_id = %s""",(frappe.session.user),as_dict=1)
+data=frappe.db.sql("""SELECT
+employee, employee_name,date(time) as Date, cast(time as time(0)) as Time,  log_type ,
+SUBSTRING_INDEX(SUBSTRING_INDEX(device_id,':',2),':',-1) as Location
+FROM
+`tabEmployee Checkin`
+WHERE
+employee=%s
+ORDER BY
+Date desc,time DESC;""",(eid[0].name),as_dict=True)
+frappe.response["message"]=data

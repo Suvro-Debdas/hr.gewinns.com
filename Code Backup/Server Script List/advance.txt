@@ -1,0 +1,1 @@
+frappe.response["message"]=frappe.db.sql("SELECT e.employee_name,e.department,a.posting_date,a.purpose,a.advance_amount,a.status,a.mode_of_payment,a.paid_amount,a.pending_amount,a.claimed_amount,a.return_amount FROM `tabEmployee Advance` as a INNER JOIN  `tabEmployee` as e ON a.employee=e.employee   WHERE e.user_id = %s",(frappe.session.user), as_dict = True)
