@@ -1,1 +1,0 @@
-frappe.response["message"]=frappe.db.sql("SELECT * FROM `tabEmployee Shareable Details` WHERE status = 'Active'",as_dict=True)
