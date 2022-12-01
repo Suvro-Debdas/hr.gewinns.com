@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HR Dashboard</title>
+        <style>
+            #example1 {
+                background-image: url(https://hr.gewinns.com/private/files/logo_new.png), url(https://hr.gewinns.com/private/files/background.png);
+                background-position: 280px -30px, left bottom;
+                background-repeat: no-repeat, repeat;
+                padding: 15px;
+            }
+        </style>
+        
+    </head>
+    <body class="sb-nav-fixed">
+        <div id="example1" style="height:400px; width:450px; border:1px solid black">
+            <h3 class="text" style="margin-top:130px; margin-left:25px;"><b>If something is wrong,fix it now. But train yourself not to worry. Worry fixes nothing. </b>
+            <br><br> Ernest Hemingway.</h3>
+        </div>
+    </body>
+</html>
