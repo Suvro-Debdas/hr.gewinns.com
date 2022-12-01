@@ -1,0 +1,1 @@
+SELECT e.expense_type as expense_type,MONTHNAME(expense_date) as month,sum(a.total_amount_reimbursed) as amount from `tabExpense Claim` as a INNER JOIN `tabExpense Claim Detail` as e ON a.name=e.parent  WHERE expense_date  BETWEEN '2022-06-01' AND '2022-10-30' GROUP BY e.expense_type;

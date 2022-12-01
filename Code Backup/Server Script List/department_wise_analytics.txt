@@ -1,0 +1,1 @@
+frappe.response["message"]=frappe.db.sql("Select department as Department,COUNT(employee) as No_of_Employee FROM `tabEmployee` WHERE status = 'Active' GROUP BY department",as_dict=True)
