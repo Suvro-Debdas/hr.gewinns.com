@@ -1,0 +1,6 @@
+SELECT a.esi as 'IP Number (10 Digits)',a.employee_name as 'IP Name (Only alphabets and space)',
+b.total_working_days as 'No of Days for which wages paid/payble during the month', b.gross_pay as 'Total Monthly Wages',
+a.feedback as 'Reason Code for Zero workings days(numeric only; provide 0 for all other reasons- Click on the link for reference)',
+a.relieving_date as 'Last Working Day(Format DD/MM/YYYY or DD-MM-YYYY)'
+FROM `tabEmployee` as a
+INNER JOIN `tabSalary Slip` as b;
