@@ -1,0 +1,3 @@
+frappe.msgprint(args["employee"])
+data=frappe.db.sql("SELECT a.*, b.image,b.company_email,b.cell_number FROM `tabEmployee Shareable Details` as a INNER JOIN `tabEmployee` as b  ON a.employee = b.employee WHERE b.status = 'Active' AND a.employee=%s ",(args["employee"]),as_dict=True)
+frappe.response["message"]=data

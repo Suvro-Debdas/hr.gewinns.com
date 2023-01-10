@@ -1,0 +1,2 @@
+emp_dict = frappe.db.get_list('Employee', fields= ['employee','user_id','prefered_email'], as_list=False)
+frappe.response["message"]=emp_dict

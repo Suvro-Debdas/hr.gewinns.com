@@ -1,0 +1,8 @@
+data=frappe.db.sql("""SELECT employee,employee_name,
+(COUNT(DISTINCT IF(status = 'Half Day',attendance_date,NULL)))*.5 as hd,
+COUNT(DISTINCT IF(status = 'On Leave',attendance_date,NULL)) as fd,
+((COUNT(DISTINCT IF(status = 'Half Day',attendance_date,NULL)))*.5)+ COUNT(DISTINCT IF(status = 'On Leave',attendance_date,NULL))
+FROM `tabAttendance`  WHERE employee = %s AND attendance_date BETWEEN %s AND %s 
+GROUP BY employee
+""",(args["employee"],args["start_date"],args["end_date"]),as_dict=True)
+frappe.response["message"]=data

@@ -1,0 +1,9 @@
+# eid = frappe.db.sql("""select name from `tabEmployee` where user_id = %s""",(frappe.session.user),as_dict=1)
+frappe.msgprint(args["employee"]);
+data=frappe.db.sql("""SELECT a.leave_type,a.status,a.from_date,a.to_date,a.employee,
+a.employee_name,b.start_date,b.end_date,count(a.total_leave_days) from `tabLeave Application` 
+as a INNER JOIN `tabSalary Slip` as b ON a.employee=b.employee 
+WHERE a.status='Approved' AND MONTHNAME(a.from_date)=MONTHNAME(b.start_date) AND a.employee=%s AND a.from_date BETWEEN %s AND %s
+GROUP BY a.leave_type,a.employee,MONTHNAME(a.from_date)
+""",(args["employee"],args["from_date"],args["to_date"]),as_dict=True)
+frappe.response["message"]=data
