@@ -1,0 +1,580 @@
+.footer-item{
+    display: inline-flex;
+    
+}
+
+.footer-item .footer-link{
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+.footer-item .footer-link{
+    position: relative;
+    height: 50px;
+    width: 50px;
+    display: block;
+    background: #fff;
+    text-align: center;
+    border-radius: 50px;
+    z-index: 2;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-item .footer-link i{
+    font-size: 25px;
+    line-height: 40px;
+}
+
+.footer-item .footer-link:hover{
+    color: #fff; 
+}
+
+.footer-item .footer-link .tooltip{
+    position: absolute;
+    top: 0px;
+    background: #fff;
+    color: #fff;
+    font-size: 20px;
+    padding: 5px 5px;
+    border-radius: 25px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+.footer-item .footer-link:hover .tooltip{
+    top: -70px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.footer-item .footer-link .tooltip:before{
+    position: absolute;
+    content: " ";
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    transition: all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+.footer-item .footer-link:hover ,
+.footer-item .footer-link:hover .tooltip{
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.4);
+}
+
+.footer-item .facebook:hover ,
+.footer-item .facebook:hover .tooltip,
+.footer-item .facebook:hover .tooltip:before{
+    background: #3B5999;
+    justify-content: space-around;
+}
+
+
+.footer-item .twitter:hover ,
+.footer-item .twitter:hover .tooltip,
+.footer-item .twitter:hover .tooltip:before{
+    background: #46C1F6;
+}
+.footer-item .instagram:hover ,
+.footer-item .instagram:hover .tooltip,
+.footer-item .instagram:hover .tooltip:before{
+    background: #bc2a8d;
+}
+
+.footer-item .github:hover ,
+.footer-item .github:hover .tooltip,
+.footer-item .github:hover .tooltip:before{
+    background: #333;
+}
+
+.footer-item .youtube:hover ,
+.footer-item .youtube:hover .tooltip,
+.footer-item .youtube:hover .tooltip:before{
+    background: #FF0000;
+}
+.footer-item .linkedin:hover ,
+.footer-item .linkedin:hover .tooltip,
+.footer-item .linkedin:hover .tooltip:before{
+    background: #0072b1;
+}
+
+/*.footer-item .whatsapp:hover ,*/
+/*.footer-item .whatsapp:hover .tooltip,*/
+/*.footer-item .whatsapp:hover .tooltip:before{*/
+/*background: green ;*/
+/*}    */
+
+.footer-item .website:hover ,
+.footer-item .website:hover .tooltip,
+.footer-item .website:hover .tooltip:before{
+    background: #ff7518;
+}
+
+/*.footer-item .phone:hover ,*/
+/*.footer-item .phone:hover .tooltip,*/
+/*.footer-item .phone:hover .tooltip:before{*/
+/*    background: #ffaa80;*/
+/*}*/
+
+/*.footer-item .address:hover ,*/
+/*.footer-item .address:hover .tooltip,*/
+/*.footer-item .address:hover .tooltip:before{*/
+/*    background: #77b300;*/
+/*}*/
+.footer-item .slack:hover ,
+.footer-item .slack:hover .tooltip,
+.footer-item .slack:hover .tooltip:before{
+    background:#b33c00;
+}
+.footer-item .maps:hover ,
+.footer-item .maps:hover .tooltip,
+.footer-item .maps:hover .tooltip:before{
+    background: green;
+}
+.footer-item .meet:hover ,
+.footer-item .meet:hover .tooltip,
+.footer-item .meet:hover .tooltip:before{
+    background: green;
+}
+.footer-item .maps:hover ,
+.footer-item .maps:hover .tooltip,
+.footer-item .maps:hover .tooltip:before{
+    background: #ff0066;
+}
+.footer-item .play_store:hover ,
+.footer-item .play_store:hover .tooltip,
+.footer-item .play_store:hover .tooltip:before{
+    background: #ffff00;
+}
+.footer-item .news:hover ,
+.footer-item .news:hover .tooltip,
+.footer-item .news:hover .tooltip:before{
+    background: #0099cc;
+}
+.footer-item .chat:hover ,
+.footer-item .chat:hover .tooltip,
+.footer-item .chat:hover .tooltip:before{
+    background: #ffbf00;
+}
+.footer-item .contact:hover ,
+.footer-item .contact:hover .tooltip,
+.footer-item .contact:hover .tooltip:before{
+    background: #ff8000;
+}
+.footer-item .drive:hover ,
+.footer-item .drive:hover .tooltip,
+.footer-item .drive:hover .tooltip:before{
+    background: #996600;
+}
+.footer-item .calender:hover ,
+.footer-item .calender:hover .tooltip,
+.footer-item .calender:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .outlook:hover ,
+.footer-item .outlook:hover .tooltip,
+.footer-item .outlook:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .one_drive:hover ,
+.footer-item .one_drive:hover .tooltip,
+.footer-item .one_drive:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .word:hover ,
+.footer-item .word:hover .tooltip,
+.footer-item .word:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .excel:hover ,
+.footer-item .excel:hover .tooltip,
+.footer-item .excel:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .power_point:hover ,
+.footer-item .power_point:hover .tooltip,
+.footer-item .power_point:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .one_note:hover ,
+.footer-item .one_note:hover .tooltip,
+.footer-item .one_note:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .share_point:hover ,
+.footer-item .share_point:hover .tooltip,
+.footer-item .share_point:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .teams:hover ,
+.footer-item .teams:hover .tooltip,
+.footer-item .teams:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .bookings:hover ,
+.footer-item .bookings:hover .tooltip,
+.footer-item .bookings:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .yammer:hover ,
+.footer-item .yammer:hover .tooltip,
+.footer-item .yammer:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .power_automate:hover ,
+.footer-item .power_automate:hover .tooltip,
+.footer-item .power_automate:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .search:hover ,
+.footer-item .search:hover .tooltip,
+.footer-item .search:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .business_profile:hover ,
+.footer-item .business_profile:hover .tooltip,
+.footer-item .business_profile:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .gmail:hover ,
+.footer-item .gmail:hover .tooltip,
+.footer-item .gmail:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .translate:hover ,
+.footer-item .translate:hover .tooltip,
+.footer-item .translate:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .photos:hover ,
+.footer-item .photos:hover .tooltip,
+.footer-item .photos:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .duo:hover ,
+.footer-item .duo:hover .tooltip,
+.footer-item .duo:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .shopping:hover ,
+.footer-item .shopping:hover .tooltip,
+.footer-item .shopping:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .finance:hover ,
+.footer-item .finance:hover .tooltip,
+.footer-item .finance:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .docs:hover ,
+.footer-item .docs:hover .tooltip,
+.footer-item .docs:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .sheet:hover ,
+.footer-item .sheet:hover .tooltip,
+.footer-item .sheet:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .slides:hover ,
+.footer-item .slides:hover .tooltip,
+.footer-item .slides:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .books:hover ,
+.footer-item .books:hover .tooltip,
+.footer-item .books:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .blooger:hover ,
+.footer-item .blooger:hover .tooltip,
+.footer-item .blooger:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .hangouts:hover ,
+.footer-item .hangouts:hover .tooltip,
+.footer-item .hangouts:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .keep:hover ,
+.footer-item .keep:hover .tooltip,
+.footer-item .keep:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .jamboard:hover ,
+.footer-item .jamboard:hover .tooltip,
+.footer-item .jamboard:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .classroom:hover ,
+.footer-item .classroom:hover .tooltip,
+.footer-item .classroom:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .earth:hover ,
+.footer-item .earth:hover .tooltip,
+.footer-item .earth:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .collections:hover ,
+.footer-item .collections:hover .tooltip,
+.footer-item .collections:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .art_culture:hover ,
+.footer-item .art_culture:hover .tooltip,
+.footer-item .art_culture:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .ads:hover ,
+.footer-item .ads:hover .tooltip,
+.footer-item .ads:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .podcasts:hover ,
+.footer-item .podcasts:hover .tooltip,
+.footer-item .podcasts:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .skype:hover ,
+.footer-item .skype:hover .tooltip,
+.footer-item .skype:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .goto_meeting:hover ,
+.footer-item .goto_meeting:hover .tooltip,
+.footer-item .goto_meeting:hover .tooltip:before{
+    background: #ff1a1a;
+}
+.footer-item .zoom:hover ,
+.footer-item .zoom:hover .tooltip,
+.footer-item .zoom:hover .tooltip:before{
+    background: #ff1a1a;
+}
+
+
+
+/*+*/
+
+
+/* Small Buttons*/
+
+button{
+border: none;
+border-radius: 25px;
+box-shadow: 0 0 8px rgb(207, 207, 207);
+}
+
+button:hover{
+border: none;
+
+border-radius: 25px;
+box-shadow: inset 0 0 8px #f9f8fc;
+}
+
+#foot, #foot-claim , #foot-travel{
+position: relative;
+border: none;
+border-radius: 25px;
+box-shadow: 0 0 8px #d9d4e7;
+width: 200px;
+height: 30px;
+background-color: #008000;
+animation-duration: 7s;
+}
+
+.button-os{
+position: absolute;
+width: 200px;
+height: 50px;
+
+background-color: #008000;
+
+transition: background-color 2.2s;
+transition-duration: 3s;
+transition: 1.5s;
+}
+
+.button-os:hover{
+position: absolute;
+
+background-color: #008000;
+}
+.button-os a:hover{
+color: #ffffff;
+}
+
+.button-os a{
+font-size: 18px;
+display: block;
+text-decoration: none;
+color:#ffffff;
+transition: 1.5s;
+}
+
+.button-os a:hover{
+letter-spacing: 5px;
+}
+
+/* Large Buttons*/
+
+button{
+border: none;
+border-radius: 25px;
+box-shadow: 0 0 8px rgb(207, 207, 207);
+}
+
+button:hover{
+border: none;
+
+border-radius: 25px;
+box-shadow: inset 0 0 8px #f9f8fc;
+}
+
+#head{
+position: relative;
+
+
+border: none;
+
+border-radius: 25px;
+box-shadow: 0 0 8px #d9d4e7;
+width: 200px;
+height: 55px;
+background-color: #008000;
+animation-duration: 7s;
+}
+
+.button-ab{
+position: absolute;
+width: 200px;
+height: 55px;
+
+background-color: #008000;
+
+transition: background-color 2.2s;
+transition-duration: 3s;
+transition: 1.5s;
+}
+
+.button-ab:hover{
+position: absolute;
+
+background-color: #008000;
+}
+.button-ab a:hover{
+color: #ffffff;
+}
+
+.button-ab a{
+font-size: 18px;
+display: block;
+text-decoration: none;
+color:#ffffff;
+transition: 1.5s;
+}
+
+.button-ab a:hover{
+letter-spacing: 5px;
+}
+
+/*SideBar*/
+
+.nav a:hover{
+    background-color:#d9d9d9;
+}
+
+/* Guidelines Button*/
+
+.dropbtn {
+  color: #1f7a1f;
+  padding: 8px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #1f7a1f;
+  color: white;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 140px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown a:hover {background-color: #ddd;}
+.show {display: block;}
+
+/* Digitaal Clock*/
+
+#clock{
+    font-family: Arial,Helvetica,sans-serif;
+    color: black;
+}
+.border{
+    border-radius : 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.border_coworker{
+    border-radius : 50%;
+    height: 150px;
+    width: 150px;
+}
+
+
+/*Attendance Request button*/
+
+.tooltip {
+position: relative;
+display: inline-block;
+border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+visibility: visible;
+width: 120px;
+background-color: black;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 5px 0;
+
+/* Position the tooltip */
+position: absolute;
+z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+visibility: visible;
+}

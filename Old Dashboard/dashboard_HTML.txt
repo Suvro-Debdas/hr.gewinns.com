@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HR Dashboard</title>
+        <link href="/assets/css/employee.css" rel="stylesheet" />
+        <link href="https//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <script src="/assets/js/employee.js"></script> 
+        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCXQmhememhWgvic5XotbVoXqQ5isCTlOk"></script> 
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    </head>
+    <body class="sb-nav-fixed" onload="startWatch()">
+        <nav class="sb-topnav navbar navbar-expand navbar-light bg-light text-dark" style="position: sticky; top: 0;" >
+        <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-0 order-lg-0 me-0 me-lg-0" id="sidebarToggle" href="#!" ><i class="fa-solid fa-bars"></i></button>
+            
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-0" href="https://hr.gewinns.com/app/home"><i class="fa-solid fa-house-user"></i><b style="color:  #3366cc; font-size: 18px;">     GEWINNS     </b></a>
+            
+            <!--Tutorial Part--> 
+            <!--<div class="dropdown">-->
+            <!--  <button onclick="myFunction()" class="dropbtn">Guidelines</button>-->
+            <!--  <div id="myDropdown" class="dropdown-content" style="height: 500px; overflow-y: scroll;">-->
+            <!--    <a href="#">Employee Profile</a>-->
+            <!--    <a href="#about">Attendance & Activities</a>-->
+            <!--    <a href="#contact">Upcoming Birthdays</a>-->
+            <!--    <a href="#home">Upcoming Work Anniversaries</a>-->
+            <!--    <a href="#about">New Joiners List</a>-->
+            <!--    <a href="#contact">Holiday List</a>-->
+            <!--    <a href="#home">Leave Balance</a>-->
+            <!--    <a href="#about">Leave Request Status</a>-->
+            <!--    <a href="#contact">Salary Slip</a>-->
+            <!--    <a href="#home">Check Tax Declarations</a>-->
+            <!--    <a href="#about">Add Tax Declarations</a>-->
+            <!--    <a href="#contact">Historical Attendance</a>-->
+            <!--    <a href="#home">Checkin History</a>-->
+            <!--    <a href="#about">Asset Details</a>-->
+            <!--    <a href="#contact">Employee Feedback Report</a>-->
+            <!--    <a href="#contact">Co-worker Details</a>-->
+            <!--    <a href="#home">Check List</a>-->
+            <!--    <a href="#about">To Do List</a>-->
+            <!--    <a href="#contact">External Applications</a>-->
+            <!--  </div>-->
+            <!--</div>-->
+            
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-6 me-5 me-lg-6">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><b id="nav_name" style="padding-right:5px;"></b>
+                    <img id="nav_user" width="50px" height="50px" style="border:1px solid; border-radius:50%;"></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="#!">Support</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="https://hr.gewinns.com/?cmd=web_logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav" > 
+            <div class="nav-side bg-light " id="layoutSidenav_nav"  id="navSide" style="height: 1200px; overflow-y: scroll; position: sticky; top: 0;">
+                <nav class="sb-sidenav accordion sb-sidenav text-dark" id="sidenavAccordion" >
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading  text-dark"><h4>Menu</h4></div>
+                            <a class="nav-link"  onclick="showHome()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa fa-chart-area" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Home</div>
+                            </a>
+                            <a class="nav-link" onclick="showLeaves()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-database" style="font-size: 18px; margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Leaves</div>
+                            </a>
+                            <a class="nav-link" onclick="showExpense()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Expenses</div>
+                            </a>
+                            <a class="nav-link" onclick="showTravel()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-sharp fa-solid fa-plane" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div  class="right_nav" style="font-size:14px;">Travel</div>
+                            </a>
+                            <a class="nav-link" onclick="showAnalytics()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-simple" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div  class="right_nav" style="font-size:14px;">Analytics</div>
+                            </a>
+                            <a class="nav-link" onclick="showPayslips()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-money-check" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Salary</div>
+                            </a>
+                            <a class="nav-link" onclick="showTax()" style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-hand-holding-dollar" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Tax Exemption<br> Declaration</div>
+                            </a>
+                            <div class="dropdown">
+                            <div>
+                            <a type="button" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                              style="font-size: 14px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 18px; margin-right:14px;"></i>Reports</a>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                style="font-size: 12px; font-family: script; color: #204060;"><i class="fa-solid fa-money-bill-trend-up" style="font-size: 18px; margin-right:14px;"></i>Statutory & Payroll</a>
+                                
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/Salary%20Register" target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Payroll Register</a>
+                                    
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/PF%20Report" target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>PF Report</a>
+                                    
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/ESI%20Report" target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>ESI Report</a>
+                                    
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/Professional%20Tax%20Deductions" target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Professional Tax Report</a>
+                                    
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/Income%20Tax%20Deductions" target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>TDS Report</a>
+                                    </div>
+                                
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                style="font-size: 12px; font-family: script; color: #204060;"><i class="fa-solid fa-book" style="font-size: 18px; margin-right:14px;"></i>Attendance Report</a>
+                                
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link"  onclick="showAttendance()"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Historical Attendance</a>
+                                    
+                                        <a class="nav-link"  onclick="showCheckin()"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Checkin History</a>
+                                    </div>
+                                
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                style="font-size: 12px; font-family: script; color: #204060;"><i class="fa-solid fa-laptop" style="font-size: 18px; margin-right:14px;"></i>Asset Assignment Report</a>
+                                  
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link"  onclick="showAsset()"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Assigned Asset Report</a>
+                                    </div>
+                                   
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                style="font-size: 12px; font-family: script; color: #204060;"><i class="fa-solid fa-laptop" style="font-size: 18px; margin-right:14px;"></i>Expense Reports</a>
+                                  
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/Expense%20Claim%20Employee%20Wise"
+                                        target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Employee Wise Expense Claim</a>
+                            
+                                    
+                                        <a class="nav-link" href="https://hr.gewinns.com/app/query-report/Type%20Wise%20Expense%20Report" target="_blank"
+                                          style="font-size: 12px; font-family: script; color: #204060;"><i class="fa fa-table" style="font-size: 12px; margin-right:14px;"></i>Nature Wise Expense Claim</a>
+                                    </div>  
+                              </div>
+                            </div>
+                            
+                            <a class="nav-link" href="/files/General Terms & Conditions.pdf "style="font-size: 18px; font-family: script; color: #204060;">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-shapes" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">HR Policy</div>
+                            </a>
+                            <a class="nav-link" onclick="showChecklist()" style="font-size: 18px; font-family: script; color: #204060; ">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-check-to-slot" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Check List</div>
+                            </a>
+                            
+                            <a class="nav-link" onclick="showCoworker()" style="font-size: 18px; font-family: script; color: #204060; ">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-users" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Co-worker Details</div>
+                            </a>
+                            <a class="nav-link" onclick="showThingsToDo()" style="font-size: 18px; font-family: script; color: #204060; ">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-file-pen" style="font-size: 18px; margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Things To Do</div>
+                            </a>
+                            <div class="sb-sidenav-menu-heading card-header-text-dark">
+                                  <h4>Quick Links</h4>
+                            </div>
+                            <a class="nav-link"  href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/bl-link-aadhaar" style="font-size: 18px; font-family: script; color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-file" style="font-size: 18px;margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Link Aadhaar</div>
+                            </a>
+                            <a class="nav-link" href="https://eportal.incometax.gov.in/iec/foservices/#/TaxCalc/calender"
+                            style="font-size: 18px; font-family: script;  color: #204060; " target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-days" style="font-size: 18px;margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Tax calendar</div>
+                            </a>
+                            <a class="nav-link" href="https://eportal.incometax.gov.in/iec/foservices/#/TaxCalc/calculator"
+                            style="font-size: 18px; font-family: script;  color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-calculator" style="font-size: 18px;margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">IT Calculator</div>
+                            </a>
+                            <a class="nav-link"  href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/eVerifyReturn-bl"
+                            style="font-size: 18px; font-family: script;  color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-folder-open" style="font-size: 18px;margin-right:15px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">e-Verify Return</div>
+                            </a>
+                            <a class="nav-link" href="https://eportal.incometax.gov.in/iec/foservices/#/e-pay-tax-prelogin/user-details"
+                            style="font-size: 18px; font-family: script; color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-wallet" style="font-size: 18px;margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">e-Pay Tax</div>
+                            </a>
+                            <a class="nav-link" href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/itrStatus"
+                            style="font-size: 18px; font-family: script; color: #204060; " target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-file-lines" style="font-size: 18px;margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">IT Return Status</div>
+                            </a>
+                            <a class="nav-link" href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/verifyYourPAN"
+                            style="font-size: 18px; font-family: script; color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-folder-open" style="font-size: 18px;margin-right:12px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Verify Your PAN</div>
+                            </a>
+                            <a class="nav-link"  href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/link-aadhaar-status"
+                            style="font-size: 18px; font-family: script; color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-sharp fa-solid fa-file" style="font-size: 18px;margin-right:17px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Link Aadhaar Status</div>
+                            </a>
+                            <a class="nav-link" href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/knowYourAO"
+                            style="font-size: 18px; font-family: script; color: #204060;" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-sharp fa-solid fa-folder-open" style="font-size: 18px;margin-right:14px;"></i></div>
+                                <div class="right_nav" style="font-size:14px;">Know Your AO</div>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content" style="height: 5000px; overflow-y: scroll;">
+            
+            <!--Digital Clock-->
+            
+            <!--<div class="col-xl-12 col-md-6" style="margin-top: 25px;">-->
+            <!--    <div class="card-header text-dark" style="border-radius: 5px;"><b style="font-family: cursive; font-size: 20px;">The time is - </b>-->
+            <!--        <span id="hours">00</span>-->
+            <!--        <span>:</span>-->
+            <!--        <span id="minutes">00</span>-->
+            <!--        <span>:</span>-->
+            <!--        <span id="seconds">00</span>-->
+            <!--        <span id="session">AM</span>-->
+            <!--    </div>    -->
+            <!--</div>-->
+            
+            <main>
+                <div id="home">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Home</h3>
+                        <div class="row">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b  style="font-family: cursive; font-size: 20px;">My Profile</b></div>
+                                    <div style="height: 435px; overflow-y: scroll;">
+                                        <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                            <table class="table table-bordered bg-white" id="profile">
+                                                <tr>
+                                                    <td rowspan=5>
+                                                            <img id="userimage" src="" alt="Emp" height="100px" width="100px" style="border:1px solid white; margin: auto; border-radius: 50%;">
+                                                            <a href="https://hr.gewinns.com/app/employee/"><button type="button" class="btn- btn-outline-success" style=" width:100px;margin-top:12px; border-radius:25px;">Edit Info</button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>ID</th>
+                                                    <td id="empid"></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Name</th>
+                                                    <td id="empname"></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Contact</th>
+                                                    <td id="contact"></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Email</th>
+                                                    <td id="email"></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Gender</th>
+                                                    <td id="gender"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>D.O.B</th>
+                                                    <td id="dob"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>D.O.J</th>
+                                                    <td id="doj"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Department</th>
+                                                    <td id="depar"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Designation</th>
+                                                    <td id="deg"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Status</th>
+                                                    <td id="status"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Shift</th>
+                                                    <td id="shift"  colspan=2></td>
+                                                </tr>
+                                                <tr Style="font-size:12px">
+                                                    <th>Blood Group</th>
+                                                    <td id="bloodgroup"  colspan=2></td>
+                                                </tr>
+                                            </table> 
+                                        </div>
+                                    </div>
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark rounded-20  mb-4">
+                                
+                                    <div class="card-header text-dark" style= "display : flex; justify-content : space-between;" >
+                                        <b style="font-family: cursive; font-size: 20px;">Mark Attendance</b>
+                                        <a href="https://hr.gewinns.com/app/employee-checkin-request/new-employee-checkin-request-1"><i class="fa fa-plus-circle" style="font-size: 25px; margin-right:8px;" title="Checkin Request"></i></a>
+                                    </div>
+                                    
+                                    
+                                    <div style="height: 435px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-bordered text-center">
+                                            <tr style="background-color:#e6e6e6; color:black;">
+                                                <td id="lastcheckin">
+                                                    <b>Check in at time location</b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div id="mapholder" width="100%" height="250px">Loading map ... Please Wait</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary " id="refresh_status" style="width: 48%;" onclick="Javascript:AutoRefresh();">Recentre</button>
+                                                    <button type="button" class="btn btn-success " style="width: 48%;" onclick="getLocation()" id="checkin">Checkin</button>
+                                                </td>
+                                            </tr>
+                                        </table>    
+                                    </div>
+                                    </div>
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark mb-4" >
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Todays Activity</b></div>
+                                    <div style="height: 435px;overflow-y: scroll ">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black">
+                                        <section class="py-5 ">
+                                            <ul class="timeline-with-icons" id="timeline">
+                                                <li class="timeline-item mb-5">
+                                                    <span class="timeline-icon">
+                                                        <i class="fas fa-arrow-circle-right text-primary fa-sm fa-fw"></i>
+                                                    </span>
+                                                    <p class="text-muted mb-2 fw-bold">11 March 2020</p>
+                                                    <p class="text-muted">
+                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                                                    </p>
+                                                </li>
+                                                <li class="timeline-item mb-5">
+                                                    <span class="timeline-icon">
+                                                        <i class="fas fa-arrow-circle-right text-primary fa-sm fa-fw"></i>
+                                                    </span>
+                                                    <p class="text-muted mb-2 fw-bold">19 March 2020</p>
+                                                    <p class="text-muted">
+                                                        Quisque ornare dui nibh, sagittis egestas nisi luctus nec. Sed
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                        <!-- Section: Timeline -->
+                                    </div>
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Today's Birthday</b></div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="birthday">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black;  font-size: 13px;">
+                                                <th>Image</th>
+                                                <th>Date</th>
+                                                <th>Employee</th>
+                                                <th>Department</th>
+                                            </tr>
+                                        </table> 
+                                    </div>
+                                    <!--<div id="nobirthday_record"></div>-->
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark  mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Today's Work Anniversary</b></div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="anniversary">
+                                            <tr style="position: sticky; top: 0;  background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Image</th>
+                                                <th>Date</th>
+                                                <th>Employee</th>
+                                                <th>Department</th>
+                                            </tr>
+                                        </table>    
+                                    </div>
+                                    <!--<div id="noworkanniversary_record"></div>-->
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">New Joinee</b></div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="new_joinee">
+                                            <tr style="position: sticky; top: 0;  background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Image</th>
+                                                <th>Date</th>
+                                                <th>Employee</th>
+                                                <th>Department</th>
+                                            </tr>
+                                        </table>    
+                                    </div>
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="attendance_report">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Attendance</h3>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6" >
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Historical Attendance</b></div>
+                                    <div style="overflow-y: scroll; overflow-x: scroll;">  
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <table class="table table-hover table-bordered" id="attendance_history"> 
+                                            <thead>
+                                                <tr style=" background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                    <th>Date</th>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>First Checkin</th>
+                                                    <th>Last Checkout</th>
+                                                    <th>Late By</th>
+                                                    <th>Early By</th>
+                                                    <th>Duration</th>
+                                                    <th>Location</th>
+                                                </tr>
+                                            </thead>
+                                        </table> 
+                                    </div>
+                                    </div>    
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div  id="checkin_report">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Checkin</h3>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card mb-4 bg-white text-dark">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Checkin History</b></div>
+                                    <div style="overflow-y: scroll; overflow-x: scroll;">    
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="checkin_history">
+                                            <thead>
+                                                <tr style=" background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Log Type</th>
+                                                <th>Location</th>
+                                                </tr>
+                                            </thead>    
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <div id="leaves">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Leaves</h3>
+                        <div class="row">
+                        
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Holiday List</b></div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="holiday">
+                                            <tr style="position: sticky; top: 0;  background-color:#d9d9d9; color: black; font-size: 13px;">
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark" style= "display : flex;justify-content:space-between;" >
+                                        <b style="font-family: cursive; font-size: 20px;">My Leave Balance</b>
+                                        <button id="foot" class="button-os"><a href="https://hr.gewinns.com/app/leave-application/new-leave-application-1">Apply Leave</a></button>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="myleaves">
+                                            <tr style="position: sticky; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                            <th>Leave Type</th>
+                                            <th>Opening Balance</th>
+                                            <th>New Leaves Allocated</th>
+                                            <th>Leaves Taken</th>
+                                            <th>Leaves Expired</th>
+                                            <th>Closing Balance</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Leave Request Status</b>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="leave_status">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Date of Apply</th>
+                                                <th>Applicant Name</th>
+                                                <th>Reason</th>
+                                                <th>Approver</th>
+                                                <th>From Date</th>
+                                                <th>To Date</th>
+                                                <th>Leave Type</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Today's Attendance of My Team</b>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="mpimt">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>In</th>
+                                                <th>Out</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="expense">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Expenses</h3>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark" style= "display : flex;justify-content:space-between;" >
+                                        <b style="font-family: cursive; font-size: 20px;">My Claims</b>
+                                        <button id="foot-claim" class="button-os"><a href="https://hr.gewinns.com/app/expense-claim/new-expense-claim-1">Expense Claim</a></button>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="expense_claim">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Claim Id</th>
+                                                <th>Name</th>
+                                                <th>Department</th>
+                                                <th>Expense Type</th>
+                                                <th>Date of Apply</th>
+                                                <th>Expense Date</th>
+                                                <th>Claimed Amount</th>
+                                                <th>Reimbursed Amount</th>
+                                                <th>Expense Approver</th>
+                                                <th>Payment Mode</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark">
+                                        <b style="font-family: cursive; font-size: 20px;">My Advances</b>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="my_advance">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Name</th>
+                                                <th>Department</th>
+                                                <th>Date of Apply</th>
+                                                <th>Purpose</th>
+                                                <th>Advance Amount</th>
+                                                <th>Paid Amount</th>
+                                                <th>Pending Amount</th>
+                                                <th>Claimed Amount</th>
+                                                <th>Returned Amount</th>
+                                                <th>Available Amount</th>
+                                                <th>Status</th>
+                                                <th>Payment Mode</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="travel">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Travel</h3>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark" style= "display : flex;justify-content:space-between;" >
+                                        <b style="font-family: cursive; font-size: 20px;">Travel Request Status</b>
+                                        <button id="foot-travel" class="button-os"><a href="https://hr.gewinns.com/app/travel-request/new-travel-request-1">Travel Request</a></button>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="travel_request">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Travel Type</th>
+                                                <th>Purpose of Travelling</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="analytics">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Analytics</h3>
+                        <div class="row">
+                            <div class="col-xl-6 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark">
+                                        <b style="font-family: cursive; font-size: 20px;">Reimbursement Analytics</b>
+                                    </div>
+                                    <div style="height: 500px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body text-dark">
+                                    <b style="font-family: cursive; font-size: 20px;">Date Wise Expense          </b>
+                                        <label>
+                                        <input type="date" name=" " max=" " id="fromDate" style="width:150px;">
+                                        </label>
+                                        <label>
+                                        <input type="date" name=" " min=" " id="toDate" style="width:150px;">
+                                        </label>
+                                    </div>
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <div id="box" class="dwea"></div>
+                                    </div>  
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="expense_type_wise">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Expense Type</th>
+                                                <th>Reimbursed Amount</th>
+                                            </tr>
+                                        </table>
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-6 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark">
+                                        <b style="font-family: cursive; font-size: 20px;">Resource Analytics</b>
+                                    </div>
+                                    <div style="height: 500px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div class="card-body text-dark">
+                                    <b style="font-family: cursive; font-size: 20px;">Department Wise Resource</b><br><br><p></p>
+                                        <div id="dwra"></div>
+                                    </div>  
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-light ">
+                                        <table class="table table-hover table-bordered" id="dept_wise_emp">
+                                            <tr style="position: sticky; top: 0; background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Department</th>
+                                                <th>No of Employee</th>
+                                            </tr>
+                                        </table>
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="payslips">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Pay Slips</h3>
+                        <div class="row">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Pay Slips</b></div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="payslipslist">
+                                            <tr style="position: sticky; top: 0;  background-color:#d9d9d9; color:black; font-size: 13px;">
+                                                <th>Year</th>
+                                                <th>Month</th>
+                                                <th>Get Salary Slip</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tax">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Tax Exemption Declaration</h3>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark" style= "display : flex;justify-content:space-between;" >
+                                        <b style="font-family: cursive; font-size: 20px;">See Your Tax Declarations</b>
+                                        <button id="foot-travel" class="button-os"><a href="https://hr.gewinns.com/app/employee-tax-exemption-declaration/new-employee-tax-exemption-declaration-1">Add your Tax</a></button>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered" id="tax_declaration">
+                                            <tr style="position: sticky; top: 0;  background-color:#d9d9d9; color:black; font-size: 13px;">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Department</th>
+                                                <th>Payroll Period</th>
+                                                <th>Exemption Sub Category</th>
+                                                <th>Maximum Amount</th>
+                                                <th>Exemption Category</th>
+                                                <th>Total Exemption Amount</th>
+                                                <th>Total Declared Amount</th>
+                                            </tr>
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                    <div   id="asset_report">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Asset</h3>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <div class="card mb-4 bg-white text-dark">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Asset Details</b></div>
+                                    <div style="overflow-y: scroll; overflow-x: scroll;">    
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-hover table-bordered"  id="asset_details">
+                                            <tr style="background-color:#d9d9d9; color: black; font-size: 13px;">
+                                                <th>Image</th>
+                                                <th>Employee</th>
+                                                <th>Employee Name</th>
+                                                <th>Department</th>
+                                                <th>Item Name</th>
+                                                <th>Item Code</th>
+                                                <th>Asset Name</th>
+                                                <th>Asset Category</th>
+                                                <th>Policy Number</th>
+                                                <th>Status</th>
+                                                <th>Asset Owner</th>
+                                                <th>Assigned On</th>
+                                                <th>Assigned Till</th>
+                                            </tr> 
+                                        </table> 
+                                    </div>    
+                                    </div>
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                <div id="coworker">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Co-worker Details</h3>
+                        <div class="row">
+                            <div class="col-xl-5 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark" style=" display : flex;justify-content:space-between;"><b style="font-family: cursive; font-size: 20px;">Co-worker Details</b>
+                                    <label for="emplist"><input list="emp_lists" name="emplist" type="text" id="search_emp" placeholder="Search Employee" style="width:170px;">
+                                    </label>
+                                    <datalist id="emp_lists"></datalist>
+                                    </div>
+                                    <div style="height: 410px; overflow-y: scroll;">
+                                    <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                        <table class="table table-bordered bg-white" id="coworker_profile">
+                                            <tr style="font-size:12px;">
+                                                <td id="empimg" rowspan=5></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>ID</th>
+                                                <td id="coempid"></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>Name</th>
+                                                <td id="coempname"></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>D.O.B</th>
+                                                <td id="codob" colspan=2></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>D.O.J</th>
+                                                <td id="codoj" colspan=2></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>Department</th>
+                                                <td id="codept" colspan=2></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>Designation</th>
+                                                <td id="codeg" colspan=2></td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <th>Email Id</th>
+                                                <td id="empemailid" colspan=2></td>
+                                            </tr>
+                                            
+                                            <tr style="font-size:12px;">
+                                                <th>Contact No</th>
+                                                <td id="empcontactno" colspan=2></td>
+                                            </tr>
+                                        </table> 
+                                    </div>
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="checklist">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Check List</h3>
+                        <div class="row">
+                            <div class="col-xl-5 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark" style="display : flex;justify-content:space-between;" >
+                                        <div class="text-dark" href="#" style="font-family: cursive; font-size: 20px;         background-color: none;"><b>Need To Update</b></div>
+                                        <div >
+                                            <label for="emplist"><input list="emp_list" name="emplist" type="text" placeholder="Search Employee" id="searchemp"  style="width:170px;">
+                                            </label>
+                                            <datalist id="emp_list"></datalist>
+                                        </div>
+                                    </div>
+                                    <div style="overflow-y: scroll; overflow-x: scroll;">  
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <form >
+                                            <div class="form-group" id="emp_dtls">
+                                            <b id="nm"></b>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="emer_cont_num">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Emergency Contact Number</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="emer_cont_name">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Emergency Contact Person</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="cont_num">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Mobile Number</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="pers_email">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Personal Email Id</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="prfrd_email">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Prefered Email Id</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="per_add">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Permanent Address</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="curr_add">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Current Address</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="pass_num">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Passport Number</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="date_of_issue">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Date Of Issue</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="valid_upto">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Valid Upto</label>
+                                                </div>
+                                                    <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="place_of_issue">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Place Of Issue</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="mar_status">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Marital Status</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="blood_group">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Blood Group</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="fam_back">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Family Background</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="hlth_dtl">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Health Details</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="edu_dtl">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Educational Details</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="exwe_dtl">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">External Work Experience</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="iwe_dtl">
+                                                    <label class="form-check-label" for="gridCheck" style="font-size: 12px;">Internal Work Experience</label>
+                                                </div>
+                                                <div>
+                                                <a href="https://hr.gewinns.com/app/employee/"><button type="button" class="btn- btn-outline-success" style=" width:100px;margin-top:12px; border-radius:25px;" >Edit Info</button></a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </div>    
+                                    <div class="card-footer" style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="thingstodo">
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">To Do List</h3>
+                        <div class="row">
+                            <div class="col-xl-5 col-md-6">
+                                <div class="card bg-white text-dark mb-4">
+                                    <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Things To Do</b></div>
+                                    <div style="height: 270px; overflow-y: scroll;">
+                                        <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                    </div>
+                                        <div class="card-header text-dark" ><b style="font-family: cursive; font-size: 20px;">Leave Request</b><a href="/app/leave-application" style="margin-left: 126px; text-decoration: none; color: black;"><b id="status_one"></b></a></div>
+                                        <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                    </div>
+                                    
+                                        <div class="card-header text-dark"><b style="font-family: cursive; font-size: 20px;">Travel Request</b><a href="/app/travel-request" style="margin-left: 120px; text-decoration: none; color: black;"><b id="status_two"></b></a></div>
+                                        <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                    </div>
+                                    
+                                        <div class="card-header text-dark" ><b style="font-family: cursive; font-size: 20px;">Expense Request</b><a href="/app/expense-claim" style="margin-left: 103px; text-decoration: none; color: black;"><b id="status_three"></b></a></div>
+                                        <div class="card-body d-flex align-items-center justify-content-between bg-white text-black ">
+                                    </div>
+                                    </div>
+                                    <div class="card-footer " style="background:linear-gradient(to bottom,#ffffff 20%,#a9a9a9 100%); color: white; height:19px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sign_on">
+                    <div class="container-fluid px-8">
+                        <h6 class="card-header mt-4">External Applications</h6>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6" style=>
+                                <ul class="footer-nav card-body"> 
+                                   <li class="footer-item">
+                                       <div id="facebook">
+                                            <a class="footer-link facebook"  href="https://www.facebook.com/login/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-facebook"></i></a>
+                                            <h6 style="margin-left:10px; margin-top:10px;">Facebook</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div  id="linkedin">
+                                          <a class="footer-link linkedin" href="https://www.linkedin.com/company/gewinns/mycompany/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-linkedin"></i></a>
+                                          <h6 style="margin-left:12px; margin-top:10px;">LinkedIn</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    
+                                    <li class="footer-item">
+                                        <div id="youtube" >
+                                          <a class="footer-link youtube" href="https://www.youtube.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-youtube"></i></a>
+                                          <h6 style="margin-left:12px; margin-top:10px;">YouTube</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="instagram">
+                                          <a class="footer-link instagram" href="https://www.instagram.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-instagram"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">Instagram</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="website">
+                                          <a class="footer-link website" href="https://www.gewinns.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-globe"></i></a>
+                                          <h6 style="margin-left:15px; margin-top:10px;">Website</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="twitter">
+                                          <a class="footer-link twitter" href="https://twitter.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-twitter"></i></a>
+                                          <h6 style="margin-left:18px; margin-top:10px;">Twitter</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="github">
+                                          <a class="footer-link github"  href="https://github.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-github"></i></a>
+                                          <h6 style="margin-left:17px; margin-top:10px;">GitHub</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="slack">
+                                          <a class="footer-link slack"  href="https://slack.com/intl/en-in/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-slack"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Slack</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="skype" style="display:none;">
+                                          <a class="footer-link skype"  href="https://www.skype.com/en/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-skype"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Skype</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="goto_meeting" style="display:none;">
+                                          <a class="footer-link goto_meeting"  href="https://www.goto.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-handshake"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Goto  <br> Meeting</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="zoom" style="display:none;">
+                                          <a class="footer-link zoom"  href="https://zoom.us/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-biohazard"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Zoom</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                       <div id="maps">
+                                            <a class="footer-link maps"  href="https://www.google.com/maps/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-sharp fa-solid fa-location-dot"></i></a>
+                                            <h6 style="margin-left:24px; margin-top:10px;">Maps</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="meet">
+                                          <a class="footer-link meet"  href="https://meet.google.com/zex-nibg-ske" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-video"></i></a>
+                                          <h6 style="margin-left:24px; margin-top:10px;">Meet</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    
+                                    <li class="footer-item">
+                                        <div id="play_store">
+                                          <a class="footer-link play_store"  href="https://play.google.com/store/games?hl=en&tab=r8" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-play"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">Play Store</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="news">
+                                          <a class="footer-link news"  href="https://news.google.com/topstories?tab=rn&hl=en-IN&gl=IN&ceid=IN:en" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-lines"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">News</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="chat" style="display:none;">
+                                          <a class="footer-link chat"   href="https://mail.google.com/chat/u/0/#chat/welcome" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-comments"></i></a>
+                                          <h6 style="margin-left:28px; margin-top:10px;">Chat</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="cont" style="display:none;">
+                                          <a class="footer-link contact"  href="https://contacts.google.com/?hl=en&tab=rC" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-users"></i></a>
+                                          <h6 style="margin-left:15px; margin-top:10px;">Contacts</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="drive" style="display:none;">
+                                          <a class="footer-link drive"  href="https://drive.google.com/drive/u/0/my-drive" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-instalod"></i></a>
+                                          <h6 style="margin-left:25px; margin-top:10px;">Drive</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="calender" style="display:none;">
+                                          <a class="footer-link calender"  href="https://calendar.google.com/calendar/u/0/r?tab=rc" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-calendar-days"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">Calender</h6>
+                                        </div>
+                                    </li>
+                                   
+                                   
+                                    
+                                    <li class="footer-item">
+                                        <div id="search" style="display:none;">
+                                          <a class="footer-link search"  href="https://www.google.co.in/webhp?tab=rw&authuser=0" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-searchengin"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Search</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="business_profile" style="display:none;">
+                                          <a class="footer-link business_profile"  href="https://www.google.com/business/?gmbsrc=ww-ww-et-gs-z-gmb-s-z-h~pro-z-u&ppsrc=GMBB0&utm_campaign=ww-ww-et-gs-z-gmb-s-z-h~pro-z-u&utm_source=gmb&utm_medium=et" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-id-card"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Business<br> Profile</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="gmail" style="display:none;">
+                                          <a class="footer-link gmail"  href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-envelope-open"></i></a>
+                                          <h6 style="margin-left:25px; margin-top:10px;">Gmail</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="translate" style="display:none;">
+                                          <a class="footer-link translate"  href="https://translate.google.co.in/?hl=en&tab=rT" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-arrow-down-z-a"></i></a>
+                                          <h6 style="margin-left:12px; margin-top:10px;">Translate</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="photos" style="display:none;">
+                                          <a class="footer-link photos"  href="https://photos.google.com/?tab=rq&pageId=none" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-image"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Photos</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="duo" style="display:none;">
+                                          <a class="footer-link duo"  href="https://duo.google.com/?usp=duo_ald" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-video"></i></a>
+                                          <h6 style="margin-left:30px; margin-top:10px;">Duo</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="shopping" style="display:none;">
+                                          <a class="footer-link shopping"  href="https://shopping.google.co.in/?nord=1" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-cart-shopping"></i></a>
+                                          <h6 style="margin-left:12px; margin-top:10px;">Shopping</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="finance" style="display:none;">
+                                          <a class="footer-link finance"  href="https://www.google.com/finance/?tab=re&authuser=0" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-coins"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Finance</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="docs" style="display:none;">
+                                          <a class="footer-link docs"  href="https://docs.google.com/document/u/0/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-signature"></i></a>
+                                          <h6 style="margin-left:28px; margin-top:10px;">Docs</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="sheet" style="display:none;">
+                                          <a class="footer-link sheet"  href="https://docs.google.com/spreadsheets/u/0/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-sheet-plastic"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Sheet</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="slides" style="display:none;">
+                                          <a class="footer-link slides"  href="https://docs.google.com/presentation/u/0/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-powerpoint"></i></a>
+                                          <h6 style="margin-left:24px; margin-top:10px;">Slides</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="books" style="display:none;">
+                                          <a class="footer-link books"  href="https://books.google.co.in/?hl=en&tab=rp&authuser=0" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-book"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Books</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="blooger" style="display:none;">
+                                          <a class="footer-link blooger"  href="https://www.blogger.com/about/?tab=rj" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-blogger-b"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Blogger</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="hangouts" style="display:none;">
+                                          <a class="footer-link hangouts"  href="https://hangouts.google.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-rocketchat"></i></a>
+                                          <h6 style="margin-left:16px; margin-top:10px;">Hangouts</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="keep" style="display:none;">
+                                          <a class="footer-link keep"  href="https://keep.google.com/u/0/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-code"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Keep</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="jamboard" style="display:none;">
+                                          <a class="footer-link jamboard"  href="https://jamboard.google.com/u/0/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-dice-d20"></i></a>
+                                          <h6 style="margin-left:12px; margin-top:10px;">Jamboard</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="classroom" style="display:none;">
+                                          <a class="footer-link classroom"  href="https://classroom.google.com/u/0/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-users-rectangle"></i></a>
+                                          <h6 style="margin-left:16px; margin-top:10px;">Classroom</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="earth" style="display:none;">
+                                          <a class="footer-link earth"  href="https://earth.google.com/web/?authuser=0" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-earth-americas"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Earth</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="collections" style="display:none;">
+                                          <a class="footer-link collections"  href="https://www.google.co.in/save?authuser=0" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-sharp fa-solid fa-box-archive"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">Collections</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="art_culture" style="display:none;">
+                                          <a class="footer-link art_culture"  href="https://artsandculture.google.com/?hl=en" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-photo-film"></i></a>
+                                          <h6 style="margin-left:16px; margin-top:10px;">Arts and  <br> Culture</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="ads" style="display:none;">
+                                          <a class="footer-link ads"  href="https://ads.google.com/home/?subid=ww-ww-xs-ip-awhc-a-ogb_cons!o2m--ahpm-0000000114-0000000001&authuser=0" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-rectangle-ad"></i></a>
+                                          <h6 style="margin-left:32px; margin-top:10px;">Ads</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="podcasts" style="display:none;">
+                                          <a class="footer-link podcasts"  href="https://podcasts.google.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-microphone"></i></a>
+                                          <h6 style="margin-left:16px; margin-top:10px;">Podcasts</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="outlook" style="display:none;">
+                                          <a class="footer-link outlook"  href="https://outlook.office.com/mail/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-envelope-open-text"></i></a>
+                                          <h6 style="margin-left:12px; margin-top:10px;">Outlook</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="one_drive" style="display:none;">
+                                          <a class="footer-link one_drive"  href="https://incentivize-my.sharepoint.com/personal/mousumi_bhandary_gewinns_com/_layouts/15/onedrive.aspx" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-hard-drive"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">One Drive</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="word" style="display:none;">
+                                          <a class="footer-link word"  href="https://www.office.com/launch/word?auth=2" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-word"></i></a>
+                                          <h6 style="margin-left:24px; margin-top:10px;">Word</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="excel" style="display:none;">
+                                          <a class="footer-link excel"  href="https://www.office.com/launch/excel?auth=2" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-excel"></i></a>
+                                          <h6 style="margin-left:26px; margin-top:10px;">Excel</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="power_point" style="display:none;">
+                                          <a class="footer-link power_point"  href="https://www.office.com/launch/powerpoint?auth=2" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-file-powerpoint"></i></a>
+                                          <h6 style="margin-left:5px; margin-top:10px;">Power Point</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="one_note" style="display:none;">
+                                          <a class="footer-link one_note"  href="https://www.office.com/launch/onenote?auth=2" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-message"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">One Note</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="share_point" style="display:none;">
+                                          <a class="footer-link share_point"  href="https://incentivize.sharepoint.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-square-share-nodes"></i></a>
+                                          <h6 style="margin-left:6px; margin-top:10px;">Share Point</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="teams" style="display:none;">
+                                          <a class="footer-link teams"  href="https://teams.microsoft.com/_#/calendarv2" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-users"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Teams</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="bookings" style="display:none;">
+                                          <a class="footer-link bookings"  href="https://outlook.office.com/bookings/homepage" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-tag"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">Bookings</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="yammer" style="display:none;">
+                                          <a class="footer-link yammer"  href="https://www.yammer.com/gewinns.com/" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-brands fa-yammer"></i></a>
+                                          <h6 style="margin-left:10px; margin-top:10px;">Yammer</h6>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="footer-item">
+                                        <div id="power_automate" style="display:none;">
+                                          <a class="footer-link power_automate"  href="https://make.powerautomate.com/home?auth_upn=mousumi.bhandary%40gewinns.com&utm_source=office&utm_medium=app_launcher&utm_campaign=office_referrals&fromflowportal=true" target="_blank"><i style="margin-top:12px; font-size:25px;" class="fa-solid fa-plug"></i></a>
+                                          <h6 style="margin-left:20px; margin-top:10px;">Power  <br> Automate</h6>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                                <div class="d-flex align-items-center justify-content-between bg-white text-black">
+                                <hr style="width:46%">
+                                 <button id="more" href="" style="border:none; color:black; background: none;" onclick="showMore()" >Show More</button>
+                                 <button id="less" href="" style="border:none; color:black; background: none; display:none;" onclick="showLess()" >Show Less</button>
+                                 <hr style="width:46%">
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="footer">
+                    <div class="container-fluid px-8">
+                        <p class="card-header mt-4">Copyright &copy; Invictus Minds Pvt. Ltd.</p>
+                    </div>
+                </div>
+            </main>
+            </div><!-- layoutsidenav_content -->
+        </div><!-- layoutsidenav -->
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+        
+        <!--Logic for Guidelines Button-->
+        
+        <script>
+            function myFunction() {
+              document.getElementById("myDropdown").classList.toggle("show");
+            }
+            
+            window.onclick = function(event) {
+              if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+        </script>
+        
+        <!--Logic for Recentre Button-->
+        
+        <script>
+            function AutoRefresh(){
+            setTimeout("location.reload(true);");
+            document.getElementById("refresh_status").innerHTML="Recentre Done";
+            }
+        </script>
+        
+    </body>
+</html>
