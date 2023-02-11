@@ -1,0 +1,255 @@
+// Checkin/Checkout button in the Navbar
+
+ $(document).ready(function(){
+
+          $(".with-color").click(function () {    
+             if($(this).hasClass("btn-success"))
+             {
+                  $(this).addClass("btn-danger");
+                  $(this).removeClass("btn-success");
+             }
+             else{
+                  $(this).addClass("btn-success");
+                  $(this).removeClass("btn-danger");
+             }
+          });
+
+    $(".pushme2").click(function(){
+      $(this).text(function(i, v){
+         return v === 'Check-out' ? 'Check-in' : 'Check-out'
+      });
+    });
+});
+
+// Historical Attendance
+
+frappe.ready(()=>{
+    var url=`/api/method/detailed_employee_attendance_report`;
+    fetch(url).then((r)=>r.json()).then((js)=>{console.log(js);
+        var table = document.getElementById("attendance_history");
+           
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        //var row = tbody.insertRow();
+        // console.log(item);
+        var row = table.insertRow();
+        var cell0=row.insertCell();
+        cell0.innerHTML=moment(item.WorkDate).format("DD/MM/YYYY");
+        cell0.style.textAlign='center';
+        cell0.style.borderBottom= "thin solid #00ffff";
+        
+        var cell1=row.insertCell();
+        cell1.innerHTML=item.Month;
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";
+            
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.Employee;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.EmployeeName;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";
+                
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.FirstIn;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";
+                
+        var cell5=row.insertCell();
+        cell5.innerHTML=item.LastOut;
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";
+                
+        var cell6=row.insertCell();
+        cell6.innerHTML=item.LateIn;
+        cell6.style.textAlign='center';
+        cell6.style.color="red";
+        cell6.style.borderBottom= "thin solid #00ffff";
+                
+        var cell7=row.insertCell();
+        cell7.innerHTML=item.EarlyOut;
+        cell7.style.textAlign='center';
+        cell7.style.color="#b3b300";
+        cell7.style.borderBottom= "thin solid #00ffff";
+                
+        var cell8=row.insertCell();
+        cell8.innerHTML=item.Duration;
+        cell8.style.textAlign='center';
+        cell8.style.borderBottom= "thin solid #00ffff";
+                
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.Location;
+        cell9.style.borderBottom= "thin solid #00ffff";
+                
+    }
+        //const datatablesSimple = document.getElementById('attendance_history');
+        table.appendChild(tbody);
+    if (table) {
+        new simpleDatatables.DataTable(table);
+    }
+});
+});
+
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+// Search Bar
+
+    frappe.ready(()=>{
+            $(document).ready(function(){
+            $(".search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+          });
+        });
+    });
+
+// Download Report in Excel
+
+function exportTable(){
+    exportTableToExcel('attendance_history_table','data');
+}
+    function exportTableToExcel(tableID, filename=' '){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+
+// Download Report in PDF
+
+// function exportTablepdf(){
+//     exportTableToPdf('attendance_history_table','data');
+// }
+//     function exportTableToPdf(tableID, filename=' '){
+//     var downloadLink;
+//     var dataType = 'application/vnd.pdf';
+//     var tableSelect = document.getElementById(tableID);
+//     var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+//     // Specify file name
+//     filename = filename?filename+'.pdf':'excel_data.pdf';
+    
+//     // Create download link element
+//     downloadLink = document.createElement("a");
+    
+//     document.body.appendChild(downloadLink);
+    
+//     if(navigator.msSaveOrOpenBlob){
+//         var blob = new Blob(['\ufeff', tableHTML], {
+//             type: application/pdf
+//         });
+//         navigator.msSaveOrOpenBlob( blob, filename);
+//     }else{
+//         // Create a link to the file
+//         downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+//         // Setting the file name
+//         downloadLink.download = filename;
+        
+//         //triggering the function
+//         downloadLink.click();
+//     }
+// }
+
+// frappe.ready(() => {
+    
+// document.getElementById("toDate").addEventListener("change",function(){
+//         var input = this.value;
+//         frappe.call({
+//             method : 'historical_attendance_data_hr_daterange',
+//             args : {"From_Date" : $("#fromDate").val(),"To_Date" : $("#toDate").val()},
+//             callback : function(r){
+//                 console.log(r.message);
+//             }
+//         });
+//     });

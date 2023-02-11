@@ -1,0 +1,317 @@
+// Checkin/Checkout button in the Navbar
+
+ $(document).ready(function(){
+
+          $(".with-color").click(function () {    
+             if($(this).hasClass("btn-success"))
+             {
+                  $(this).addClass("btn-danger");
+                  $(this).removeClass("btn-success");
+             }
+             else{
+                  $(this).addClass("btn-success");
+                  $(this).removeClass("btn-danger");
+             }
+          });
+
+    $(".pushme2").click(function(){
+      $(this).text(function(i, v){
+         return v === 'Check-out' ? 'Check-in' : 'Check-out'
+      });
+    });
+});
+
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+       var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+ 
+// My Leave Balance 
+ 
+frappe.ready(()=>{ 
+var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]`;
+    
+fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+get_checkin_and_display(js.data[0].name);});
+       
+url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["company","name"]`;
+console.log(frappe);
+fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js.data[0].company);
+        
+frappe.call({
+    method: "gewin_payroll.employee_leave_balance.execute",
+        args: {
+            filters: {company: js.data[0].company,
+            employee: js.data[0].name,
+            from_date: "2022-04-01",
+            to_date : "2023-03-31",
+            }
+        },
+        callback: function(res) {
+            if(res) {
+            //console.log(res);
+            var table = document.getElementById('myleaves');  
+                for (var i=0; i<res.message[1].length;i++){
+                    var item=res.message[1][i];
+                    var row = table.insertRow();
+                    var cell1=row.insertCell();
+                    
+                    // Leave Type
+                    
+                    cell1.innerHTML=item.leave_type;
+                    // cell1.style.textAlign='center';
+                    cell1.style.borderBottom= "thin solid #00ffff";
+                    
+                    // Opening Balance
+                    
+                    var cell2=row.insertCell();
+                    cell2.innerHTML=item.opening_balance;
+                    cell2.style.textAlign='center';
+                    cell2.style.borderBottom= "thin solid #00ffff";
+                    // Leaves Allocated
+                    
+                    var cell3=row.insertCell();
+                    cell3.innerHTML=item.leaves_allocated;
+                    cell3.style.textAlign='center';
+                    cell3.style.borderBottom= "thin solid #00ffff";
+                    // Leaves Taken
+                    
+                    var cell4=row.insertCell();
+                    cell4.innerHTML=item.leaves_taken;
+                    cell4.style.textAlign='center';
+                    cell4.style.borderBottom= "thin solid #00ffff";
+                    // Expired Leaves
+                    
+                    var cell5=row.insertCell();
+                    cell5.innerHTML=item.leaves_expired;
+                    cell5.style.textAlign='center';
+                    cell5.style.borderBottom= "thin solid #00ffff";
+                    // Leave Balance
+                    
+                    var leave_balance=item.opening_balance + item.leaves_allocated -item.leaves_taken - item.leaves_expired;
+                    var cell6=row.insertCell();
+                    cell6.innerHTML=leave_balance;
+                    cell6.style.textAlign='center';
+                    cell6.style.borderBottom= "thin solid #00ffff";
+                } // for loop
+            } // if statement
+        } //end callback
+    });
+    });
+});
+
+// Holiday List
+
+frappe.ready(()=>{
+  var url=`/api/resource/Holiday List/For the year 2022-23/?fields=${JSON.stringify(["holiday_date","description"])}`;
+    // console.log("holiday list");
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{console.log(js);
+    var table = document.getElementById('holiday');
+    for (var i=0; i<js.data.holidays.length;i++){
+        var item=js.data.holidays[i];
+        console.log(item);
+        var row = table.insertRow();
+        var cell1=row.insertCell();
+        
+        
+        // Holiday Date
+        
+        cell1.innerHTML=moment(item.holiday_date).format('DD/MM/YYYY');
+        cell1.style.borderBottom= "thin solid #00ffff";
+        // cell1.style.fontSize='12px';
+        
+        // Holiday Day
+        
+        var cell2=row.insertCell();
+        cell2.innerHTML=moment(item.holiday_date).format('dddd');
+        cell2.style.borderBottom= "thin solid #00ffff";
+        // Holiday Description
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.description;
+        // cell2.style.fontSize='12px';
+        cell3.style.borderBottom= "thin solid #00ffff";
+    }
+});
+});
+
+// Leave Application
+
+frappe.ready(() => {
+    var url=`/api/resource/Leave Application/?fields=${JSON.stringify(["posting_date","employee_name","description","leave_approver","from_date","to_date","leave_type","status"])}`;
+    // console.log(url);
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var table = document.getElementById('leave_status');
+    for (var i=0; i<js.data.length;i++){
+        var item=js.data[i];
+        var row = table.insertRow();
+        var cell1=row.insertCell();
+        
+        // Posting Date
+        
+        cell1.innerHTML=moment(item.posting_date).format('DD/MM/YYYY');
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";
+        
+        // Name of the Employee
+        
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.employee_name;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";
+        // Description
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.description;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";
+        // Leave Approver
+        
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.leave_approver;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";
+        // From Date
+        
+        var cell5=row.insertCell();
+        cell5.innerHTML=moment(item.from_date).format('DD/MM/YYYY');
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";
+        // To Date
+        
+        var cell6=row.insertCell();
+        cell6.innerHTML=moment(item.to_date).format('DD/MM/YYYY');
+        cell6.style.textAlign='center';
+        cell6.style.borderBottom= "thin solid #00ffff";
+        // Type of the Leave
+        
+        var cell7=row.insertCell();
+        if(item.leave_type=="Casual Leave"){
+         cell7.innerHTML='Casual Leave';
+         cell7.style.textAlign='center';
+         cell7.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.leave_type=="Privilege Leave"){
+         cell7.innerHTML='Privilege Leave';
+         cell7.style.textAlign='center';
+         cell7.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.leave_type=="Leave Without Pay"){
+         cell7.innerHTML='Leave Without Pay';
+         cell7.style.textAlign='center';
+         cell7.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.leave_type=="Compensatory Off Leave"){
+         cell7.innerHTML='Compensatory Off Leave';
+         cell7.style.textAlign='center';
+         cell7.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.leave_type=="Sick Leave"){
+         cell7.innerHTML='Sick Leave';
+         cell7.style.textAlign='center';
+         cell7.style.borderBottom= "thin solid #00ffff";
+        }
+        var cell8=row.insertCell();
+        // cell8.innerHTML=item.status;
+        // cell8.style.textAlign='center';
+        
+        // Status of the Application
+        
+        if(item.status=="Rejected"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-danger");
+            sp.innerHTML=item.status;
+            cell8.appendChild(sp);
+            cell8.style.textAlign='center';
+            cell8.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.status=="Approved"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-success");
+            sp.innerHTML=item.status;
+            cell8.appendChild(sp);
+            cell8.style.textAlign='center';
+            cell8.style.borderBottom= "thin solid #00ffff";
+            
+        } 
+        if(item.status=="Open"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-primary");
+            sp.innerHTML=item.status;
+            cell8.appendChild(sp);
+            cell8.style.textAlign='center';
+            cell8.style.borderBottom= "thin solid #00ffff";
+            
+        }
+        if(item.status=="Cancelled"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-warning");
+            sp.innerHTML=item.status;
+            cell8.appendChild(sp);
+            cell8.style.textAlign='center';
+            cell8.style.borderBottom= "thin solid #00ffff";
+        }
+    }
+});
+
+}); 

@@ -1,0 +1,393 @@
+// Checkin/Checkout button in the Navbar
+
+$(document).ready(function(){
+
+          $(".with-color").click(function () {    
+             if($(this).hasClass("btn-success"))
+             {
+                  $(this).addClass("btn-danger");
+                  $(this).removeClass("btn-success");
+             }
+             else{
+                  $(this).addClass("btn-success");
+                  $(this).removeClass("btn-danger");
+             }
+          });
+
+    $(".pushme2").click(function(){
+      $(this).text(function(i, v){
+         return v === 'Check-out' ? 'Check-in' : 'Check-out'
+      });
+    });
+});
+
+// Expense Claim
+
+frappe.ready(()=>{
+    var url=`/api/method/expense`;
+ fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var table = document.getElementById("expense_claim") 
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        var row = table.insertRow();
+        // console.log(item);
+        
+        // Claim Id
+        
+        var cell0=row.insertCell();
+        cell0.innerHTML=item.name;
+        cell0.style.textAlign='center';
+        cell0.style.borderBottom= "thin solid #00ffff";
+        
+        // Employee Name
+        
+        var cell1=row.insertCell();
+        cell1.innerHTML=item.employee_name;
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";
+        
+        // Name of the Department
+        
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.department;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";
+        
+        // Type of Expense
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.expense_type;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";
+        
+        // Date of Claim submission
+        
+        var cell4=row.insertCell();
+        cell4.innerHTML=moment(item.posting_date).format('DD/MM/YYYY');
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";
+        
+        // Date of Expense
+        
+        var cell5=row.insertCell();
+        cell5.innerHTML=moment(item.expense_date).format('DD/MM/YYYY');
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";
+        
+        // Total Claimed Amount
+        
+        var cell6=row.insertCell();
+        cell6.innerHTML=item.total_claimed_amount;
+        cell6.style.textAlign='center';
+        cell6.style.borderBottom= "thin solid #00ffff";
+        
+        // Total Reimbursed Amount
+        
+        var cell7=row.insertCell();
+        cell7.innerHTML=item.total_amount_reimbursed;
+        cell7.style.textAlign='center';
+        cell7.style.borderBottom= "thin solid #00ffff";
+        
+        // Name of the Expense Approver
+        
+        var cell8=row.insertCell();
+        cell8.innerHTML=item.expense_approver;
+        cell8.style.textAlign='center';
+        cell8.style.borderBottom= "thin solid #00ffff";
+        
+        // Mode of Payment
+        
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.mode_of_payment;
+        cell9.style.textAlign='center';
+        cell9.style.borderBottom= "thin solid #00ffff";
+        
+        var cell10=row.insertCell();
+        
+        // Status of the Claim
+        
+        if(item.status=="Rejected"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-danger");
+            sp.innerHTML=item.status;
+            cell10.appendChild(sp);
+            cell10.style.textAlign='center';
+            cell10.style.borderBottom= "thin solid #00ffff";
+
+        }
+        if(item.status=="Paid"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-success");
+            sp.innerHTML=item.status;
+            cell10.appendChild(sp);
+            cell10.style.textAlign='center';
+            cell10.style.borderBottom= "thin solid #00ffff";
+        } 
+        if(item.status=="Draft"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-primary");
+            sp.innerHTML=item.status;
+            cell10.appendChild(sp);
+            cell10.style.textAlign='center';
+            cell10.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        if(item.status=="Submitted")
+        {
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-info");
+            sp.innerHTML=item.status;
+            cell10.appendChild(sp);
+            cell10.style.textAlign='center';
+            cell10.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.status=="Cancelled")
+        {
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-warning");
+            sp.innerHTML=item.status;
+            cell10.appendChild(sp);
+            cell10.style.textAlign='center';
+            cell10.style.borderBottom= "thin solid #00ffff";
+        }
+        if(item.status=="Unpaid")
+        {
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-secondary");
+            sp.innerHTML=item.status;
+            cell10.appendChild(sp);
+            cell10.style.textAlign='center';
+            cell10.style.borderBottom= "thin solid #00ffff";
+        }
+    } 
+        table.appendChild(tbody);
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+ }); 
+});
+
+// Advance Tabulation
+
+frappe.ready(()=>{
+    var url=`/api/method/advance`;
+ fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var table = document.getElementById("my_advance") 
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        var row = table.insertRow();
+        // console.log(item);
+        
+        // Name of the Employee
+        
+        var cell1=row.insertCell();
+        cell1.innerHTML=item.employee_name;
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";
+        
+        // Name of the Department
+        
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.department;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";
+        
+        // // Date of Claim submission
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=moment(item.posting_date).format('DD/MM/YYYY');
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";
+        
+        // Purpose of Advance
+        
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.purpose;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";
+        
+        // Advance Amount
+        
+        var cell5=row.insertCell();
+        cell5.innerHTML=item.advance_amount;
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";
+        
+        // Paid Amount
+        
+        var cell6=row.insertCell();
+        cell6.innerHTML=item.paid_amount;
+        cell6.style.textAlign='center';
+        cell6.style.borderBottom= "thin solid #00ffff";
+        
+        // Pending Amount
+        
+        var cell7=row.insertCell();
+        cell7.innerHTML=item.pending_amount;
+        cell7.style.textAlign='center';
+        cell7.style.borderBottom= "thin solid #00ffff";
+        
+        // Claimed Amount
+        
+        var cell8=row.insertCell();
+        cell8.innerHTML=item.claimed_amount;
+        cell8.style.textAlign='center';
+        cell8.style.borderBottom= "thin solid #00ffff";
+        
+        // Returned Amount
+        
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.return_amount;
+        cell9.style.textAlign='center';
+        cell9.style.borderBottom= "thin solid #00ffff";
+        
+        // Available Amount
+        
+        var cell10=row.insertCell();
+        cell10.innerHTML=(item.advance_amount-item.claimed_amount);
+        cell10.style.textAlign='center';
+        cell10.style.borderBottom= "thin solid #00ffff";
+        
+        // Mode of Payment
+        
+        var cell12=row.insertCell();
+        cell12.innerHTML=item.mode_of_payment;
+        cell12.style.textAlign='center';
+        cell12.style.borderBottom= "thin solid #00ffff";
+        
+        var cell11=row.insertCell();
+        
+        // Status of the Advance
+        
+        if(item.status=="Unpaid"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-secondary");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        if(item.status=="Paid"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-success");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        } 
+        
+        if(item.status=="Draft"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-primary");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        if(item.status=="Claimed"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-info");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        if(item.status=="Cancelled"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-warning");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        if(item.status=="Returned"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-dark");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        if(item.status=="Partly Claimed and Returned"){
+            var sp = document.createElement('span');
+            sp.setAttribute("class", "badge badge-dark");
+            sp.innerHTML=item.status;
+            cell11.appendChild(sp);
+            cell11.style.textAlign='center';
+            cell11.style.borderBottom= "thin solid #00ffff";
+        }
+    } 
+        table.appendChild(tbody);
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+ }); 
+}); 
+
+// Employee Informatio at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});

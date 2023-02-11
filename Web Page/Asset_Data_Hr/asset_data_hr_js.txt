@@ -1,0 +1,184 @@
+// Checkin/Checkout Button in Navbar
+
+$(document).ready(function(){
+
+          $(".with-color").click(function () {    
+             if($(this).hasClass("btn-success"))
+             {
+                  $(this).addClass("btn-danger");
+                  $(this).removeClass("btn-success");
+             }
+             else{
+                  $(this).addClass("btn-success");
+                  $(this).removeClass("btn-danger");
+             }
+          });
+
+    $(".pushme2").click(function(){
+      $(this).text(function(i, v){
+         return v === 'Check-out' ? 'Check-in' : 'Check-out'
+      });
+    });
+});
+
+
+// Asset Assignment Details
+
+frappe.ready(()=>{
+    var url=`/api/method/asset_assignment_details`;
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var table = document.getElementById("asset_details");
+    
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        var row = table.insertRow();
+        // console.log(item);
+         var cell1=row.insertCell();
+        if (item.image){
+            cell1.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-40 rounded-circle'>";
+            cell1.style.borderBottom= "thin solid #00ffff";
+        }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+            cell1.innerHTML="<img src='" + generated(sn) + "'height='30px;' width='60px;' class='img-40 rounded-circle'>";
+            cell1.style.borderBottom= "thin solid #00ffff";
+        }
+        
+        // Employee Id
+        
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.employee;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";
+        // Name of the Employee
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.employee_name;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";
+        // Name of the Department
+        
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.department;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";
+        // Name of the Item
+        
+        var cell5=row.insertCell();
+        cell5.innerHTML=item.item_name;
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";
+        
+        // Item Code
+        
+        var cell6=row.insertCell();
+        cell6.innerHTML=item.item_code;
+        cell6.style.textAlign='center';
+        cell6.style.borderBottom= "thin solid #00ffff";
+        
+        // Name of the Asset
+        
+        var cell7=row.insertCell();
+        cell7.innerHTML=item.asset_name;
+        cell7.style.textAlign='center';
+        cell7.style.borderBottom= "thin solid #00ffff";
+        
+        // Category of the Asset
+        
+        var cell8=row.insertCell();
+        cell8.innerHTML=item.asset_category;
+        cell8.style.textAlign='center';
+        cell8.style.borderBottom= "thin solid #00ffff";
+        
+        // Policy Number of the Asset
+        
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.policy_number;
+        cell9.style.textAlign='center';
+        cell9.style.borderBottom= "thin solid #00ffff";
+        
+        // Name of the Asset Owner
+    
+        var cell11=row.insertCell();
+        cell11.innerHTML=item.asset_owner;
+        cell11.style.textAlign='center';
+        cell11.style.borderBottom= "thin solid #00ffff";
+        
+        // Asset Assigned On
+        
+        var cell12=row.insertCell();
+        cell12.innerHTML=moment(item.assigned_on).format('DD/MM/YYYY');
+        cell12.style.textAlign='center';
+        cell12.style.borderBottom= "thin solid #00ffff";
+    }
+    table.appendChild(tbody);
+    if (table) {
+        new simpleDatatables.DataTable(table);
+}
+});
+});
+
+
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});

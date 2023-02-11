@@ -1,0 +1,460 @@
+let count=0;
+    let watchId;
+    let geoLoc;
+    function getLocation() {
+        //alert("inside geolocation");
+        if (navigator.geolocation) {
+            //alert("geolocation available");
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+            Alert( "Geolocation is not supported by this browser.");
+        }
+    }
+        
+    function showPosition(position) {
+         //alert(position);
+        var latlon=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        
+        var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]`;
+        //alert(url);
+        fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+        update_and_get_checkin_details(js.data[0].name,position);
+    });
+    
+    function update_and_get_checkin_details(name,position){
+        var Latlong=position.coords.latitude+','+position.coords.longitude;
+        var url1=`/api/resource/Employee/${name}`;
+        fetch(url1).then((r)=>r.json()).then((js)=>{//console.log(js.data);
+        frappe.call({method :'gewin_payroll.api.getLocationAddress',
+        //frappe.call('gewin_payroll.api.testfunction')
+        args : {latlong : Latlong},
+        callback :function(r) {
+            //console.log(r);
+            var log_type= ((document.getElementById("checkin").innerHTML=="Checkin") ? "IN" : "OUT");
+            //console.log(log_type);
+            let device_id=position.coords.latitude+"|"+ position.coords.longitude+"|"+ position.coords.accuracy + ":"+r.message+":none";
+            var data= checkin_data(name,js.data.employee_name,log_type,device_id);
+            //console.log(data);
+            frappe.call({method:'erpnext.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field',
+                args : {employee_field_value:data.employee,
+                        timestamp:data.time,
+                        device_id:data.device_id,
+                        log_type:data.log_type,
+                        },
+                        callback : (r)=>{//console.log(r);
+                            get_checkin_and_display(name);
+                        }
+                });
+           }
+        });
+    });}
+        
+    function checkin_data(employee,employee_name,log_type,device_id){
+        // alert(moment().format("yyyy-MM-DD HH:mm:ss"))
+        let data={
+            'employee':employee, 
+            'employee_name' : employee_name, 
+            'log_type' :log_type,
+            'time':moment().format("yyyy-MM-DD HH:mm:ss"),
+            'device_id' :device_id,
+            'doctype': "Employee Checkin"
+        };
+            return data;
+        } // end checkin_data
+    } // end show position
+            
+    const  get_checkin_and_display= (name)=>{
+            const date = moment().hour(0).minute(0).second(0).format('YYYY-MM-DD');
+            const apiUrl = `/api/resource/Employee Checkin/?filters=${JSON.stringify([['time','>', date],['employee','=', name]])}&fields=${JSON.stringify(['*'])}&order_by=creation desc`;
+                    fetch( apiUrl).then((r)=>r.json()).then((data)=>{
+                    //console.log(data.data);
+                        var el=document.getElementById("timeline");
+                            el.innerHTML="";
+                        var btn=document.getElementById("checkin");
+                        var lastcheckin=document.getElementById("lastcheckin");
+                        lastcheckin.style.fontSize='13px';
+                        
+                        if (data.data[0].log_type=="IN"){
+                            btn.setAttribute('class','btn btn-danger');
+                            btn.innerHTML="Checkout";
+                            lastcheckin.innerHTML="Checkin at " + data.data[0].time + " " +data.data[0].device_id.split(":")[1];
+                        }
+                        if (data.data[0].log_type=="OUT"){
+                            btn.setAttribute('class','btn btn-success');
+                            btn.innerHTML="Checkin";
+                            lastcheckin.innerHTML="Checkout at " + data.data[0].time + " " +data.data[0].device_id.split(":")[1];                                }
+                        for (var i=0;i<data.data.length;i++){
+                            //console.log(data.data[i]);
+                            var str=data.data[i].device_id;
+                            var li=displayCheckinItem(data.data[i].log_type,data.data[i].time,str.substr(0,str.lastIndexOf(":")-1),i);
+                            el.appendChild(li);
+                        }
+        });
+        
+    }; //end get_checkin_and_display
+        
+    function displayCheckinItem(log_type,time,address,j){
+            //console.log(address);
+            var log_type_text="";var text_color="";
+            if (log_type=="IN"){log_type_text="Checkin at";text_color="primary"}
+            if (log_type=="OUT"){log_type_text="Checkout at";text_color="secondary"}
+                 tm=document.createElement("span");tm.innerHTML=log_type_text + " " + time;
+                 var addr=document.createElement("p");addr.innerHTML=address;addr.setAttribute('class','font-roboto text-muted');
+                 var mb=document.createElement("div");mb.setAttribute('class','media-body');
+                 mb.appendChild(tm);mb.appendChild(addr);
+                 var ad = document.createElement("div"); ad.setAttribute('class','activity-dot-' + text_color);
+                 var media=document.createElement("div");media.setAttribute('class','media');
+                 if (j===0){
+                     var al=document.createElement("div");al.setAttribute('class','activity-line');
+                     media.appendChild(al);
+                 }
+                 media.appendChild(ad);media.appendChild(mb);
+                 return media;
+             
+    } //end display checkin item
+        
+    function success(position) {
+        count+=1;
+        //alert(count);
+        if (count===2){
+            // getLocation();
+            //alert("line 123");
+            var latlon=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var mapholder=document.getElementById('mapholder');
+            //alert("line 126");
+            mapholder.style.height='250px';
+            mapholder.style.width='100%';
+            
+            var myOptions={
+            center:latlon,zoom:18,
+            mapTypeId:google.maps.MapTypeId.ROADMAP,
+            mapTypeControl:false,
+            navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+            };
+            var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
+            //console.log(map);
+            var marker=new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+            //console.log(marker);
+                
+            var Latlong=position.coords.latitude+','+position.coords.longitude;
+            //alert(watchId);
+            geoLoc.clearWatch(watchId);
+        }    
+    }// end success
+        
+    function error(error) {
+          switch(error.code) {
+        case error.PERMISSION_DENIED:
+          alert("As you have denied the request for Geolocation. So you will not be able to checkin/checkout");
+          document.getElementById("mapholder").innerHTML="Map Loading not possible as you have denied the access for Geolocation.Please allow Geolocation access. Please see this video to see the process of allowing gelocation. If you are not able to resolve please contact your admin";
+          document.getElementById("checkin").innerHTML="Checkin Disabled";
+          document.getElementById("checkin").setAttribute("class","btn btn-warning");
+          document.getElementById("checkin").disable=True;
+          
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+        }
+        const options = {
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 27000
+    };
+        
+    function startWatch(){
+            geoLoc=navigator.geolocation;
+            watchId = geoLoc.watchPosition(success, error, options);
+    }
+    
+    $(document).ready(() => {  
+    var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]`;
+    
+fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+get_checkin_and_display(js.data[0].name);});
+});
+    // Role specific Checkin & Recenter button availability
+    
+     frappe.ready(() =>{    
+    //     console.log(frappe);
+            frappe.call({
+                method: 'has_role',
+                args: {'role_name' : 'Field'},
+                callback: function(r){
+                    // console.log(r);
+                    if(r.message.length>0){
+                        console.log('yes');
+                        document.getElementById('recenter').style.display = 'none';
+                        document.getElementById('checkin').style.display = 'none';
+                    }
+                    else{
+                        // console.log('no');
+                    }
+                } // callback ends here
+             }); //frappe.call ends here
+    
+    frappe.call({
+                method: 'has_role',
+                args: {'role_name' : 'Authentication Registrar'},
+                callback: function(r){
+                    // console.log(r);
+                    if(r.message.length>0){
+                        console.log('yes');
+                        document.getElementById('hrutilities').style.display = 'block';
+                        
+                    }
+                    else{
+                         document.getElementById('hrutilities').style.display = 'none';
+                    }
+                } // callback ends here
+            }); //frappe.call ends here
+     });    
+    
+
+
+ 
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+
+
+
+//removing hr menu for other user
+
+//frappe.ready(()=>{
+$(document).ready(function(){
+    
+});
+
+// Historical Attendance
+
+frappe.ready(()=>{
+    var url=`/api/method/historical_attendance`;
+    fetch(url).then((r)=>r.json()).then((js)=>{console.log(js);
+        var table = document.getElementById("attendance_history");
+           
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        //var row = tbody.insertRow();
+        console.log(item);
+        var row = table.insertRow();
+        var cell1=row.insertCell();
+        cell1.innerHTML=moment(item.WorkDate).format("DD/MM/YYYY");
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";    
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.Employee;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.EmployeeName;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";        
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.FirstIn;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";        
+        var cell5=row.insertCell();
+        cell5.innerHTML=item.LastOut;
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";        
+        var cell6=row.insertCell();
+        cell6.innerHTML=item.LateIn;
+        cell6.style.textAlign='center';
+        cell6.style.borderBottom= "thin solid #00ffff";cell6.style.color="red";
+                
+        var cell7=row.insertCell();
+        cell7.innerHTML=item.EarlyOut;
+        cell7.style.textAlign='center';
+        cell7.style.borderBottom= "thin solid #00ffff";cell7.style.color="#b3b300";
+                
+        var cell8=row.insertCell();
+        cell8.innerHTML=item.Duration;
+        cell8.style.textAlign='center';
+        cell8.style.borderBottom= "thin solid #00ffff";        
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.Location;
+        cell9.style.borderBottom= "thin solid #00ffff";        
+    }
+        //const datatablesSimple = document.getElementById('attendance_history');
+        table.appendChild(tbody);
+    if (table) {
+        new simpleDatatables.DataTable(table);
+    }
+});
+});
+
+// Checkin History
+
+frappe.ready(()=>{
+    var url=`/api/method/checkin_history`;
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var table = document.getElementById("checkin_history");
+    // var tbody=document.createElement("tbody");
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        var row = table.insertRow();
+        
+        var cell1=row.insertCell();
+        cell1.innerHTML=moment(item.Date).format("DD/MM/YYYY");
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.employee;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.employee_name;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.Time;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";
+        var cell5=row.insertCell();
+        cell5.innerHTML=item.log_type;
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";  
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.Location;
+        cell9.style.borderBottom= "thin solid #00ffff";
+        
+        if(item.log_type=="IN"){
+            cell5.style.color="#00cc00";
+        } 
+        if(item.log_type=="OUT"){
+            cell5.style.color="red";
+        }
+    }
+    table.appendChild(tbody);
+    if (table) {
+        new simpleDatatables.DataTable(table);
+}
+});
+});
+
+
+// Detailed Attendance
+
+frappe.ready(()=>{
+    var url=`/api/method/detailed_report`;
+    fetch(url).then((r)=>r.json()).then((js)=>{console.log(js);
+        var table = document.getElementById("detailed_history");
+           
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        //var row = tbody.insertRow();
+        console.log(item);
+        var row = table.insertRow();
+        var cell1=row.insertCell();
+        cell1.innerHTML=moment(item.WorkDate).format("DD/MM/YYYY");
+        cell1.style.textAlign='center';
+        cell1.style.borderBottom= "thin solid #00ffff";    
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.Employee;
+        cell2.style.textAlign='center';
+        cell2.style.borderBottom= "thin solid #00ffff";        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.EmployeeName;
+        cell3.style.textAlign='center';
+        cell3.style.borderBottom= "thin solid #00ffff";        
+        var cell4=row.insertCell();
+        cell4.innerHTML=item.FirstIn;
+        cell4.style.textAlign='center';
+        cell4.style.borderBottom= "thin solid #00ffff";        
+        var cell5=row.insertCell();
+        cell5.innerHTML=item.LastOut;
+        cell5.style.textAlign='center';
+        cell5.style.borderBottom= "thin solid #00ffff";        
+        var cell6=row.insertCell();
+        cell6.innerHTML=item.LateIn;
+        cell6.style.textAlign='center';
+        cell6.style.borderBottom= "thin solid #00ffff";cell6.style.color="red";
+                
+        var cell7=row.insertCell();
+        cell7.innerHTML=item.EarlyOut;
+        cell7.style.textAlign='center';
+        cell7.style.borderBottom= "thin solid #00ffff";cell7.style.color="#b3b300";
+                
+        var cell8=row.insertCell();
+        cell8.innerHTML=item.Duration;
+        cell8.style.textAlign='center';
+        cell8.style.borderBottom= "thin solid #00ffff";        
+        var cell9=row.insertCell();
+        cell9.innerHTML=item.Location;
+        cell9.style.borderBottom= "thin solid #00ffff";        
+    }
+        //const datatablesSimple = document.getElementById('attendance_history');
+        table.appendChild(tbody);
+    if (table) {
+        new simpleDatatables.DataTable(table);
+    }
+});
+});

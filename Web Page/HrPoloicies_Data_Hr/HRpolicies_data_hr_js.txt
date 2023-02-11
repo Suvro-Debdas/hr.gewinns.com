@@ -1,0 +1,98 @@
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+// Submit & Continue Button
+
+function submitContinue(){
+    if(document.getElementById('checkbox').checked === true){
+        frappe.call({
+                method: 'submitAndContinue_hrpolicy',
+                callback : function(r){
+            }
+        });
+    }else{
+        alert("Please check all the boxes and then submit");
+    }
+}
+
+// Display of HR Web page
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["agreed_hrpolicy"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{// console.log(js);
+    var item=js.data[0];
+    // console.log(item);
+    
+    if(item.agreed_hrpolicy === 'Yes'){
+        window.location.assign("https://hr.gewinns.com/services_data_hr");
+        // document.getElementById("last_btn").style.display="none"; 
+    }
+    // else{
+    //     window.location.assign("https://hr.gewinns.com/HRpolicies_data_hr");
+    //     // document.getElementById("last_btn").style.display="block";
+    // }
+});
+        
+});

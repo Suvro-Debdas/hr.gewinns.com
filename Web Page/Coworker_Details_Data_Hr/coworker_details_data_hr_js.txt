@@ -1,0 +1,415 @@
+// $(document).ready(function(){
+
+//           $(".with-color").click(function () {    
+//              if($(this).hasClass("btn-success"))
+//              {
+//                   $(this).addClass("btn-danger");
+//                   $(this).removeClass("btn-success");
+//              }
+//              else{
+//                   $(this).addClass("btn-success");
+//                   $(this).removeClass("btn-danger");
+//              }
+//           });
+
+//     $(".pushme2").click(function(){
+//       $(this).text(function(i, v){
+//          return v === 'Check-out' ? 'Check-in' : 'Check-out'
+//       });
+//     });
+// });
+
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+// Total Number of Employees
+
+frappe.ready(() => {
+    var url=`/api/method/coworker_details_employee_count_data_hr`;
+    //console.log(url);
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    
+    var item=js.message[0];
+    var employeeID_Profile=document.getElementById("total_employees");
+    employeeID_Profile.style.fontSize="12px";
+    employeeID_Profile.innerHTML=item.number;
+});
+});
+
+// All Employee's Information (Left side List)
+
+ frappe.ready(() => {
+ var url=`/api/method/coworker_details_allemployee_info_data_hr/`;
+    //console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+
+    var div = document.getElementById("v-pills-tab");
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        //console.log(item);
+        const anch = document.createElement("a");
+        if (i===0){
+            anch.setAttribute('class','contact-tab-'+ i + ' nav-link active');} 
+        else {
+           anch.setAttribute('class','contact-tab-' + i + ' nav-link'); 
+        }
+        anch.setAttribute('href','#v-pills-'+ i);
+        anch.setAttribute('data-bs-toggle','pill');
+        anch.setAttribute('role','tab');
+        anch.setAttribute('aria-controls','v-pills-'+ i);
+        anch.setAttribute('id','#v-pills-'+ i +'-tab');
+        anch.setAttribute('onclick','activeDiv('+ i +')');
+        if  (i===0){
+            anch.setAttribute('aria-selected','true');}
+        else{
+            anch.setAttribute('aria-selected','false');
+        }
+        
+        const anch1 = document.createElement("div");
+        anch1.setAttribute('class','media');
+        
+        if (item.image){
+            anch1.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-50 img-fluid m-r-20 rounded-circle update_img_'+ i >";
+            }
+        else
+            {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+            anch1.innerHTML="<img src='" + generated(sn) + "'height='30px;' width='60px;' class='img-50 img-fluid m-r-20 rounded-circle update_img_'+ i >";
+        }
+
+        const anch3 = document.createElement("div");
+        anch3.setAttribute('class','media-body');
+        
+        const anch4 = document.createElement("h6");
+        anch3.setAttribute('class','employee_name_'+i);
+        anch4.innerHTML = item.employee_name;
+        
+        const anch5 = document.createElement("p");
+        anch3.setAttribute('class','email_add_'+i);
+        anch5.innerHTML = item.prefered_email;
+        
+        anch3.appendChild(anch4);
+        
+        anch3.appendChild(anch5);
+           
+        anch1.appendChild(anch3); 
+        
+        anch.appendChild(anch1);
+        
+        div.appendChild(anch);
+    }
+    
+});
+function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+// Employee specific Information (Right side Data list)
+
+ frappe.ready(() => {
+ var url=`/api/method/coworker_details_allemployee_info_data_hr/`;
+    //console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+
+    var div = document.getElementById("v-pills-tabContent");
+    
+    for (var i=0; i<js.message.length;i++){
+        var item=js.message[i];
+        
+        const anch = document.createElement("div");
+        if (i===0){
+        anch.setAttribute('class','tab-pane contact-tab-' + i + 'tab-content-child fade show active');} 
+        else {
+           anch.setAttribute('class','tab-pane contact-tab-' + i + 'tab-content-child fade'); 
+        }
+        anch.setAttribute('id','v-pills-'+i);
+        anch.setAttribute('role','tabpanel');
+        anch.setAttribute('aria-labelledby','v-pills-'+i+'tab');
+        
+        const anch1 = document.createElement("div");
+        anch1.setAttribute('class','profile-mail');
+        
+        const anch2 = document.createElement("div");
+        anch2.setAttribute('class','media');
+        
+        if (item.image){
+            anch2.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-100 img-fluid m-r-20 rounded-circle update_img_'+ i >";
+            }
+        else
+            {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+            anch2.innerHTML="<img src='" + generated(sn) + "'height='30px;' width='60px;' class='img-100 img-fluid m-r-20 rounded-circle update_img_'+ i >";
+        }
+
+        const anch3 = document.createElement("input");
+        anch3.setAttribute('class','updateimg');
+        anch3.setAttribute('type','file');
+        anch3.setAttribute('name','img');
+        anch3.setAttribute('onchange','readURL(this,' + i + ')');
+
+        const anch4 = document.createElement("div");
+        anch4.setAttribute('class','media-body mt-3');
+        
+        const anch5 = document.createElement("h5");
+        anch5.setAttribute('class','employee_name_'+i);
+        anch5.innerHTML = item.employee_name;
+        
+        const anch6 = document.createElement("p");
+        anch6.setAttribute('class','email_add_'+i);
+        anch6.innerHTML = item.prefered_email;
+        
+        const anch7 = document.createElement("div");
+        anch7.setAttribute('class','email-general');
+        
+        const anch8 = document.createElement("ul");
+        
+        const anch9 = document.createElement("li");
+        const anch10 = document.createElement("span");
+        anch10.setAttribute('class','font-primary employee_name_0');
+        anch9.innerHTML = "ID";
+        anch10.innerHTML = item.employee;
+    
+        const anch11 = document.createElement("li");
+        const anch12 = document.createElement("span");
+        anch12.setAttribute('class','font-primary employee_name_0');
+        anch11.innerHTML = "Name";
+        anch12.innerHTML = item.employee_name;
+        
+        const anch13 = document.createElement("li");
+        const anch14 = document.createElement("span");
+        anch14.setAttribute('class','font-primary');
+        anch13.innerHTML = "D.O.B";
+        anch14.innerHTML = moment(item.date_of_birth).format('DD/MM/YYYY');
+        
+        const anch15 = document.createElement("li");
+        const anch16 = document.createElement("span");
+        anch16.setAttribute('class','font-primary');
+        anch15.innerHTML = "D.O.J";
+        anch16.innerHTML = moment(item.date_of_joining).format('DD/MM/YYYY');
+        
+        const anch17 = document.createElement("li");
+        const anch18 = document.createElement("span");
+        anch18.setAttribute('class','font-primary personality_0');        
+        anch17.innerHTML = "Department";
+        anch18.innerHTML = item.department;
+        
+        const anch19 = document.createElement("li");
+        const anch20 = document.createElement("span");
+        anch20.setAttribute('class','font-primary city_0');        
+        anch19.innerHTML = "Designation";
+        anch20.innerHTML = item.designation;
+        
+        const anch21 = document.createElement("li");
+        const anch22 = document.createElement("span");
+        anch22.setAttribute('class','font-primary mobile_num_0');        
+        anch21.innerHTML = "Mobile No";
+        anch22.innerHTML = item.cell_number;
+        
+        const anch23 = document.createElement("li");
+        const anch24 = document.createElement("span");
+        anch24.setAttribute('class','font-primary email_add_0');        
+        anch23.innerHTML = "Email Id";
+        anch24.innerHTML = item.prefered_email;
+        
+        // Appending of span tag & ul tag
+        
+        anch23.appendChild(anch24);
+        
+        anch21.appendChild(anch22);
+        
+        anch19.appendChild(anch20);
+        
+        anch17.appendChild(anch18);
+        
+        anch15.appendChild(anch16);
+        
+        anch13.appendChild(anch14);
+        
+        anch11.appendChild(anch12);
+        
+        anch9.appendChild(anch10);
+        
+        anch8.appendChild(anch9);
+        
+        anch8.appendChild(anch11);
+        
+        anch8.appendChild(anch13);
+        
+        anch8.appendChild(anch15);
+        
+        anch8.appendChild(anch17);
+        
+        anch8.appendChild(anch19);
+        
+        anch8.appendChild(anch21);
+        
+        anch8.appendChild(anch23);
+        
+        // Appending of div & ul tag
+        
+        anch7.appendChild(anch8);
+        
+        anch4.appendChild(anch5);
+        
+        anch4.appendChild(anch6);
+        
+        anch2.appendChild(anch4);
+        
+        anch2.appendChild(anch3);
+        
+        anch1.appendChild(anch2);
+        
+        anch1.appendChild(anch7);
+        
+        anch.appendChild(anch1);
+        
+        div.appendChild(anch);
+    }
+});
+function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+// Co-worker Details Search Bar
+
+    // function srch() {
+    // let filter = document.getElementById('employee_search').value.toUpperCase();
+    // let ul = document.getElementById('v-pills tab');
+    // for(var i = 0; i < ul.length; i ++){
+    //     let a = ui[i].getElementsByTagName('a');
+    //     let textValue = a.textContent || a.innerHTML;
+    //     if (textValue.toUpperCase().indexOf(filter) > -1){
+    //         ul[i].style.display = '';
+    //     }else{
+    //         ul[i].style.display = 'none';
+    //     } // if statement ends 
+        
+    // } // for loop ends
+    
+    // } // function ends
+
+      frappe.ready(()=>{
+            $(document).ready(function(){
+            $("#employee_search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#v-pills-tab a").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+          });
+        });
+    });  
+
+    // function filterlist(){
+    //     // alert('abc');
+    //     // console.log('abc');
+    //     const searchInput = document.querySelector('#employee_search')
+    //     const filter = searchInput.value.toLowerCase('')
+    //     // const listItems = document.querySelector('employee_name_')
+    //     if  (i===0){
+    //         anch.setAttribute('aria-selected','true');}
+    //     else{
+    //         anch.setAttribute('aria-selected','false');
+    //     }
+        
+    //     listItems.forEach((item) =>{
+    //         let text = item.textContent
+    //         if (text.toLowerCase().includes(filter.toLowerCase()){
+    //             item.sty
+    //         }
+    //     })
+    // }
+    

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="keywords" content="">
+      <meta name="author" content="pixelstrap">
+      <link rel="icon" href="../assets/hr/images/favicon.png" type="image/x-icon">
+      <link rel="shortcut icon" href="../assets/hr/images/favicon.png" type="image/x-icon">
+      
+      <title>HR Portal</title>
+      
+      <!-- Google font-->
+      <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/font-awesome.css">
+      
+      <!-- ico-font-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/icofont.css">
+      
+      <!-- Themify icon-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/themify.css">
+      
+      <!-- Flag icon-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/flag-icon.css">
+      
+      <!-- Feather icon-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/feather-icon.css">
+      
+      <!-- Plugins css start-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/scrollbar.css">
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/animate.css">
+      <!-- Plugins css Ends-->
+      
+      <!-- Bootstrap css-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/bootstrap.css">
+      
+      <!-- App css-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/style.css">
+      <link id="color" rel="stylesheet" href="../assets/hr/css/color-1.css" media="screen">
+      
+      <!-- Responsive css-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/responsive.css">
+   </head>
+   <body onload="startWatch();">
+      <!-- tap on top starts-->
+      <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+      <!-- tap on tap ends-->
+      <!-- page-wrapper Start-->
+      <div class="page-wrapper compact-wrapper" id="pageWrapper">
+         <!-- Page Header Start-->
+         <div class="page-header">
+            <div class="header-wrapper row m-0 p-3">
+               <div class="header-logo-wrapper col-auto p-0">
+                  <div class="logo-wrapper"><a href="#"><img class="img-fluid" src="../assets/hr/images/logo/logo.svg" alt=""></a></div>
+                  <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
+               </div>
+               <div class="left-header col horizontal-wrapper ps-0">
+                  <!--<ul class="horizontal-menu">-->
+                  <!--   <li class="att-cont"> <i class="middle" data-feather="clock"></i> <button class='btn btn-success p-r-10 p-l-10 pushme2 with-color'>Check-in</button> 06:08:05 Hrs-->
+                  <!--   </li>-->
+                  <!--</ul>-->
+               </div>
+               <div class="nav-right col-8 pull-right right-header p-0">
+                  <ul class="nav-menus mr-0">
+                     <li class="onhover-dropdown">
+                        <div class="notification-box ">
+                           <div class="media profile-media">
+                              <img class="b-r-10" src="../assets/hr/images/dashboard/profile.jpg" id="nav_user"   alt="">
+                           </div>
+                        </div>
+                        <ul class="profile-dropdown notification-cont onhover-show-div active">
+                           <li>
+                              <h6 class="f-14 mb-0"> <span id="nav_name" ></span><br><small class="f-10 inline-block m-r-10" id="de" ></small></h6>
+                           </li>
+                           <li><a href="#"><i data-feather="settings"></i> <span>Settings</span></a></li>
+                           <li><a href="#"><i data-feather="mail"></i> <span>Activity log</span></a></li>
+                           <li><a href="#"><i data-feather="file-text"></i> <span>Support</span></a></li>
+                           <li><a href="/?cmd=web_logout"><i data-feather="log-in"></i><span>Logout</span></a></li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <!-- Page Header Ends -->
+         <!-- Page Body Start-->
+         <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+            <div class="sidebar-wrapper">
+               <div>
+                  <div class="logo-wrapper">
+                     <a href="/app/home"><img class="img-fluid for-light" src="../assets/hr/images/logo/logo.svg" alt=""><img class="img-fluid for-dark" src="../assets/hr/images/logo/logo_dark.svg" alt=""></a>
+                     <div class="back-btn"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></div>
+                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+                  </div>
+                  <div class="logo-icon-wrapper"><a href="#"><img class="img-fluid" src="../assets/hr/images/logo/logo-icon.svg" alt=""></a></div>
+                  <nav class="sidebar-main">
+                     <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+                     <div id="sidebar-menu">
+                        <ul class="sidebar-links" id="simple-bar">
+                           <li class="back-btn">
+                              <a href="#"><img class="img-fluid" src="../assets/hr/images/logo/logo-icon.svg" alt=""></a>
+                              <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                           </li>
+                           <li class="sidebar-main-title">
+                              <div>
+                                 <h6 class="lan-1">Services</h6>
+                                 <p class="lan-2">Attendance, Leaves & Expenses...</p>
+                              </div>
+                           </li>
+                           <li class="sidebar-list">
+                              <a class="sidebar-link sidebar-title link-nav  " href="services_data_hr.html"><img class="img-fluid img-20 m-r-10" src="../assets/hr/images/myapps/app-ic.svg" alt=""> <span> All Services</span>
+                              </a>
+                           </li>
+                           <li class="sidebar-main-title">
+                              <div>
+                                 <h6 class="lan-1">Menu</h6>
+                                 <p class="lan-2">Home, Leaves & Expenses...</p>
+                              </div>
+                           </li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav  " href="data_hr.html"><i data-feather="home"></i><span>Home</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav  " href="attendance_data_hr.html"><i data-feather="user"></i><span>Attendance</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="leave_data_hr.html"><i data-feather="user-check"></i><span>Leaves</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="expense_data_hr.html"><i data-feather="dollar-sign"></i><span>Expenses</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="travel_data_hr.html"><i data-feather="briefcase"> </i><span>Travel</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="salary_data_hr.html"><i data-feather="credit-card"> </i><span>Salary Slip</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="tax_data_hr.html"><i data-feather="percent"> </i><span>Tax Declarations</span></a></li>
+                           <li class="sidebar-list">
+                              <a class="sidebar-link sidebar-title" href="#"><i data-feather="airplay"></i><span class="lan-6">Report</span></a>
+                              <ul class="sidebar-submenu">
+                                 <li><a href="checkin_history_data_hr.html">Checkin Report</a></li>
+                                 <li><a href="historical_attendance_data_hr.html">Attendance Report</a></li>
+                                 <li><a href="asset_data_hr.html">Asset Assignment Report</a></li>
+                                 <!--<li><a href="#">Expense Reports</a></li>-->
+                              </ul>
+                           </li>
+                           
+                           <br>
+                           <br>
+                           <!--<li class="sidebar-list" id="hrutilities"><a class="sidebar-link sidebar-title link-nav  " href="faceio_data_hr.html"><i data-feather="user"></i><span>HR Utilities</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="trending-up"> </i><span>Analytics</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="percent"> </i><span>Tax Declaration</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="pie-chart"> </i><span>Reports</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="file-plus"> </i><span>HR Policy</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check-circle"> </i><span>Check List</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="users"> </i><span>Co-worker Details</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check-square"> </i><span>Things To Do</span></a></li>-->
+                        </ul>
+                     </div>
+                     <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+                  </nav>
+               </div>
+            </div>
+            <!-- Page Sidebar Ends-->
+            <div class="page-body mt-0">
+               <div class="container-fluid">
+                  <div class="page-title">
+                     <div class="row">
+                        <div class="col-6">
+                           <h3>HR Policies</h3>
+                        </div>
+                        <div class="col-6">
+                           <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="data_hr.html"><i data-feather="home"></i></a></li>
+                              <li class="breadcrumb-item">Menu</li>
+                              <li class="breadcrumb-item active">HR Policies</li>
+                           </ol>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Container-fluid starts-->
+               <div class="container-fluid">
+                  <div class="row dash-chart">
+                  
+                    <div class="col-xl-12 box-col-4 col-md-4">
+                      <div class="card o-hidden">
+                          <div class="card-header card-no-border p-4 ">
+                              <h6 class="mb-0 text-left" style="color: #003cb3;">ATTENDANCE & WORKING HOURS-POLICY</h6>
+                              <div class="card-header-right act-box">
+                                 <ul class="list-unstyled act-list">
+                                    <!-- card-option -->
+                                    <li><i class="icofont icofont-maximize full-card"></i></li>
+                                    <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                    <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="card-body map-cont-height p-3 mb-3" >
+                                <h6>1.1	Objective</h6>
+                                <p class="pl-3">To provide a framework of guidelines which enable employees to :</p>
+                                <ul>
+                                    <li class="pl-5">•	Understand the procedure for managing attendance.</li>
+                                    <li class="pl-5">•	Set reasonable standards for the effective utilization of time.</li>
+                                </ul>
+                                <br>
+                                <h6>1.2	Applicability</h6>
+                                <p class="pl-3">Applicable to all employees of SPURVY.</p>
+                                
+                                <h6>1.3 Office Timings & Attendance Cycle</h6>
+                                <ul>
+                                    <li class="pl-5">•	The office timings are from 9.30 a.m. to 7.00 p.m. from Monday to Saturday. All Sundays of the month are being considered as weekly off-days.</li>
+                                    <li class="pl-5">•	For delays beyond control and exigencies, 15 minutes of grace is allowed after 9.45 am. Employee (s) coming after 10.00 am would be considered as late.</li>
+                                    <li class="pl-5">•	Break duration is 1 hour.  </li>
+                                    <li class="pl-5">•	Attendance cycle is from 21st of the previous month to 20th of every month.</li>
+                                    <li class="pl-5">•	The corresponding salary cycle is 1st to 30th / 31st of that month.</li>
+                                </ul>
+                                <br>
+                                <p class="pl-3">Note: Absent for one day is computed on the basis of late arrivals on three occasions and in multiples thereof thereafter during one attendance cycle. Such absents may be adjusted from the casual leave account and if casual leave account does not reflect any credit balance, the same shall be debited from Privilege Leave account of the individual concerned. Such instances would lead to “Loss of pay” if all CL and PL balance is exhausted.However, any fraction of late attendances lying unadjusted in an attendance cycle will not be carried forward to the next attendance cycle for adjustment.</p>
+                                
+                                <h6>1.4 Process</h6>
+                                <p class="pl-3">Attendance of all employees at all locations needs to be marked through biometric, as it has a direct impact on salary processing. Employee attendance is being captured in two ways: Through biometric where such system is installed/enabled.</p>
+                                <ul>
+                                    <li class="pl-5">•	Here the in-time of the employees get recorded.</li>
+                                    <li class="pl-5">•	The in-time of employees gets recorded in Attendance Register and subsequently gets regularized.</li>
+                                    <li class="pl-5">•	Trainees are required to mark their attendance through the separate Attendance Register.</li>
+                                    <li class="pl-5">•	Late coming or leaving early must be informed and approved by the respective Reporting Manger </li>
+                                </ul>
+                                <!--<div class="float-right">-->
+                                <!--<input  type="checkbox" id="checkbox_1" name="#" value="#">-->
+                                <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                <!--</div>-->
+                            </div>
+                         </div>
+                        </div>
+                    
+                        <div class="col-xl-12 box-col-4 col-md-4">
+                          <div class="card o-hidden">
+                              <div class="card-header card-no-border p-4 ">
+                                  <h6 class="mb-0 text-left" style="color: #003cb3;">LEAVE-POLICY</h6>
+                                  <div class="card-header-right act-box">
+                                     <ul class="list-unstyled act-list">
+                                        <!-- card-option -->
+                                        <li><i class="icofont icofont-maximize full-card"></i></li>
+                                        <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                        <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                     </ul>
+                                  </div>
+                               </div>
+                               <div class="card-body map-cont-height p-3 mb-3" >
+                                    <h6>    2.1	Objective</h6>
+                                    <p class="pl-3">To help employees take a break from work for their genuine needs outside work.</p>
+                                    
+                                    <h6>   2.2	Information</h6>
+                                    <p class="pl-3">The leave entitlement will be based on the Financial Year, which is from 1st April to 31st March.</p>
+                                    
+                                    <h6>   2.3 Type of Leave</h6>
+                                    
+                                    <ul class="pl-3"><b>Privilege Leave (PL): Maximum 21 days a Financial year</b><br>
+                                    
+                                        <li class="pl-5">•	PL will be accrued from completion of the first month of service. 1.75 days of PL will be accrued on the completion of each month of service.</li>
+                                        <li class="pl-5">•	It is essential that employees plan their leave, well in advance, before availing PL. Employees need to apply through the HRMS system.</li>
+                                        <li class="pl-5">•	PL balance can be carried forward and accumulated up to a maximum of 10 days and balance days to be auto encashed at the end of the FY .</li>
+                                        <li class="pl-5">•	PL will be encashed on current Basic salary only.</li>
+                                        <li class="pl-5">•	Intervening holiday/off day will not be considered as PL.</li>
+                                    </ul>
+                                    
+                                    <ul class="pl-3"><b> Sick Leave (SL): 7 days a Financial year</b><br>
+                                    
+                                        <li class="pl-5">•	SL is accrued from the date of Joining.</li>
+                                        <li class="pl-5">•	SL may be accumulated up to a maximum of 56 days.</li>
+                                        <li class="pl-5">•	SL is not encashable.</li>
+                                        <li class="pl-5">•	Employees are required to intimate their Managers as and when they have to avail SL.</li>
+                                        <li class="pl-5">•	In the case of SL of more than 3 days, management has the right to ask for a Medical Certificate/Fitness Certificate.</li>
+                                       <li class="pl-5">•	SL taken during the Notice period will not be counted as Notice days and will be deducted from the notice period obligation. This is to ensure that handing over process is completed smoothly.</li>
+                                       <li class="pl-5">•	Intervening holidays/off day will not be considered as SL.</li>
+                                    </ul>
+                                    
+                                    <ul class="pl-3"><b> Casual Leave (CL): 10 days in a Financial year</b><br>
+                                    
+                                        <li class="pl-5">•	CL can neither be accumulated nor encashed; if not availed, CL will lapse at the end of the leave year.</li>
+                                        <li class="pl-5">•	CL can be taken maximum up to 3 days at a time excluding the intervening weekly/public holidays (as per the Holiday List of the Company).</li>
+                                        <li class="pl-5">•	Employees are required to intimate their Managers as and when they have to avail CL.</li>
+                                        <li class="pl-5">•	Intervening holidays/off day will not be considered as CL.</li>
+                                    </ul>
+                                    
+                                    <ul class="pl-3"><b> Maternity Leave (ML) </b><br>
+                                    
+                                        <li class="pl-5">•	This leave is applicable to all female employees of SPURVY and its subsidiaries.</li>
+                                        <li class="pl-5">•	Leave period is maximum 26 weeks of which not more than eight weeks shall precede the date of her expected delivery.</li>
+                                        <li class="pl-5">•	However, female employees having two or more than two surviving children can avail maximum 12 weeks leave of which not more than six weeks shall precede the date of expected delivery.</li>
+                                        <li class="pl-5">•	A woman who legally adopts a child below the age of three months shall be entitled to maternity benefit for a period of 12 weeks from the date the child is handed over to the adopting mother.</li>
+                                        <li class="pl-5">•	As per Maternity Benefit Act, “no woman shall be entitled to maternity benefit unless she has actually worked in an establishment of the employer from whom she claims maternity benefit, for a period of not less than eighty (80) days in the twelve months immediately preceding the date of her expected delivery.</li>
+                                        <li class="pl-5">•	All other terms & conditions with respect to maternity benefits prescribed in both the Maternity Benefit Act as well as the ESI Act will remain applicable to the respective female employees.</li>
+                                        <li class="pl-5">•	Intervening holidays/off day will be considered as Maternity Leave.</li>
+                                    </ul>
+                                    
+                                    <ul class="pl-3"><b> Leave Without Pay & Advance Leave: </b><br>
+                                        <li class="pl-5">•	If an employee exhausts all the leave balances (all types) in a year due to a very critical and extremely compelling reasons or if a new employee does not have enough leave balance, the management may approve leave without pay or advance leaves, however, completely on discretionary basis after getting strong recommendation from HOD of the employee.</li>
+                                    </ul>
+                                    <h6>   2.4 General Information</h6>
+                                    <p class="pl-3">Employees, who joined in the middle of the year, will be entitled to pro-rata leave except Maternity Leave. All leave applications are required to be sanctioned by the Reporting Manager.</p>
+                                <!--<div class="float-right">-->
+                                <!--<input  type="checkbox" id="checkbox_2" name="#" value="#">-->
+                                <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                <!--</div>-->
+                                </div>
+                             </div>
+                            </div>
+                        
+                            <div class="col-xl-12 box-col-4 col-md-4">
+                              <div class="card o-hidden">
+                                  <div class="card-header card-no-border p-4 ">
+                                      <h6 class="mb-0 text-left" style="color: #003cb3;">DRESS AT WORK - GUIDELINE</h6>
+                                      <div class="card-header-right act-box">
+                                         <ul class="list-unstyled act-list">
+                                            <!-- card-option -->
+                                            <li><i class="icofont icofont-maximize full-card"></i></li>
+                                            <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                            <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                         </ul>
+                                      </div>
+                                   </div>
+                                   <div class="card-body map-cont-height p-3 mb-3" >
+                                        <h6> 3.1	Objective</h6>
+                                        <p class="pl-3">Employees are encouraged to dress appropriately. Business formals on workday and casuals on Friday and Saturday.</p>
+                                        <ul>
+                                            <li class="pl-5">•	Understand the procedure for managing attendance.</li>
+                                            <li class="pl-5">•	Set reasonable standards for the effective utilization of time.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   3.2	Principles</h6>
+                                         <ul>
+                                            <li class="pl-5">•	Please do remember that at all times in the workplace employees are ambassadors of the Company</li>
+                                            <li class="pl-5">•	Clothes should not cause embarrassment or have a negative impact on the image of the Company.</li>
+                                            <li class="pl-5">•	Employees representing the Company off-site with third party companies should wear business formals.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   3.3 Application</h6>
+                                        <ul>
+                                            <li class="pl-5">•	All full time, part-time, temporary, agency contractors must abide by this policy at all times in the workplace</li>
+                                            <li class="pl-5">•	The Company recognizes the diversity of its employees and will take a sensitive approach when this affects its dress code.</li>
+                                            <li class="pl-5">•	Exceptions may be made and will be communicated where appropriate by management.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   3.4 Exception</h6>
+                                        <ul>
+                                            <li class="pl-5">•	Employees who do not have client meetings or any external meetings on Saturdays can wear polo T-shirts & Denims.</li>
+                                        </ul>
+                                        <!--<div class="float-right">-->
+                                        <!--<input  type="checkbox" id="checkbox_3" name="#" value="#">-->
+                                        <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                        <!--</div>-->
+                                    </div>
+                                 </div>
+                            </div>
+                                
+                            <div class="col-xl-12 box-col-4 col-md-4">
+                                <div class="card o-hidden">
+                                  <div class="card-header card-no-border p-4 ">
+                                      <h6 class="mb-0 text-left" style="color: #003cb3;">LOCAL CONVEYANCE - Policy</h6>
+                                      <div class="card-header-right act-box">
+                                         <ul class="list-unstyled act-list">
+                                            <!-- card-option -->
+                                            <li><i class="icofont icofont-maximize full-card"></i></li>
+                                            <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                            <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                         </ul>
+                                      </div>
+                                   </div>
+                                   <div class="card-body map-cont-height p-3 mb-3" >
+                                        <h6> 4.1	Objective</h6>
+                                        <p class="pl-3">To provide guidelines which enable the employees to understand.</p>
+                                        <ul>
+                                            <li class="pl-5">•	The process used for local conveyance and claiming expenses.</li>
+                                            <li class="pl-5">•	Eligibility limit/criteria while travelling within the city limits.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   4.2    Eligibility</h6>
+                                         <ul>
+                                            <li class="pl-5">•	Applicable to all employees of SPURVY based in India.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   4.3 Scope</h6>
+                                        <ul>
+                                            <li class="pl-5">•	The policy is to facilitate employees who are required to commute for business development or other official work within the city limit.Depending upon coverage strategy of the respective Zone / Region, the local conveyance can be claimed. However, in certain areas, the domestic travel policy may apply if there is a night stay involved or the time spent is more than 8 hours, even if the travelled distance is < 100 KM.</li>
+                                            <li class="pl-5">•	The Policy lays down the guidelines on the mode of travel that can be used for local conveyance and how to claim the expenses incurred. Such travel must be for official purpose only.</li>
+                                            <li class="pl-5">•	Conveyance expenses incurred from residence to office and back are excluded.</li>
+                                            <li class="pl-5">•	Location wise city limits can be different. The list is attached in Annexure I. </li>
+                                        </ul>
+                                        <br>
+                                        <h6>   4.4 Entitlement</h6>
+                                        <p class="pl-3">Mode of travel: The guidelines for the mode of travel are as per the following matrix.</p>
+                                        <ul>
+                                            <li class="pl-5">•	Employees who do not have client meetings or any external meetings on Saturdays can wear polo T-shirts & Denims.</li>
+                                        </ul>
+                                        <br>
+                                        <div class="table-responsive ">
+                                            <table class="table table-bordered" >
+                                                <thead style="background-color: #cceeff;">
+                                                    <tr>
+                                                        <th class="text-center">Grade</th>
+                                                        <th class="text-center">Mode of Travel</th>
+                                                        <th class="text-center">Rate of reimbursement for using Own Vehicle</th>
+                                                        <th class="text-center">Limits of claim & Reimbursement Approving Authority</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>SB-6, SB-7 / MT & Below </td>
+                                                        <td>Public Transport [Auto / Pool Car / Bus / Local Train] </td>
+                                                        <td>@ Rs. 3.00 per Km. </td>
+                                                        <td rowspan= "2"> Any claim above Rs. 4,000/- in a month will have to be approved by Reporting Manager/ Zonal Head. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SB-4 & SB-5 </td>
+                                                        <td>Above + Metered Taxi </td>
+                                                        <td>4-Wheeler @ Rs.7.00 per KM 2-Wheeler @ Rs.3.00 per KM </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <p class="pl-3">Note: The above entitlement is only applicable customer facing roles</p>
+                                        <br>
+                                        <h6>   4.5 Note</h6>
+                                        <ul>
+                                            <li class="pl-5">•	This policy and the limit given herein are not a privilege. The employee on local travel cannot claim this as a right unless the said travel has the consent <br> and thereafter approval by the respective functional head’s.</li>
+                                            <li class="pl-5">•	For local conveyance, company hired cars are not allowed unless prior approval by the Business Head is obtained.</li>
+                                            <li class="pl-5">•	There will be a periodic audit for all the claims. Both the claimant and approvers will be accountable for any discrepancies if found in the Audit observations.</li>
+                                            <li class="pl-5">•	Adequate safety measures need to be taken while using own vehicle. Employees are encouraged to use public transport e.g.: the metro rail system for <br> safety purposes.</li>
+                                            <li class="pl-5">•	Employees (irrespective of grade) are encouraged to use radio cabs/ app-based cabs for Airport pick up and drop.</li>
+                                            <li class="pl-5">•	If an employee is likely to cover long distances regularly, she should examine the advantage of using economic means of commuting, like a monthly pass, <br> which is convenient and economical.</li>
+                                            <li class="pl-5">•	Reimbursement based on KM requires the production of the daily logbook.</li>
+                                            <li class="pl-5">•	Sample of the daily logbook is attached in Annexure. This is a prerequisite for Accounts and Finance and there are no exceptions.<br> This logbook will be subject to scrutiny by Audit and Accounts. If any forgery or fraud is detected in the bills, the concerned employee, as well as the approving <br> authority, will be liable for serious action.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   4.6 Claim procedure</h6>
+                                        <ul>
+                                            <li class="pl-5">•	All claims for reimbursement should be made by raising a voucher along with original invoice / bill.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   4.7 Conclusion</h6>
+                                        <ul>
+                                            <li class="pl-5">•	This policy is not an entitlement, and we expect all employees to use this prudently.</li>
+                                        </ul>
+                                        <!--<div class="float-right">-->
+                                        <!--<input  type="checkbox" id="checkbox_4" name="#" value="#">-->
+                                        <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                        <!--</div>-->
+                                    </div>
+                                 </div>
+                                </div>
+                                
+                                <div class="col-xl-12 box-col-4 col-md-4">
+                                <div class="card o-hidden">
+                                  <div class="card-header card-no-border p-4 ">
+                                      <h6 class="mb-0 text-left" style="color: #003cb3;">TRAVEL - Policy</h6>
+                                      <div class="card-header-right act-box">
+                                         <ul class="list-unstyled act-list">
+                                            <!-- card-option -->
+                                            <li><i class="icofont icofont-maximize full-card"></i></li>
+                                            <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                            <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                         </ul>
+                                      </div>
+                                   </div>
+                                   <div class="card-body map-cont-height p-3 mb-3" >
+                                        <h6> 5.1	Preface</h6>
+                                        <p class="pl-3">Employees may be required to undertake domestic travel for visits to offices, attending business matters, training courses, seminars, conferences etc. The objective of this document is to lay down the policy and procedure for an employee travelling within India on business.</p>
+                                        <p class="pl-3">Employees are expected to exercise prudence and sound business judgment while incurring expenses during such travel.</p>
+                                        <p class="pl-3">This guide will help you understand everything about these travel and expense policies and help you build, automate and optimise the expense management process in our organisation.</p>
+                                        <p class="pl-3">Travel and expense policies sit at the core of enterprise expense management to directly impact and we have provided guidance to ensure its economical, need-based, secure and safe and lastly does not hamper Business productivity.</p>
+                                        <p class="pl-3">We believe in your judgement and care for you as our family and hence the policy has been made keeping in mind the changing times and how we can use it effectively.</p>
+                                        <br>
+                                        <h6>   5.2    Scope</h6>
+                                         <ul>
+                                            <li class="pl-5">•	Applicable to all employees based within India (Both direct & contractual) of SPURVY.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   5.3 Employee Comfort & Safety</h6>
+                                        <ul>
+                                            <li class="pl-5">•	The safety and security of our employees is a primary concern. We encourage all Employees to travel safe & comply with travel guidelines issued from <br> time-to-time;</li>
+                                            <li class="pl-5">•	This policy is laid down to ensure a comfortable travel experience for its employees while keeping an adequate focus on cost optimization.</li>
+                                            <li class="pl-5">•	The policy has been designed to ensure employee comfort while travelling; however, employees are expected to exercise prudence.</li>
+                                            <li class="pl-5">•	Women employees are encouraged to plan their travel itinerary such that they can reach their final destination latest by 8pm in the evening.</li>
+                                            <li class="pl-5">•	Women employees may be provided with a hired/ owned private vehicle for local travel if required, when on Outstation Travel.</li>
+                                        </ul>
+                                        <br>
+                                        <h6>   5.4 General Guidelines</h6>
+                                        <p class="pl-3">Mode of travel: The guidelines for the mode of travel are as per the following matrix.</p>
+                                        <ul>
+                                            <li class="pl-5">•	Employees who do not have client meetings or any external meetings on Saturdays can wear polo T-shirts & Denims.</li>
+                                        </ul>
+                                            <br>
+                                            <div class="table-responsive ">
+                                            <table class="table table-bordered" >
+                                                <thead style="background-color: #cceeff;">
+                                                    <tr>
+                                                        <th class="text-center">Heading</th>
+                                                        <th class="text-center">Guidelines</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Embracing Technology</td>
+                                                        <td>In today’s changing times, the technological inclination is the most prudent decision. Keeping in line with the concept minimum travel should be encouraged and more inclination to be shown towards the usage of internet-based video conferencing facilities such as ‘Google Hangout Meet’ or ‘Skype’.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tour Defined</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li class="pl-5">•	An employee is deemed to be on tour if he/she visits a place not less than 100 km. from the origin to destination and/or requires overnight stay at the destination.</li>
+                                                                <li class="pl-5">•	For the “same day return” tour, if the distance covered is 100 KMs or more (to & from) per day, an employee would be only eligible for reimbursement of food & other incidental expenses on submission of supporting bills.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Process Flow</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li class="pl-5">•	Travel must be consistent with the need of the business.</li>
+                                                                <li class="pl-5">•	All travel related bookings for airline ticketing, hotel bookings, rental cars, company guest house reservations should necessarily be done through Office Travel Desk at HO. </li>
+                                                                <li class="pl-5">•	The employee is required to inform the Travel helpdesk in advance about all the requirements through Travel Requisition Form, relating to travel and stay with necessary approvals, in order to make arrangements of travel and stay. </li>
+                                                                <li class="pl-5">•	Booking and reservations should be made as far in advance as possible. Fares are economical if booked early. </li>
+                                                                <li class="pl-5">•	Prior approval for all travel plans in consultation with reporting manager is necessary with the reason for travel.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Reschedule / Cancellation Penalty / No Show / Hotel Late Out / Early Check in</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li class="pl-5">•	In case of cancellation/flight missed of the ticket for any journey from the employees’ side without any proper reason, the cost of the same may be recovered from the salary of the respective employee.</li>
+                                                                <li class="pl-5">•	Unnecessary charges should be avoided by checking if there is a cancellation fee or early / late check-out fee prior to booking. Such costs are not reimbursable.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Non-reimbursable Expenses </td>
+                                                        <td>
+                                                         <p>The following expenses will not be reimbursed by the Company. and must be settled directly by the employee if incurred. (the list is not exhaustive but indicative): </p>
+                                                            <ul>
+                                                                <li class="pl-5">•	Personal Phone calls</li>
+                                                                <li class="pl-5">•	Alcoholic Beverages & Cigarettes</li>
+                                                                <li class="pl-5">•	Annual fees for loyalty schemes of Airlines, Hotels etc.</li>
+                                                                <li class="pl-5">•	Expenses on upgrades in Airlines, Hotel rooms etc.</li>
+                                                                <li class="pl-5">•	Fines for violation of laws.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Travel Planning </td>
+                                                        <td>
+                                                         <p>Employees are to plan their travel in advance to avoid surge fares.</p>
+                                                            <ul>
+                                                                <li class="pl-5">•	Employees are restricted to travel during Office hours.</li>
+                                                                <li class="pl-5">•	It is advisable for Employees opting for Air / Rail Travel to book return fare to avoid surge fares on account of a one way ticket. If the return ticket is not requested the reason should be mentioned.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Others </td>
+                                                        <td>
+                                                            <ul>
+                                                                <li class="pl-5">•	Personal Preference: No request of personal choice of Airlines / Trains (paid seat /meal booking) will be entertained by Travel Desk. </li>
+                                                                <li class="pl-5">•	Excess Baggage: Not claimable. However, Portage / Excess Baggage charges would be reimbursed in cases where the employee is required to carry any official documents/ assets.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Overnight Journey / No Air Travel Zone </td>
+                                                        <td>
+                                                            <ul>
+                                                                <li class="pl-5">•	Employees travelling overnight between cities by rail/road are eligible to claim for meals and incidental expenses as per actuals. </li>
+                                                                <li class="pl-5">•	Travel which can be done overnight by road/rail should be done by road/rail. In case this is not possible, due to a justified reason and on urgent business exigencies, air travel will be allowed. <br> Any deviation shall require the approval of the HOD's post which it is to be placed to the Authority approving Air Travel.</li>
+                                                                <li class="pl-5">•	No air travel across India will be allowed up to SB2 Grade on the overnight journey by rail. However, in case the Air Fare and the Train Fare is same as per the fare shared by Travel Desk the Employee may opt for Air Travel with the approval <br> of Appropriate Authority.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered" >
+                                                    <thead>
+                                                        <tr style="background-color: #00a3cc;">
+                                                            <th class="text-center text-light" colspan="2">City Categorization</th>
+                                                        </tr>
+                                                        <tr style="background-color: #cceeff;">
+                                                            <th class="text-center">Category</th>
+                                                            <th class="text-center">Cities</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>A</td>
+                                                            <td>Mumbai, Delhi, Bengaluru, Hyderabad</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>B</td>
+                                                            <td>Kolkata, Chennai, Ahmedabad, NCR, Nagpur, Nasik, Aurangabad, Kochi, Indore, Guwahati, Pune, Udaipur, Vijayawada, Vishakhapatnam and Other State Capitals </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>C</td>
+                                                            <td>All Other Locations</td>
+                                                        </tr>                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered" >
+                                                    <thead>
+                                                        <tr style="background-color: #00a3cc;">
+                                                            <th class="text-center text-light" colspan="13">Domestic travel: lodging and Boarding Eligibility (INR / Per night)</th>
+                                                        </tr>
+                                                        <tr style="background-color: #cceeff;">
+                                                            <th class="text-center">City Category</th>
+                                                            <th colspan="4" class="text-center">City A</th>
+                                                            <th colspan="4" class="text-center">City B</th>
+                                                            <th colspan="4" class="text-center">City C</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Grade</td>
+                                                            <td>Lodging</td>
+                                                            <td>Meals</td>
+                                                            <td>Travel</td>
+                                                            <td>Total</td>
+                                                            <td>Lodging</td>
+                                                            <td>Meals</td>
+                                                            <td>Travel</td>
+                                                            <td>Total</td>
+                                                            <td>Lodging</td>
+                                                            <td>Meals</td>
+                                                            <td>Travel</td>
+                                                            <td>Total</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>SB1</td>
+                                                            <td>3,200</td>
+                                                            <td>950</td>
+                                                            <td>600</td>
+                                                            <td>4,750</td>
+                                                            <td>2,800</td>
+                                                            <td>850</td>
+                                                            <td>550</td>
+                                                            <td>4,200</td>
+                                                            <td>2,500</td>
+                                                            <td>750</td>
+                                                            <td>500</td>
+                                                            <td>3,750</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>SB2</td>
+                                                            <td>2,800</td>
+                                                            <td>900</td>
+                                                            <td>450</td>
+                                                            <td>4,150</td>
+                                                            <td>2,500</td>
+                                                            <td>800</td>
+                                                            <td>400</td>
+                                                            <td>3,700</td>
+                                                            <td>2,200</td>
+                                                            <td>700</td>
+                                                            <td>350</td>
+                                                            <td>3,250</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>SB3</td>
+                                                            <td>2,600</td>
+                                                            <td>900</td>
+                                                            <td>450</td>
+                                                            <td>3,950</td>
+                                                            <td>2,300</td>
+                                                            <td>800</td>
+                                                            <td>400</td>
+                                                            <td>3,500</td>
+                                                            <td>2,000</td>
+                                                            <td>700</td>
+                                                            <td>350</td>
+                                                            <td>3,050</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>SB4</td>
+                                                            <td>1,900</td>
+                                                            <td>750</td>
+                                                            <td>400</td>
+                                                            <td>3,050</td>
+                                                            <td>1,700</td>
+                                                            <td>650</td>
+                                                            <td>350</td>
+                                                            <td>2,700</td>
+                                                            <td>1,500</td>
+                                                            <td>600</td>
+                                                            <td>300</td>
+                                                            <td>2,400</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>SB5 & Below</td>
+                                                            <td>950</td>
+                                                            <td>600</td>
+                                                            <td>350</td>
+                                                            <td>1,900</td>
+                                                            <td>850</td>
+                                                            <td>550</td>
+                                                            <td>350</td>
+                                                            <td>1,700</td>
+                                                            <td>750</td>
+                                                            <td>500</td>
+                                                            <td>250</td>
+                                                            <td>1,500</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="13">Notes:</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="13">The above eligible amount is inclusive of GST & applicable taxes.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="13">All expenses pertaining to Meals, etc shall be reimbursed on actuals, subject to the limit defined above.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="13">Meal Expenses that are supported by bills and receipts.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="13">The amounts shown above are the maximum eligibility as per the respective Grades. Reimbursement will be made on actual on production of bills.</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                        <h6>   5.5 Approving Authority</h6>
+                                        <br>
+                                        <p class="text-left"><b>Sanctioning Authority: The sanctioning Authority for various Grades of Employees under modes of travel is as under:</b></p>
+                                        <br>
+                                        <div class="table-responsive ">
+                                                <table class="table table-bordered" >
+                                                    <thead>
+                                                        <tr style="background-color: #00a3cc;">
+                                                            <th class="text-center text-light" colspan="3">Approving Authority</th>
+                                                        </tr>
+                                                        <tr style="background-color: #cceeff;">
+                                                            <th class="text-center">Grade</th>
+                                                            <th class="text-center">Air</th>
+                                                            <th class="text-center">Rail & Road</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-center">Directors / SB 1</td>
+                                                            <td colspan="2" class="text-center">MD</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">SB2 & Below</td>
+                                                            <td colspan="2" class="text-center">Reporting Manager/HOD</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                        </div>
+                                        <br>
+                                        <h6>   5.6 EXPENSE CLAIM & TOUR ADVANCE</h6>
+                                        <br>
+                                        <div class="table-responsive ">
+                                                <table class="table table-bordered" >
+                                                    <thead style="background-color: #cceeff;">
+                                                        <tr>
+                                                            <th colspan="12" class="text-center">Reimbursement Guidelines</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-center">Process</td>
+                                                            <td>
+                                                                <ul>
+                                                                    <li class="pl-5">•	Any expenses will have to be settled directly by the employee at the time of check out and settled personally and claimed through the raising voucher</li>                                       <li class="pl-5">•	Reimbursement of expenses incurred towards food for breakfast, lunch, and dinner and evening snacks only on submission of supporting bills itemized with the hotel bill, wherever applicable.</li>           
+                                                                    <li class="pl-5">•	Approval of tour claims for Directors is to be approved by CEO / MD.</li> 
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">Ineligible Expenses</td>
+                                                            <td>
+                                                                <ul>
+                                                                    <li class="pl-5">•	Employees should use their cell phones instead of using the hotel landline</li>                                          <li class="pl-5">•	Liquor & Cigarettes expenses will not be entertained</li> 
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                        </div>
+                                        <br>
+                                        <h6>   5.7 REVIEW OF THE POLICY</h6>
+                                        <br>
+                                        <p class="pl-3"> This Policy supersedes all past communication on the above subject. Review of the Travel Policy will be done as and when required based on business needs.</p>
+                                        <!--<div class="float-right">-->
+                                        <!--<input  type="checkbox" id="checkbox_5" name="#" value="#">-->
+                                        <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                        <!--</div>-->
+                                    </div>
+                                 </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-12 box-col-4 col-md-4">
+                            <div class="card o-hidden">
+                              <div class="card-header card-no-border p-4 ">
+                                  <h6 class="mb-0 text-left" style="color: #003cb3;">Political non-Alignment-POLICY</h6>
+                                  <div class="card-header-right act-box">
+                                     <ul class="list-unstyled act-list">
+                                        <!-- card-option -->
+                                        <li><i class="icofont icofont-maximize full-card"></i></li>
+                                        <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                        <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                     </ul>
+                                  </div>
+                               </div>
+                               <div class="card-body map-cont-height p-3 mb-3" >
+                                    <h6> 6.1	Objective</h6>
+                                    <ul>
+                                        <li class="pl-5">•	The Organization shall not support directly or indirectly any specific political party or candidate for political office.</li>
+                                        <li class="pl-5">•	The Organization shall not offer or give any Organization funds or property as donations, directly or indirectly, to any specific political party, candidate or campaign <br> exceptions at Central Ware House Level.</li>
+                                    </ul>
+                                    <!--<div class="float-right">-->
+                                    <!--<input  type="checkbox" id="checkbox_6" name="#" value="#">-->
+                                    <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                    <!--</div>-->
+                                </div>
+                             </div>
+                            </div>
+                            
+                            <div class="col-xl-12 box-col-4 col-md-4">
+                            <div class="card o-hidden">
+                              <div class="card-header card-no-border p-4 ">
+                                  <h6 class="mb-0 text-left" style="color: #003cb3;">Process of Disciplinary proceedings-POLICY</h6>
+                                  <div class="card-header-right act-box">
+                                     <ul class="list-unstyled act-list">
+                                        <!-- card-option -->
+                                        <li class="pl-5"><i class="icofont icofont-maximize full-card"></i></li>
+                                        <li class="pl-5"><i class="icofont icofont-minus minimize-card"></i></li>
+                                        <li class="pl-5"><i class="icofont icofont-refresh reload-card"></i></li>
+                                     </ul>
+                                  </div>
+                               </div>
+                               <div class="card-body map-cont-height p-3 mb-3" >
+                                    <ul>
+                                        <li class="pl-5">•	Any department or any employee can detect misconduct which is being committed by an employee.</li>
+                                        <li class="pl-5">•	The complaint on such misconduct is to be addressed to the Human Resources Department.</li>
+                                        <li class="pl-5">•	Upon receiving the details of the complaint, the Human Resources Department would decide whether to take cognizance of it and proceed with the disciplinary action.</li>
+                                        <li class="pl-5">•	When it is decided to take action against the misconduct, the HR Officer would issue Show Cause Notice to the delinquent (employee against whom the complaint is being received).</li>
+                                        <li class="pl-5">•	If there is no reply from the delinquent within the stipulated time as mentioned in the Show Cause Notice or if the reply of the delinquent to such Show Cause Notice is not satisfactory to the HR Officer, The HR Officer would refer the case to the People Committee for disciplinary action. The details of People Committee are enclosed herewith as Annexure 1.</li>
+                                        <li class="pl-5">•	People Committee would initiate the departmental disagreements, if any.</li>
+                                        <li class="pl-5">•	The People Committee is to give an opportunity to the delinquent employee to explain her/ his part with evidence and witness/s wherever required.</li>
+                                        <li class="pl-5">•	After enquiring the delinquent employee, the  Committee shall record the findings/ report with the justification on the conclusion on the delinquent being guilty or innocent.</li>
+                                        <li class="pl-5">•	A copy of the finding/ report is to be sent to the delinquent employee to give her/him a fair chance to reply. This step is to signify the fact of a declaration by the People Committee that the enquiry is over.</li>
+                                        <li class="pl-5">•	Thereafter the entire document starting from show-cause notice, reply to the show cause notice, enquiry proceedings, findings/report and reply of the delinquent is to be sent.</li>
+                                        <li class="pl-5">•	People Committee would peruse/ examine all the documents and form an opinion as to the finding of guilt and take a decision with regard to the punishment. It would be worth mentioning here that the punishment to be imposed should be commensurate with the gravity of the misconduct. </li>
+                                        <li class="pl-5">•	The delinquent should be informed by any member of the People Committee through a 2nd Show Cause Notice that the Committee has decided to impose the proposed punishment and why such punishment should not be imposed upon her/ him. </li>
+                                        <li class="pl-5">•	Upon receipt of reply or if there is no reply from the delinquent, the People Committee would decide whether to impose the proposed punishment and then issue letter imposing punishment. </li>
+                                        <li class="pl-5">•	The People  Committee would also send a final intimation to the for the actions taken / to be taken on the Delinquent.</li>
+                                    </ul>
+                                    <br>
+                                    <b>Annexure 1</b>
+                                    <br><br>
+                                    <div class="table-responsive ">
+                                            <table class="table table-bordered" >
+                                                <thead>
+                                                    <tr style="background-color: #00a3cc;">
+                                                        <th colspan="4" class="text-center text-light">Details of People Committee</th>
+                                                    </tr>
+                                                    <tr style="background-color: #cceeff;">
+                                                        <th class="text-center">Name</th>
+                                                        <th class="text-center">Designation</th>
+                                                        <th class="text-center">Email Id</th>
+                                                        <th class="text-center">Contact No</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Shubhajit Das Choudhury</td>
+                                                        <td>Managing Director</td>
+                                                        <td>shubhajit@spurvy.in</td>
+                                                        <td>9830682444</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Biswarup Ghosh</td>
+                                                        <td>Procurement Head</td>
+                                                        <td>biswarup@spurvy.in</td>
+                                                        <td>9830259866</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Vikash Gupta</td>
+                                                        <td>Chief Warehouse Officer</td>
+                                                        <td>vikash.gupta@spurvy.in</td>
+                                                        <td>93398640904</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sourav Roy</td>
+                                                        <td>Chief Legal Officer</td>
+                                                        <td>sourav@spurvy.in</td>
+                                                        <td>9830336060</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Uttam Kevate</td>
+                                                        <td>Zonal Head</td>
+                                                        <td>uttam@spurvy.in</td>
+                                                        <td>9552507516</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--<div class="float-right">-->
+                                            <!--<input  type="checkbox" id="checkbox_7" name="#" value="#">-->
+                                            <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        <div class="col-xl-12 box-col-4 col-md-4"  id="last_btn">
+                            <div class="card o-hidden">
+                            <div class="card-header card-no-border p-4 ">
+                              <h6 class="mb-0 text-left" style="color: #003cb3;">Moon-lighting Clause</h6>
+                              <div class="card-header-right act-box">
+                                 <ul class="list-unstyled act-list">
+                                    <!-- card-option -->
+                                    <li><i class="icofont icofont-maximize full-card"></i></li>
+                                    <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                    <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="card-body map-cont-height p-3 mb-3" >
+                                <ul>
+                                    <p class="pl-3">No employee shall undertake any work outside the Company premises, which could be construed in any way as competitive with the Company. It is understood than an employee on layoff may practice his trade but may not solicit business from the Company’s customers as a self-employed person.
+                                    </p>
+                                </ul>
+                                <!--<div class="float-right">-->
+                                <!--<input  type="checkbox" id="checkbox_8" name="#" value="#">-->
+                                <!--<label class="text-primary" for="#" >I Agree</label>-->
+                                <!--</div>-->
+                            </div>
+                         </div>
+                        </div>   
+                    </div>
+                </div>
+                <input  type="checkbox" id="checkbox" name="#" value="#">
+                <label class="text-primary" for="#" >I agree to all the terms & conditions</label>
+                <a class="btn btn-primary mb-2 ml-5" href="#" onclick="submitContinue()">Submit & Continue</a>
+            <!-- Container-fluid Ends-->
+            </div>
+            <!-- footer start-->
+            <footer class="footer">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-md-12 footer-copyright text-center">
+                        <p class="mb-0">Copyright © Invictus Minds Pvt. Ltd.</p>
+                     </div>
+                  </div>
+               </div>
+            </footer>
+         </div>
+      </div>
+      <!--<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQvcXUsXwCdYArPXo72dLZ31WS3WQRw&amp;callback=initMap"></script>-->
+      
+      <!-- latest jquery-->
+      <script src="../assets/hr/js/jquery-3.5.1.min.js"></script>
+      
+      <!-- Bootstrap js-->
+      <script src="../assets/hr/js/bootstrap/bootstrap.bundle.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+      <script src="https://maps.google.com/maps/api/js?key=AIzaSyCXQmhememhWgvic5XotbVoXqQ5isCTlOk"></script> 
+      
+      <!-- feather icon js-->
+      <script src="../assets/hr/js/icons/feather-icon/feather.min.js"></script>
+      <script src="../assets/hr/js/icons/feather-icon/feather-icon.js"></script>
+      
+      <!-- scrollbar js-->
+      <script src="../assets/hr/js/scrollbar/simplebar.js"></script>
+      <script src="../assets/hr/js/scrollbar/custom.js"></script>
+      
+      <!-- Sidebar jquery-->
+      <script src="../assets/hr/js/config.js"></script>
+      
+      <!-- Plugins JS start-->
+      <script src="../assets/hr/js/sidebar-menu.js"></script>  
+      <script src="../assets/hr/js/custom-card/custom-card.js"></script> 
+      <script src="../assets/hr/js/tooltip-init.js"></script>
+      <script src="../assets/hr/js/select2/select2.full.min.js"></script>
+      <script src="../assets/hr/js/select2/select2-custom.js"></script>
+      <script src="../assets/hr/js/form-validation-custom.js"></script>
+      <!-- Plugins JS Ends-->
+      
+      <!--Date Picker-->
+      <script src="../assets/hr/js/datepicker/date-picker/datepicker.js"></script>
+      <script src="../assets/hr/js/datepicker/date-picker/datepicker.en.js"></script>
+      <script src="../assets/hr/js/datepicker/date-picker/datepicker.custom.js"></script>      
+      
+      <!-- Theme js vipin-->
+      <!--  <script src="../assets/hr/js/script.js"></script> -->
+      <script src="../assets/hr/js/theme-customizer/customizer.js"></script>
+      
+      <!--Moment.JS-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+        
+      <!--Data Tables-->
+      <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        
+      <!--Search Bar-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        
+      <!--Download Report in Excel Format-->
+      <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+   </body>
+</html>

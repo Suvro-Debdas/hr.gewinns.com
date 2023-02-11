@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="keywords" content="">
+      <meta name="author" content="pixelstrap">
+      <link rel="icon" href="../assets/hr/images/favicon.png" type="image/x-icon">
+      <link rel="shortcut icon" href="../assets/hr/images/favicon.png" type="image/x-icon">
+      
+      <title>HR Portal</title>
+      
+      <!-- Google font-->
+      <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/font-awesome.css">
+      
+      <!-- ico-font-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/icofont.css">
+      
+      <!-- Themify icon-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/themify.css">
+      
+      <!-- Flag icon-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/flag-icon.css">
+      
+      <!-- Feather icon-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/feather-icon.css">
+      
+      <!-- Plugins css start-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/scrollbar.css">
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/animate.css">
+      <!-- Plugins css Ends-->
+      
+      <!-- Bootstrap css-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/vendors/bootstrap.css">
+      
+      <!-- App css-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/style.css">
+      <link id="color" rel="stylesheet" href="../assets/hr/css/color-1.css" media="screen">
+      
+      <!-- Responsive css-->
+      <link rel="stylesheet" type="text/css" href="../assets/hr/css/responsive.css">
+   </head>
+   <body onload="startWatch();">
+      <!-- tap on top starts-->
+      <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+      <!-- tap on tap ends-->
+      <!-- page-wrapper Start-->
+      <div class="page-wrapper compact-wrapper" id="pageWrapper">
+         <!-- Page Header Start-->
+         <div class="page-header">
+            <div class="header-wrapper row m-0 p-3">
+               <div class="header-logo-wrapper col-auto p-0">
+                  <div class="logo-wrapper"><a href="/app/home"><img class="img-fluid" src="../assets/hr/images/logo/logo.svg" alt=""></a></div>
+                  <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
+               </div>
+               <div class="left-header col horizontal-wrapper ps-0">
+                  <!--<ul class="horizontal-menu">-->
+                  <!--   <li class="att-cont"> <i class="middle" data-feather="clock"></i> <button class='btn btn-success p-r-10 p-l-10 pushme2 with-color'>Check-in</button> 06:08:05 Hrs-->
+                  <!--   </li>-->
+                  <!--</ul>-->
+               </div>
+               <div class="nav-right col-8 pull-right right-header p-0 w-cont-0">
+                  <ul class="nav-menus mr-0">
+                     <li class="onhover-dropdown">
+                        <div class="notification-box ">
+                           <div class="media profile-media">
+                              <img class="b-r-10" src="../assets/hr/images/dashboard/profile.jpg" id="nav_user"  width="38px" height="38px" alt="">
+                           </div>
+                        </div>
+                        <ul class="profile-dropdown notification-cont onhover-show-div active">
+                           <li>
+                              <h6 class="f-14 mb-0"> <span id="nav_name" ></span><br><small class="f-10 inline-block m-r-10" id="de" ></small></h6>
+                           </li>
+                           <!--<li><a href="#"><i data-feather="settings"></i> <span>Settings</span></a></li>-->
+                           <!--<li><a href="#"><i data-feather="mail"></i> <span>Activity log</span></a></li>-->
+                           <!--<li><a href="#"><i data-feather="file-text"></i> <span>Support</span></a></li>-->
+                           <li><a href="/?cmd=web_logout"><i data-feather="log-in"></i><span>Logout</span></a></li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <!-- Page Header Ends -->
+         <!-- Page Body Start-->
+         <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+            <div class="sidebar-wrapper">
+               <div>
+                  <div class="logo-wrapper">
+                     <a href="/app/home"><img class="img-fluid for-light" src="../assets/hr/images/logo/logo.svg" alt=""><img class="img-fluid for-dark" src="../assets/hr/images/logo/logo_dark.svg" alt=""></a>
+                     <div class="back-btn"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></div>
+                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+                  </div>
+                  <div class="logo-icon-wrapper"><a href="#"><img class="img-fluid" src="../assets/hr/images/logo/logo-icon.svg" alt=""></a></div>
+                  <nav class="sidebar-main">
+                     <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+                     <div id="sidebar-menu">
+                        <ul class="sidebar-links" id="simple-bar">
+                           <li class="back-btn">
+                              <a href="#"><img class="img-fluid" src="../assets/hr/images/logo/logo-icon.svg" alt=""></a>
+                              <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                           </li>
+                           <li class="sidebar-main-title">
+                              <div>
+                                 <h6 class="lan-1">Services</h6>
+                                 <p class="lan-2">Attendance, Leaves & Expenses...</p>
+                              </div>
+                           </li>
+                             <li class="sidebar-list">
+                              <a class="sidebar-link sidebar-title link-nav  " href="services_data_hr.html"><img class="img-fluid img-20 m-r-10" src="../assets/hr/images/myapps/app-ic.svg" alt=""> <span> All Services</span>
+                              </a>
+                           </li>
+                           <li class="sidebar-main-title">
+                              <div>
+                                 <h6 class="lan-1">Menu</h6>
+                                 <p class="lan-2">Home, Leaves & Expenses...</p>
+                              </div>
+                           </li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav  " href="data_hr.html"><i data-feather="home"></i><span>Home</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav  " href="attendance_data_hr.html"><i data-feather="user"></i><span>Attendance</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="leave_data_hr.html"><i data-feather="user-check"></i><span>Leaves</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="expense_data_hr.html"><i data-feather="dollar-sign"></i><span>Expenses</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="travel_data_hr.html"><i data-feather="briefcase"> </i><span>Travel</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="salary_data_hr.html"><i data-feather="credit-card"> </i><span>Salary Slip</span></a></li>
+                           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="tax_data_hr.html"><i data-feather="percent"> </i><span>Tax Declarations</span></a></li>
+                           <li class="sidebar-list">
+                              <a class="sidebar-link sidebar-title" href="#"><i data-feather="airplay"></i><span class="lan-6">Report</span></a>
+                              <ul class="sidebar-submenu">
+                                 <li><a href="checkin_history_data_hr.html">Checkin Report</a></li>
+                                 <li><a href="historical_attendance_data_hr.html">Attendance Report</a></li>
+                                 <li><a href="asset_data_hr.html">Asset Assignment Report</a></li>
+                                 <!--<li><a href="#">Expense Reports</a></li>-->
+                              </ul>
+                           </li>
+                           
+                           <br>
+                           <br>
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="trending-up"> </i><span>Analytics</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="percent"> </i><span>Tax Declaration</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="pie-chart"> </i><span>Reports</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="file-plus"> </i><span>HR Policy</span></a></li>
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check-circle"> </i><span>Check List</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="users"> </i><span>Co-worker Details</span></a></li>-->
+                           <!--<li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="#"><i data-feather="check-square"> </i><span>Things To Do</span></a></li>-->
+                        </ul>
+                     </div>
+                     <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+                  </nav>
+               </div>
+            </div>
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+               <div class="container-fluid">
+                  <div class="page-title">
+                     <div class="row">
+                        <div class="col-6">
+                           <h3>Attendance</h3>
+                        </div>
+                        <div class="col-6">
+                           <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="data_hr.html"><i data-feather="home"></i></a></li>
+                              <li class="breadcrumb-item">Menu</li>
+                              <li class="breadcrumb-item active">Attendance</li>
+                           </ol>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Container-fluid starts-->
+               <div class="container-fluid">
+                  <div class="row dash-chart">
+                     
+                     <div class="col-xl-4 box-col-4 col-md-4">
+                      <div class="card o-hidden">
+                          <div class="card-header card-no-border p-4 ">
+                              <h6 class="mb-0">Mark Attendance</h6>
+                              <div class="card-header-right act-box">
+                                 <ul class="list-unstyled act-list">
+                                    <!-- card-option -->
+                                    <li><i class="icofont icofont-maximize full-card"></i></li>
+                                    <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                    <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="card-body map-cont-height p-0 mb-3" >
+                              <table class="table table-bordered text-center">
+                                    <tr style="background-color:#e6e6e6; color:black;">
+                                        <td id="lastcheckin">
+                                            <b>Check in at time location</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="mapholder" width="100%" height="250px">Loading map ... Please Wait</div>
+                                        </td>
+                                    </tr>
+                                </table>  
+                            </div>
+                        <div class="p-3 pt-0 text-center">
+                          <button class="btn btn-flat btn-primary btn-air-primary" type="button" title="" id="refresh_status" onclick="Javascript:AutoRefresh();">Recenter</button>
+                          <button class="btn btn-flat btn-success btn-air-primary" type="button" title="" onclick="getLocation()" id="checkin">Checkin</button>
+                      </div>
+                     </div>
+                  </div>
+                    <div class="col-xl-4 box-col-4 col-md-4">
+                      <div class="card o-hidden">
+                          <div class="card-header card-no-border p-4 ">
+                              <h6 class="mb-0">Todays Activity</h6>
+                              <div class="card-header-right act-box">
+                                 <ul class="list-unstyled act-list">
+                                    <!-- card-option -->
+                                    <li><i class="icofont icofont-maximize full-card"></i></li>
+                                    <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                    <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                 </ul>
+                              </div>
+                           </div>
+                             <div class="card-body cont-height new-update pt-0 mb-3">
+                            <div class="activity-timeline" id="timeline">
+                              <div class="media">
+                                <div class="activity-line"></div>
+                                <div class="activity-dot-secondary"></div>
+                                <div class="media-body"><span>11 March 2020</span>
+                                  <p class="font-roboto text-muted">Quisque a consequat ante Sit amet magna at volutapt.</p>
+                                </div>
+                              </div>
+                              <div class="media">
+                                <div class="activity-dot-primary"></div>
+                                <div class="media-body"><span>11 March 2020</span>
+                                  <p class="font-roboto text-muted">Aenean sit amet magna vel magna fringilla ferme.</p>
+                                </div>
+                              </div>
+                              <div class="media">
+                                <div class="activity-dot-secondary"></div>
+                                <div class="media-body"><span>11 March 2020</span>
+                                  <p class="font-roboto text-muted">Vestibulum nec mi suscipit, dapibus purus.....</p>
+                                </div>
+                              </div>
+                              <div class="media">
+                                <div class="activity-dot-primary"></div>
+                                <div class="media-body"><span>11 March 2020</span>
+                                  <p class="font-roboto text-muted">Curabitur egestas consequat lorem.</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                     </div>
+                  </div>
+                    <!-- HR Events Start-->
+                    <div class="col-md-12 project-list">
+                        <div class="card">
+                           <div class="row">
+                              <div class="col-md-12 pt-2">
+                                 <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="briefcase"></i>My Attendance</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="calendar"></i>Checkin History</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-nav" role="tab" aria-controls="top-nav" aria-selected="false"><i data-feather="calendar"></i>Employee Attendance</a></li>
+                                 </ul>
+                              </div>
+                              <div class="col-sm-12">
+                                 <div class="card-body p-2 mt-2">
+                                    <div class="tab-content" id="top-tabContent">
+                                       <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+                                       <div><a class="btn btn-primary mb-2" href="historical_attendance_data_hr.html">Attendance Report</a></div>
+                                          <div class="table-responsive">
+                                             <table class="table table-hover  table-striped small-t">
+                                                <thead style="background-color: #cceeff;">
+                                                  <tr>
+                                                    <th class="text-center">Date</th>
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">First Checkin</th>
+                                                    <th class="text-center">Last Checkout</th>
+                                                    <th class="text-center">Late By</th>
+                                                    <th class="text-center">Early By</th>
+                                                    <th class="text-center">Duration</th>
+                                                    <th>Location</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody id="attendance_history"></tbody>
+                                             </table>
+                                          </div>
+                                       </div>
+                                       <div class="tab-pane fade " id="top-profile" role="tabpanel" aria-labelledby="top-home-tab">
+                                            <div><a class="btn btn-primary mb-2" href="checkin_history_data_hr.html">Checkin Report</a></div>
+                                          <div class="table-responsive ">
+                                             <table class="table table-hover table-striped small-t" >
+                                                <thead style="background-color: #cceeff;">
+                                                  <tr>
+                                                    <th class="text-center">Date</th>
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">Time</th>
+                                                    <th class="text-center">Log Type</th>
+                                                    <th>Location</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody id="checkin_history"></tbody>
+                                             </table>
+                                          </div>
+                                       </div>
+                                       <div class="tab-pane fade show" id="top-nav" role="tabpanel" aria-labelledby="top-home-tab">
+                                       <div><a class="btn btn-primary mb-2" href="detailed_employee_attendance.html">Employee Attendance Report</a></div>
+                                          <div class="table-responsive">
+                                             <table class="table table-hover  table-striped small-t">
+                                                <thead style="background-color: #cceeff;">
+                                                  <tr>
+                                                    <th class="text-center">Date</th>
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">First Checkin</th>
+                                                    <th class="text-center">Last Checkout</th>
+                                                    <th class="text-center">Late By</th>
+                                                    <th class="text-center">Early By</th>
+                                                    <th class="text-center">Duration</th>
+                                                    <th>Location</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody id="detailed_history"></tbody>
+                                             </table>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- HR Events Ends-->
+                  </div>
+               </div>
+               <!-- Container-fluid Ends-->
+            </div>
+            <!-- footer start-->
+            <footer class="footer">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-md-12 footer-copyright text-center">
+                        <p class="mb-0">Copyright © Invictus Minds Pvt. Ltd.</p>
+                     </div>
+                  </div>
+               </div>
+            </footer>
+         </div>
+      </div>
+      <!--<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQvcXUsXwCdYArPXo72dLZ31WS3WQRw&amp;callback=initMap"></script>-->
+      
+      <!-- latest jquery-->
+      <script src="../assets/hr/js/jquery-3.5.1.min.js"></script>
+      
+      <!-- Bootstrap js-->
+      <script src="../assets/hr/js/bootstrap/bootstrap.bundle.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+      <script src="https://maps.google.com/maps/api/js?key=AIzaSyCXQmhememhWgvic5XotbVoXqQ5isCTlOk"></script> 
+      
+      <!-- feather icon js-->
+      <script src="../assets/hr/js/icons/feather-icon/feather.min.js"></script>
+      <script src="../assets/hr/js/icons/feather-icon/feather-icon.js"></script>
+      
+      <!-- scrollbar js-->
+      <script src="../assets/hr/js/scrollbar/simplebar.js"></script>
+      <script src="../assets/hr/js/scrollbar/custom.js"></script>
+      
+      <!-- Sidebar jquery-->
+      <script src="../assets/hr/js/config.js"></script>
+      
+      <!-- Plugins JS start-->
+      <script src="../assets/hr/js/sidebar-menu.js"></script>  
+      <script src="../assets/hr/js/custom-card/custom-card.js"></script> 
+      <script src="../assets/hr/js/tooltip-init.js"></script>
+      <script src="../assets/hr/js/select2/select2.full.min.js"></script>
+      <script src="../assets/hr/js/select2/select2-custom.js"></script>
+      <script src="../assets/hr/js/form-validation-custom.js"></script>
+      <!-- Plugins JS Ends-->
+      
+      <!--Date Picker-->
+      <script src="../assets/hr/js/datepicker/date-picker/datepicker.js"></script>
+      <script src="../assets/hr/js/datepicker/date-picker/datepicker.en.js"></script>
+      <script src="../assets/hr/js/datepicker/date-picker/datepicker.custom.js"></script>      
+      
+      <!-- Theme js vipin-->
+      <!--  <script src="../assets/hr/js/script.js"></script> -->
+      <script src="../assets/hr/js/theme-customizer/customizer.js"></script>
+      
+      <!--Moment.JS-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+        
+      <!--Data Tables-->
+      <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        
+      <!--Search Bar-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        
+      <!--Download Report in Excel Format-->
+      <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+      
+      <!--Recenter Button-->
+      <script>
+            function AutoRefresh(){
+            setTimeout("location.reload(true);");
+            document.getElementById("refresh_status").innerHTML="Recentre Done";
+            }
+        </script>
+   </body>
+</html>

@@ -1,0 +1,620 @@
+    let count=0;
+    let watchId;
+    let geoLoc;
+    function getLocation() {
+        //alert("inside geolocation");
+        if (navigator.geolocation) {
+            //alert("geolocation available");
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+            Alert( "Geolocation is not supported by this browser.");
+        }
+    }
+        
+    function showPosition(position) {
+         //alert(position);
+        var latlon=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        
+        var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]`;
+        //alert(url);
+        fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+        update_and_get_checkin_details(js.data[0].name,position);
+    });
+    
+    function update_and_get_checkin_details(name,position){
+        var Latlong=position.coords.latitude+','+position.coords.longitude;
+        var url1=`/api/resource/Employee/${name}`;
+        fetch(url1).then((r)=>r.json()).then((js)=>{//console.log(js.data);
+        frappe.call({method :'gewin_payroll.api.getLocationAddress',
+        //frappe.call('gewin_payroll.api.testfunction')
+        args : {latlong : Latlong},
+        callback :function(r) {
+            //console.log(r);
+            var log_type= ((document.getElementById("checkin").innerHTML=="Checkin") ? "IN" : "OUT");
+            //console.log(log_type);
+            let device_id=position.coords.latitude+"|"+ position.coords.longitude+"|"+ position.coords.accuracy + ":"+r.message+":none";
+            var data= checkin_data(name,js.data.employee_name,log_type,device_id);
+            //console.log(data);
+            frappe.call({method:'erpnext.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field',
+                args : {employee_field_value:data.employee,
+                        timestamp:data.time,
+                        device_id:data.device_id,
+                        log_type:data.log_type,
+                        },
+                        callback : (r)=>{//console.log(r);
+                            get_checkin_and_display(name);
+                        }
+                });
+           }
+        });
+    });}
+        
+    function checkin_data(employee,employee_name,log_type,device_id){
+        // alert(moment().format("yyyy-MM-DD HH:mm:ss"))
+        let data={
+            'employee':employee, 
+            'employee_name' : employee_name, 
+            'log_type' :log_type,
+            'time':moment().format("yyyy-MM-DD HH:mm:ss"),
+            'device_id' :device_id,
+            'doctype': "Employee Checkin"
+        };
+            return data;
+        } // end checkin_data
+    } // end show position
+            
+    const  get_checkin_and_display= (name)=>{
+            const date = moment().hour(0).minute(0).second(0).format('YYYY-MM-DD');
+            const apiUrl = `/api/resource/Employee Checkin/?filters=${JSON.stringify([['time','>', date],['employee','=', name]])}&fields=${JSON.stringify(['*'])}&order_by=creation desc`;
+                    fetch( apiUrl).then((r)=>r.json()).then((data)=>{
+                    //console.log(data.data);
+                        var el=document.getElementById("timeline");
+                            el.innerHTML="";
+                        var btn=document.getElementById("checkin");
+                        var lastcheckin=document.getElementById("lastcheckin");
+                        lastcheckin.style.fontSize='13px';
+                        
+                        if (data.data[0].log_type=="IN"){
+                            btn.setAttribute('class','btn btn-danger');
+                            btn.innerHTML="Checkout";
+                            lastcheckin.innerHTML="Checkin at " + data.data[0].time + " " +data.data[0].device_id.split(":")[1];
+                        }
+                        if (data.data[0].log_type=="OUT"){
+                            btn.setAttribute('class','btn btn-success');
+                            btn.innerHTML="Checkin";
+                            lastcheckin.innerHTML="Checkout at " + data.data[0].time + " " +data.data[0].device_id.split(":")[1];                                }
+                        for (var i=0;i<data.data.length;i++){
+                            //console.log(data.data[i]);
+                            var str=data.data[i].device_id;
+                            var li=displayCheckinItem(data.data[i].log_type,data.data[i].time,str.substr(0,str.lastIndexOf(":")-1),i);
+                            el.appendChild(li);
+                        }
+        });
+        
+    }; //end get_checkin_and_display
+        
+    function displayCheckinItem(log_type,time,address,j){
+            //console.log(address);
+            var log_type_text="";var text_color="";
+            if (log_type=="IN"){log_type_text="Checkin at";text_color="primary"}
+            if (log_type=="OUT"){log_type_text="Checkout at";text_color="secondary"}
+                 tm=document.createElement("span");tm.innerHTML=log_type_text + " " + time;
+                 var addr=document.createElement("p");addr.innerHTML=address;addr.setAttribute('class','font-roboto text-muted');
+                 var mb=document.createElement("div");mb.setAttribute('class','media-body');
+                 mb.appendChild(tm);mb.appendChild(addr);
+                 var ad = document.createElement("div"); ad.setAttribute('class','activity-dot-' + text_color);
+                 var media=document.createElement("div");media.setAttribute('class','media');
+                 if (j===0){
+                     var al=document.createElement("div");al.setAttribute('class','activity-line');
+                     media.appendChild(al);
+                 }
+                 media.appendChild(ad);media.appendChild(mb);
+                 return media;
+             
+    } //end display checkin item
+        
+    function success(position) {
+        count+=1;
+        //alert(count);
+        if (count===2){
+            // getLocation();
+            //alert("line 123");
+            var latlon=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var mapholder=document.getElementById('mapholder');
+            //alert("line 126");
+            mapholder.style.height='250px';
+            mapholder.style.width='100%';
+            
+            var myOptions={
+            center:latlon,zoom:18,
+            mapTypeId:google.maps.MapTypeId.ROADMAP,
+            mapTypeControl:false,
+            navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+            };
+            var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
+            //console.log(map);
+            var marker=new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+            //console.log(marker);
+                
+            var Latlong=position.coords.latitude+','+position.coords.longitude;
+            //alert(watchId);
+            geoLoc.clearWatch(watchId);
+        }    
+    }// end success
+        
+    function error(error) {
+          switch(error.code) {
+        case error.PERMISSION_DENIED:
+          alert("As you have denied the request for Geolocation. So you will not be able to checkin/checkout");
+          document.getElementById("mapholder").innerHTML="Map Loading not possible as you have denied the access for Geolocation.Please allow Geolocation access. Please see this video to see the process of allowing gelocation. If you are not able to resolve please contact your admin";
+          document.getElementById("checkin").innerHTML="Checkin Disabled";
+          document.getElementById("checkin").setAttribute("class","btn btn-warning");
+          document.getElementById("checkin").disable=True;
+          
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+        }
+        const options = {
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 27000
+    };
+        
+    function startWatch(){
+            geoLoc=navigator.geolocation;
+            watchId = geoLoc.watchPosition(success, error, options);
+    }
+    
+    $(document).ready(() => {  
+    var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]`;
+    
+fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+get_checkin_and_display(js.data[0].name);});
+});
+    // Role specific Checkin & Recenter button availability
+    
+     frappe.ready(() =>{    
+    //     console.log(frappe);
+    //         frappe.call({
+    //             method: 'has_role',
+    //             args: {'role_name' : 'Customer'},
+    //             callback: function(r){
+    //                 // console.log(r);
+    //                 if(r.message.length>0){
+    //                     console.log('yes');
+    //                     document.getElementById('recenter').style.display = 'none';
+    //                     document.getElementById('checkin').style.display = 'none';
+    //                 }
+    //                 else{
+    //                     // console.log('no');
+    //                 }
+    //             } // callback ends here
+    //         }); //frappe.call ends here
+    
+    frappe.call({
+                method: 'has_role',
+                args: {'role_name' : 'Authentication Registrar'},
+                callback: function(r){
+                    // console.log(r);
+                    if(r.message.length>0){
+                        console.log('yes');
+                        document.getElementById('hrutilities').style.display = 'block';
+                        
+                    }
+                    else{
+                         document.getElementById('hrutilities').style.display = 'none';
+                    }
+                } // callback ends here
+            }); //frappe.call ends here
+     });    
+    
+
+// Employee Profile  
+          
+ frappe.ready(()=>{
+    var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["employee","employee_name","cell_number","prefered_email","image","gender","date_of_birth",
+    "date_of_joining","department","designation","status","default_shift","blood_group","address_line_1","address_line_2"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    // var table = document.getElementById('profile');
+    var item=js.data[0];
+    
+    // document.getElementById("userimage").setAttribute("src",item.image);
+    var EmployeeID_Profile=document.getElementById("empid");
+    EmployeeID_Profile.style.fontSize="12px";
+    EmployeeID_Profile.innerHTML=item.employee;
+        
+    var EmployeeName_Profile=document.getElementById("empname");
+    EmployeeName_Profile.style.fontSize="12px";
+    EmployeeName_Profile.innerHTML=item.employee_name;
+        
+    var Email_Profile=document.getElementById("email");
+    Email_Profile.style.fontSize="12px";
+    Email_Profile.innerHTML=item.prefered_email;
+    
+    var Department_Profile=document.getElementById("depar");
+    Department_Profile.style.fontSize="12px";
+    Department_Profile.innerHTML=item.department;
+    
+    var Designation_Profile=document.getElementById("deg");
+    Designation_Profile.style.fontSize="12px";
+    Designation_Profile.innerHTML=item.designation;
+        
+    var Gender_Profile=document.getElementById("gender");
+    Gender_Profile.style.fontSize="12px";
+    Gender_Profile.innerHTML=item.gender;
+    
+    var DOB_Profile=document.getElementById("dob");
+    DOB_Profile.style.fontSize="12px";
+    DOB_Profile.innerHTML=moment(item.date_of_birth).format('DD/MM/YYYY');
+    
+    var DOJ_Profile=document.getElementById("doj");
+    DOJ_Profile.style.fontSize="12px";
+    DOJ_Profile.innerHTML=moment(item.date_of_joining).format('DD/MM/YYYY');
+        
+    var Status_Profile=document.getElementById("status");
+    Status_Profile.style.fontSize="12px";
+    Status_Profile.innerHTML=item.status;
+        
+    var Shift_Profile=document.getElementById("shift");
+    Shift_Profile.style.fontSize="12px";
+    Shift_Profile.innerHTML=item.default_shift;
+        
+    var BloodGroup_Profile=document.getElementById("bloodgroup");
+    BloodGroup_Profile.style.fontSize="12px";
+    BloodGroup_Profile.innerHTML=item.blood_group;
+      
+    var MobileNo_Profile=document.getElementById("contact");
+    MobileNo_Profile.style.fontSize="12px";
+    MobileNo_Profile.innerHTML=item.cell_number;
+   
+    var PresentAddress_Profile=document.getElementById("ploc");
+    PresentAddress_Profile.style.fontSize="12px";
+    PresentAddress_Profile.innerHTML=((item.address_line_1).concat(item.address_line_2));
+    
+}); 
+     
+});
+ 
+//  Employee image
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+        document.getElementById("userimage").setAttribute("src",item.image);
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+        document.getElementById("userimage").setAttribute("src",generated(sn));    
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
+
+// Employee Info at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+// Upcoming Birthday List
+
+frappe.ready(()=>{
+    var url=`/api/method/upcoming_birthday`;
+ fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+
+    for (var i=0; i<js.message.length;i++){
+            var item=js.message[i];
+           
+            var gap=moment(item.date_of_birth).dayOfYear()-moment().dayOfYear();
+            if (gap<-5){gap=gap+366;}
+            js.message[i]["gap"]=gap;
+        }
+        js.message.sort(function(a,b){return a.gap-b.gap});
+        //console.log(r.message);
+        var table = document.getElementById('birthday');
+        for (var i=0; i<js.message.length;i++){
+            var item=js.message[i];
+            var gap=moment(item.date_of_birth).dayOfYear()-moment().dayOfYear();
+            
+            if (gap<-5){gap=gap+366;}
+            // if (gap>=-5 && gap <120){
+                // console.log("inside" + moment(item.date_of_birth).format('Do MMM'));
+                
+                // Initials of the Employee Name if the employee image is not provided
+                
+                var row = table.insertRow();
+                
+                var cell0=row.insertCell();
+                // cell0.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-40 rounded-circle' id='b_img'>";
+                if (item.image){
+                    cell0.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-40 rounded-circle' id='b_img'>";
+                }
+                else 
+                {
+                    var sn=item.first_name.substring(0,2).toUpperCase();
+                    cell0.innerHTML="<img src='" + generated(sn) + "'height='30px;' width='60px;' class='img-40 rounded-circle' id='b_img'>";
+                }
+                // Date of Birth
+            
+                var cell1=row.insertCell();
+                cell1.style.fontSize='12px';
+                cell1.innerHTML=moment(item.date_of_birth).format('DD/MM/YYYY');
+                
+                // Blank cell for creating space in between
+                
+                var cell=row.insertCell();
+                
+                // Name of the Employee
+                 
+                var cell2=row.insertCell();
+                cell2.innerHTML=item.employee_name;
+                cell2.style.fontSize='12px';
+                
+                // Blank cell for creating space in between
+                
+                var cell=row.insertCell();
+                
+                // Name of the Department
+                
+                var cell3=row.insertCell();
+                cell3.innerHTML=item.department;
+                cell3.style.fontSize='12px';
+                
+                // Name of the Designation
+                
+                var cell4=row.insertCell();
+                cell4.innerHTML=item.designation;
+                cell4.style.fontSize='12px';
+                
+            //}//end if statement
+        }//
+ });
+ 
+});
+
+// Upcoming Work Anniversary List
+
+frappe.ready(()=>{
+    var url=`/api/method/upcoming_workanniversaries`;
+ fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+ 
+    for (var i=0; i<js.message.length;i++){
+            var item=js.message[i];
+            var gap=moment(item.date_of_joining).dayOfYear()-moment().dayOfYear();
+            if (gap<-5){gap=gap+366;}
+            js.message[i]["gap"]=gap;
+        }
+        js.message.sort(function(a,b){return a.gap-b.gap});
+      // console.log(r);
+        var table = document.getElementById('anniversary');
+        for (var i=0; i<js.message.length;i++){
+            var item=js.message[i];
+            var gap=moment(item.date_of_joining).dayOfYear()-moment().dayOfYear();
+            
+            if (gap<-5){gap=gap+366;}
+            //if (gap>=-5 && gap <120){
+                var row = table.insertRow();
+                
+                // Initials of the Employee Name if the employee image is not provided
+                
+                var cell0=row.insertCell();
+                if (item.image){
+                    cell0.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-40 rounded-circle'>";
+                }
+                else 
+                {
+                    var sn=item.first_name.substring(0,2).toUpperCase();
+                    cell0.innerHTML="<img src='" + generated(sn) + "'height='30px;' width='60px;' class='img-40 rounded-circle'>";
+                }
+                
+                // Date of Joining
+                
+                var cell1=row.insertCell();
+                cell1.innerHTML=moment(item.date_of_joining).format('DD/MM/YYYY');
+                cell1.style.fontSize='12px';
+                
+                // Blank cell for creating space in between
+                
+                var cell=row.insertCell();
+                
+                // Name of the Employee
+                
+                var cell2=row.insertCell();
+                cell2.innerHTML=item.employee_name;
+                cell2.style.fontSize='12px';
+                
+                // Blank cell for creating space in between
+                
+                var cell=row.insertCell();
+                
+                // Name of the Department
+                
+                var cell3=row.insertCell();
+                cell3.innerHTML=item.department;
+                cell3.style.fontSize='12px';
+                
+                // Name of the Designation
+                
+                var cell4=row.insertCell();
+                cell4.innerHTML=item.designation;
+                cell4.style.fontSize='12px';
+                
+          //  }//end if statement
+        }// end for loop
+ });
+ 
+});
+
+// New Joiners
+
+frappe.ready(() => {
+    var urloffer=`/api/resource/Job Offer/?fields=${JSON.stringify(["offer_date","applicant_name","designation"])}`;
+    // console.log(urloffer);
+    fetch(urloffer).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var table = document.getElementById('new_joinee');
+    for (var i=0; i<js.data.length;i++){
+        var item=js.data[i];
+        if (moment().diff(moment(item.offer_date),'days')<90){
+        var row = table.insertRow();
+        
+        // Initials of the Employee Name if the employee image is not provided
+        
+        var cell0=row.insertCell();
+        if (item.image){
+            cell0.innerHTML="<img src='" + item.image + "'height='30px;' width='60px;' class='img-40 rounded-circle'>";
+        }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+            cell0.innerHTML="<img src='" + generated(sn) + "'height='30px;' width='60px;' class='img-40 rounded-circle'>";
+        }
+        
+        // Offer Letter Rolling Date
+        
+        var cell1=row.insertCell();
+        cell1.innerHTML=moment(item.offer_date).format('DD/MM/YYYY');
+        cell1.style.fontSize='12px';
+        
+        // Name of the Applicant
+        
+        var cell2=row.insertCell();
+        cell2.innerHTML=item.applicant_name;
+        cell2.style.fontSize='12px';
+        
+        // Name of the Designation
+        
+        var cell3=row.insertCell();
+        cell3.innerHTML=item.designation;
+        cell3.style.fontSize='12px';
+        }
+    }
+    });
+}); 
+
+// Announcements
+
+frappe.ready(()=>{
+    var url=`/api/method/announcements_list`;
+ fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+        var table = document.getElementById('announcements');
+        
+        for (var i=0; i<js.message.length;i++){
+            var item=js.message[i];
+            // console.log(item);
+                var row = table.insertRow();
+                
+                // Blank cell for creating space in between
+                
+                var cell1=row.insertCell();
+                
+                // Name of the Announcement
+                
+                var cell2=row.insertCell();
+                cell2.innerHTML=item.title;
+                cell2.style.fontSize='12px';
+                cell2.style.width='200px';
+                
+                // Blank cell for creating space in between
+                
+                var cell3=row.insertCell();
+                
+                // Name of the Employee
+                
+                var cell4=row.insertCell();
+                cell4.innerHTML=item.content;
+        }
+    });
+});
+ 
+// Events
+
+frappe.ready(()=>{
+    var url=`/api/method/Event_Lists`;
+ fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+        var table = document.getElementById('upcoming_events');
+        
+        for (var i=0; i<js.message.length;i++){
+            var item=js.message[i];
+            //console.log(item);
+                var row = table.insertRow();
+                
+                // Name of the Event
+                
+                var cell1=row.insertCell();
+                cell1.innerHTML=item.name;
+                
+                // Date of the Event
+                
+                var cell2=row.insertCell();
+                cell2.innerHTML=moment(item.starts_on).format('DD/MM/YYYY');
+                
+                // Description of the Event
+                
+                var cell4=row.insertCell();
+                cell4.innerHTML=item.description;
+        }
+    });
+});
+
+//removing hr menu for other user
+
+//frappe.ready(()=>{
+$(document).ready(function(){
+    
+});
+
+// Map
+

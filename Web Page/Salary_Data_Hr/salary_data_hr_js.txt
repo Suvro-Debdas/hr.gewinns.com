@@ -1,0 +1,165 @@
+
+$(document).ready(function(){
+
+          $(".with-color").click(function () {    
+             if($(this).hasClass("btn-success"))
+             {
+                  $(this).addClass("btn-danger");
+                  $(this).removeClass("btn-success");
+             }
+             else{
+                  $(this).addClass("btn-success");
+                  $(this).removeClass("btn-danger");
+             }
+          });
+
+    $(".pushme2").click(function(){
+      $(this).text(function(i, v){
+         return v === 'Check-out' ? 'Check-in' : 'Check-out'
+      });
+    });
+});
+
+// Pay Slips
+frappe.ready(() => {
+var urlsal=`api/resource/Salary Slip/?fields=["*"]`;
+    
+fetch(urlsal).then((r)=>r.json()).then((js)=>{
+//console.log(js);
+var table = document.getElementById('payslipslist');
+for (var i=0; i<js.data.length;i++){
+    var item=js.data[i];
+    var row = table.insertRow();
+    var cell1=row.insertCell();
+    
+    // Start Date
+    
+    cell1.innerHTML=moment(item.start_date).format("YYYY");
+    cell1.style.textAlign='center';
+    cell1.style.borderBottom= "thin solid #00ffff";
+    
+    // End Date
+    
+    var cell2=row.insertCell();
+    cell2.innerHTML=moment(item.end_date).format("MMMM");
+    cell2.style.textAlign='center';
+    cell2.style.borderBottom= "thin solid #00ffff";
+    
+    // Name of the Employee
+    
+    var cell3=row.insertCell();
+    // cell3.innerHTML=item.name;
+    const anch = document.createElement("a");
+    
+    urlss="/api/method/frappe.utils.print_format.download_pdf?doctype=Salary%20Slip&name=";
+    urlss = urlss + encodeURI(item.name);
+    urlss+="&format=Salary%20Slip%20Updated&no_letterhead=0&letterhead=Letter%20Head%20Gewinns&settings=%7B%7D&_lang=en";
+    anch.setAttribute("href",urlss);
+    anch.setAttribute("target","_blank");
+    
+    anch.innerHTML=item.employee_name;
+    cell3.appendChild(anch);
+    cell3.style.textAlign='center';
+    cell3.style.borderBottom= "thin solid #00ffff";
+    
+//   var cell4=row.insertCell();
+//     // const anchh = document.createElement("a");
+//     //  anchh.setAttribute("href",'#');           
+//     // anchh.setAttribute("href","/app/print/Salary Slip/" + item.name);
+//     // anchh.setAttribute("target","_blank");
+    
+    
+    
+//     const btn=document.createElement("a");
+//     btn.setAttribute('class','btn btn-primary');
+//     btn.innerHTML='Download';
+//      btn.onclick=getSalarySlip(item.name);
+//     //anchh.innerHTML="<button  class='btn btn-primary' onclick='getSalarySlip('+item.name+')'>" + "Download" + "</button>";
+//     cell4.appendChild(btn);
+//     cell4.style.textAlign='center';
+}
+        
+});
+});
+
+
+// function getSalarySlip(ssname){
+//   urlss="/api/method/frappe.utils.print_format.download_pdf?doctype=Salary%20Slip&name=";
+//     urlss = urlss + encodeURI(ssname);
+//     urlss+="&format=ss%20trial1&no_letterhead=0&letterhead=lh1&settings=%7B%7D&_lang=en";
+//     const myTimeout = setTimeout(downloadPDF(urlss,'ss'),5000);
+// }
+// function downloadPDF(url,filename){
+//         const date = new Date();
+//         console.log(date);
+//         console.log(filename);
+//         var link = document.createElement('a');
+//                 link.href = url;
+//                 link.download = filename+'.pdf';
+//                 link.dispatchEvent(new MouseEvent('click'));
+//                 link.remove();
+        
+//     }
+
+// Employee Information at the Right Corner
+
+frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name","department"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    
+    // document.getElementById("nav_user").setAttribute("src",item.image);
+    document.getElementById("nav_name").innerHTML=item.first_name;
+    document.getElementById("de").innerHTML=item.department;
+});
+        
+});
+
+//  Employee image at the Right Corner
+
+ frappe.ready(() => {
+ var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.user_id}"]]&fields=["image","first_name"]`;
+    // console.log(url);
+    
+    fetch(url).then((r)=>r.json()).then((js)=>{//console.log(js);
+    var item=js.data[0];
+    //console.log(item);
+
+    if (item.image){
+
+        var a=document.getElementById("nav_user");
+        a.setAttribute("class","border");
+        a.setAttribute("src",item.image);
+    }
+        else 
+        {
+            var sn=item.first_name.substring(0,2).toUpperCase();
+          
+        var b=document.getElementById("nav_user");
+        b.setAttribute("class","border");
+        b.setAttribute("src",generated(sn));
+        }
+    
+    document.getElementById("nav_name").innerHTML=item.first_name;
+});
+ function generated(name) {
+      let canvas = document.createElement('canvas');
+      
+      canvas.height = 180;
+      canvas.width  = 180;
+      
+      let context = canvas.getContext('2d');
+      
+      //context.drawImage(this.poster, 0, 0)
+      context.fillStyle = "#eef0f2";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      context.font = "50px Arial";
+      context.fillStyle="black";
+      context.fillText(name, 50, 95);
+      
+      return canvas.toDataURL('image/jpeg');
+    }    
+});
