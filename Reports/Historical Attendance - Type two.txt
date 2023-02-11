@@ -1,0 +1,13 @@
+SELECT
+        employee as Employee, employee_name as EmployeeName, Date(creation) as WorkDate,
+        MONTHNAME(Date(creation)) as Month,
+        cast(TIME(min(creation)) as time(0)) as FirstIn,
+        IF(TIMEDIFF(max(creation),min(creation))=0,' ',cast(TIME(max(creation)) as time(0)) ) as LastOut,
+        IF(TIMEDIFF(min(creation),shift_start)>0,cast(TIMEDIFF(min(creation),shift_start) as time(0)),' ') as LateIn,
+        IF(Date(creation)=CURDATE(),' ',IF(TIMEDIFF(shift_end,max(creation))>0,cast(TIMEDIFF(shift_end,max(creation)) as time(0)),' ')) as EarlyOut,
+        IF(TIMEDIFF(max(creation),min(creation))=0,' ',cast(TIMEDIFF(max(creation),min(creation)) as time(0))) as Duration,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(device_id,':',2),':',-1) as Location
+        FROM
+        `tabEmployee Checkin`
+        GROUP BY
+        Date(creation) DESC, employee_name ASC

@@ -1,0 +1,21 @@
+SELECT a.employee,a.employee_name,a.emergency_phone_number as emergency_phone_number,
+a.person_to_be_contacted as person_to_be_contacted,
+a.cell_number as cell_number,
+a.personal_email as personal_email,
+a.prefered_email as prefered_email,
+a.permanent_address as permanent_address,
+a.current_address as current_address,
+a.passport_number as passport_number,
+a.date_of_issue as date_of_issue,
+a.valid_upto as valid_upto,
+a.place_of_issue as place_of_issue,
+a.marital_status as marital_status,
+a.blood_group as blood_group,
+a.family_background as family_background,
+a.health_details as health_details,
+count(b.name) as educational_details,
+count(c.name) as previouswork_experience,
+count(d.name) as currentwork_experience
+from `tabEmployee` as a LEFT JOIN `tabEmployee Education` as b ON a.name=b.parent 
+LEFT JOIN `tabEmployee External Work History` as c ON a.name=c.parent
+LEFT JOIN `tabEmployee Internal Work History` as d ON a.name=d.parent GROUP BY employee;

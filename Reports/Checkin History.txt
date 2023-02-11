@@ -1,0 +1,7 @@
+SELECT
+employee, employee_name,date(time) as Date, cast(time as time(0)) as Time,  log_type ,
+SUBSTRING_INDEX(SUBSTRING_INDEX(device_id,':',2),':',-1) as Location
+FROM
+`tabEmployee Checkin`
+ORDER BY
+Date desc,time DESC;

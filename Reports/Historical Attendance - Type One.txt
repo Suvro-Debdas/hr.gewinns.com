@@ -1,0 +1,11 @@
+SELECT
+employee as Employee, employee_name as EmployeeName, Date(time) as WorkDate,cast(TIME(min(time)) as time(0)) as FirstIn,
+IF(Date(time)=CURDATE(),' ',cast(TIME(max(time)) as time(0)) ) as LastOut, 
+IF(TIMEDIFF(min(time),shift_start)>0,cast(TIMEDIFF(min(time),shift_start) as time(0)),' ') as LateIn,
+IF(Date(time)=CURDATE(),' ',IF(TIMEDIFF(shift_end,max(time))>0,cast(TIMEDIFF(shift_end,max(time)) as time(0)),' ')) as EarlyOut,
+IF(Date(time)=CURDATE(),' ',cast(TIMEDIFF(max(time),min(time)) as time(0))) as Duration,
+SUBSTRING_INDEX(SUBSTRING_INDEX(device_id,':',2),':',-1) as Location
+FROM
+`tabEmployee Checkin`
+GROUP BY
+Date(time) DESC, employee_name ASC;

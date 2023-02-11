@@ -1,0 +1,8 @@
+select a.employee as 'Employee Id',a.employee_name as 'Employee Name',a.department as 'Department',a.expense_approver as 'Expense Approver',
+a.approval_status as 'Approval Status',a.total_claimed_amount as 'Claimed Amount',a.total_amount_reimbursed as 'Reimbursed Amount',
+a.posting_date as 'Date of Apply',a.mode_of_payment as 'Payment Mode',a.status as 'Status',
+e.expense_date as 'Expense Date',e.expense_type as 'Expense Type'
+from `tabExpense Claim` as a
+INNER JOIN
+`tabExpense Claim Detail` as e
+ON a.name=e.parent;

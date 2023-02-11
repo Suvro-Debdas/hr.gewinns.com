@@ -1,0 +1,16 @@
+SELECT
+e.image as  Image ,e.employee_name as 'Employee Name',e.department as Department,
+a.asset_name as 'Asset Name', a.category as category, a.serial_number as 'Serial Number',
+ a.model_number as 'Model Number', a.status as 'Status',a.asset_owner as 'Asset Owner',
+ a.item_name as 'Item Name',a.item_code as 'Item Code',
+ a.asset_category as 'Asset Category',a.policy_number as 'Policy Number',
+ c.employee as Employee,c.assigned_on as 'Assigned On',c.assigned_till as 'Assigned Till'
+FROM
+`tabAsset and Service Management` as a
+INNER JOIN
+`tabAsset and Service Table` as c
+ON a.name=c.parent
+INNER JOIN 
+`tabEmployee` as e
+ON c.employee =e.employee
+ORDER BY c.employee;
