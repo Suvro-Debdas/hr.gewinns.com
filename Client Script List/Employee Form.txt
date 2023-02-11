@@ -1,0 +1,39 @@
+frappe.ui.form.on('Employee', {
+    refresh(frm) {
+	    if (frm.doc.salary_structure){
+    		frm.add_custom_button(__("Create Tax Exemption Declaration"),function(){
+    		    frappe.route_options = {"employee":frm.doc.name}
+    			frappe.set_route("Form","Employee Tax Exemption Declaration","new-employee-tax-exemption-declaration")
+    		}).addClass("btn-danger").css({'color':'white','font-weight': 'bold'});
+	    }
+	},
+	validate: function(frm){
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        if(frm.doc.date_of_birth > today){
+            frm.doc.date_of_birth = '';
+            cur_frm.refresh_fields();
+            frappe.throw("Cannot select future date.");
+        }
+        
+	    //calculate age on trigger of dob
+	    var dob_entry = frm.doc.date_of_birth;
+	    var split_dob = dob_entry.split("-");
+        var month = split_dob[1];
+        var day = split_dob[2];
+        var year = split_dob[0];
+        var dob_asdate = new Date(year, month, day);
+        var today = new Date();
+        var mili_dif = Math.abs(today.getTime() - dob_asdate.getTime());
+        var age = Math.floor((mili_dif / (1000 * 3600 * 24 * 365.25)));
+        
+        //set calculated age in age field
+        cur_frm.set_value('emp_age',age);
+        cur_frm.refresh_fields();
+	    
+	}
+})

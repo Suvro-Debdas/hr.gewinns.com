@@ -1,0 +1,19 @@
+frappe.ui.form.on('Employee Checkin', {
+    setup: function(frm) {
+        if (frappe.user.has_role('HR Manager')){} 
+        else {
+            
+            frm.set_df_property("time","read_only",1);
+        }
+    },
+	validate: function(frm) {
+		// your code here
+		console.log(frappe.user.has_role('HR Manager'));
+		if (frm.doc.time>frappe.datetime.now_datetime()){
+		frappe.throw("Input time cannot be greater than current time");
+	//	frappe.msgprint("Input time cannot be greater than current time", raise_exception=true);
+	
+		}
+// 		console.log(frm.doc.time);
+	}
+});

@@ -1,0 +1,6 @@
+frappe.ui.form.on('Employee Other Income',  {
+    validate: function(frm) {
+        var amt = frm.doc.other_income - frm.doc.tds_dedicated;
+        frm.doc.amount = amt;
+    } 
+});

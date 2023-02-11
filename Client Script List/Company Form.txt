@@ -1,0 +1,11 @@
+frappe.ui.form.on('Company', {
+	refresh(frm) {
+	    setTimeout(() => {
+	       // $(".form-link-title").hide();
+	        $("[data-doctype='Sales Order']").hide();
+	        $("[data-doctype='Sales Invoice']").hide();
+	        $("[data-doctype='Delivery Note']").hide();
+	        $("[data-doctype='Quotation']").hide();
+	    }, 10);
+	}
+})

@@ -1,0 +1,143 @@
+// frappe.ui.form.on('Employee Tax Exemption Declaration', {
+//     disability_percentage: function(frm){
+//         if (frm.doc.employee_age > 60){
+//             frm.doc.declarations.forEach(d=> {
+//                     frappe.model.set_value(d.doctype, d.name, "disability_percentage", frm.doc.disability_percentage)
+//                     frappe.model.set_value(d.doctype, d.name, "amount", 125000)
+//         })
+//         }
+//     }
+// })
+
+
+
+frappe.ui.form.on("Employee Tax Exemption Declaration", {
+        onload: function(frm) {
+            
+        },
+        income_tax_slab:function(frm){
+            console.log(frm.doc.income_tax_slab);
+            if (frm.doc.income_tax_slab=="New Slab"){
+            frm.get_field("declarations").grid.only_sortable();
+            frm.set_df_property("monthly_house_rent", "read_only", 1);
+                alert("No tax exemption needs to be delared for New tax Slab");
+            }
+        },
+        get_old_tax_declaration: function(frm) {
+            frappe.call({
+    			method : "frappe.client.get_list",
+    			args:{
+    				"doctype" : "Employee Tax Exemption Sub Category",
+    				filters:{
+    				    "old_tax_slab_only" : '1',
+    				    "is_active" : '1'
+    				    },
+    				fields:["name","exemption_category","max_amount"]
+    			},
+    			callback(r){console.log(r.message);
+    				frm.clear_table("declarations")
+    				$.each(r.message,function(i,d){
+    					frappe.db.get_doc('Employee Tax Exemption Sub Category',d.name)
+    					.then(r => {
+    						var row = frappe.model.add_child(frm.doc, "Employee Tax Exemption Declaration Category", "declarations");
+    						row.exemption_sub_category = r.name;
+    						row.exemption_category = r.exemption_category;
+    						row.max_amount = r.max_amount;
+    						row.amount = 0;
+    					})
+    				})
+    				refresh_field("declarations");
+    				// frm.save()
+    			}
+    		})
+		},
+		get_new_tax_declaration: function(frm) {
+            frappe.call({
+    			method : "frappe.client.get_list",
+    			args:{
+    				"doctype" : "Employee Tax Exemption Sub Category",
+    				filters:{
+    				    "old_tax_slab_only" : '0',
+    				    "is_active" : '1'
+    				    },
+    				fields:["name","exemption_category","max_amount"]
+    			},
+    			callback(r){console.log(r.message);
+    				frm.clear_table("declarations");
+    				$.each(r.message,function(i,d){
+    					frappe.db.get_doc('Employee Tax Exemption Sub Category',d.name)
+    					.then(r => {
+    						var row = frappe.model.add_child(frm.doc, "Employee Tax Exemption Declaration Category", "declarations");
+    						row.exemption_sub_category = r.name;
+    						row.exemption_category = r.exemption_category;
+    						row.max_amount = r.max_amount;
+    						row.amount = 0;
+    					});
+    				});
+    				refresh_field("declarations");
+    				// frm.save()
+    			}
+    		});
+		},
+});
+
+frappe.ui.form.on('Employee Tax Exemption Declaration',  'validate',  function(frm) {
+    $.each(frm.doc.declarations,  function(i,  d) {console.log(d);
+        if(d.exemption_sub_category == "LIC"){
+            var percent = 0;
+            percent = (d.sum_assured /100) * 10
+            if (d.annual_premium > percent) {
+                d.amount = percent
+            }
+            else{
+                d.amount = d.annual_premium
+            }
+        }
+        else if(d.exemption_sub_category == "Medical Insurance (Self/Family)"){
+            if (d.senior_citizen_include_s == 1) {
+                if (d.annual_premium_self > 50000) {
+                    d.amount = 50000
+                }
+                else {
+                    d.amount = d.annual_premium_self
+                }
+            }
+            else {
+                if (d.annual_premium_self > 25000) {
+                    d.amount = 25000
+                }
+                else {
+                    d.amount = d.annual_premium_self
+                }
+
+            }
+
+        }
+        else if(d.exemption_sub_category == "Medical Insurance (Parents)"){
+            if (d.senior_citizen_include_p == 1) {
+                if (d.annual_premium_parents > 50000) {
+                    d.amount = 50000
+                }
+                else {
+                    d.amount = d.annual_premium_parents
+                }
+            }
+            else {
+                if (d.annual_premium_parents > 25000) {
+                    d.amount = 25000
+                }
+                else {
+                    d.amount = d.annual_premium_parents
+                }
+
+            }
+
+        }
+        });
+});
+
+frappe.ui.form.on('Employee Tax Exemption Declaration Category', {
+	refresh(frm) {
+		// your code here
+	}
+})

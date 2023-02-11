@@ -1,0 +1,40 @@
+frappe.listview_settings['Attendance Request'] = {
+	onload: function(list_view) {
+	    frappe.msgprint({message: __("<p>For Attendance Request use <strong> Check In & Check Out</strong> Buttons</p>"), indicator: 'green'});
+		list_view.page.add_inner_button( __("Check In"), function() {
+			frappe.call({
+				method: "gewin_payroll.custom.checkin_request",
+				args: {
+					data: data
+				},
+				callback: function(r) {
+					console.log(r);
+					//if (r.message === 1) {
+						frappe.msgprint({message: __("Good Morning, Have a Good Day!!!"), indicator: 'green'});
+						cur_dialog.hide();
+					//}
+				}
+			});
+			dialog.hide();
+			list_view.refresh();
+		}).addClass("btn-primary");
+		
+		list_view.page.add_inner_button( __("Check Out"), function() {
+			frappe.call({
+				method: "gewin_payroll.custom.checkout_request",
+				args: {
+					data: data
+				},
+				callback: function(r) {
+					console.log(r);
+					//if (r.message === 1) {
+						frappe.msgprint({message: __("Thank You!!!"), indicator: 'blue'});
+						cur_dialog.hide();
+					//}
+				}
+			});
+			dialog.hide();
+			list_view.refresh();
+		}).addClass("btn-danger");
+	}
+};
