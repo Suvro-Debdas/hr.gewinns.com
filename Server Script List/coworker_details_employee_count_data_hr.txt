@@ -1,0 +1,2 @@
+data=frappe.db.sql("SELECT count(employee) as number FROM `tabEmployee` where `status` = 'Active'",as_dict=True)
+frappe.response["message"]=data

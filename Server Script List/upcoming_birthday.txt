@@ -1,0 +1,1 @@
+frappe.response["message"]=frappe.db.sql("SELECT * FROM `tabEmployee Shareable Details` as a INNER JOIN `tabEmployee` as b ON a.employee = b.employee WHERE b.status = 'Active' AND MONTH(a.date_of_birth)=MONTH(CURDATE()) AND DAY(a.date_of_birth)=DAY(CURDATE())",as_dict=True)

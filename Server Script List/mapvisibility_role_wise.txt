@@ -1,0 +1,11 @@
+# eid=frappe.db.get_value('Employee', {'user_id': frappe.session.user}, ['name'])
+# eid = frappe.db.sql("""select name from `tabEmployee` where user_id = %s""",(frappe.session.user),as_dict=1)
+# frappe.msgprint(args['role_name']);
+
+data=frappe.db.sql("""SELECT b.* FROM `tabUser` as a
+INNER JOIN
+`tabHas Role` as b
+ON a.name=b.parent
+WHERE b.parent = %s AND b.role=%s;""",(frappe.user,args['role_name']),as_dict=True)
+
+frappe.response["message"]=data

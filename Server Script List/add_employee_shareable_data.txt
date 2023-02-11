@@ -1,0 +1,33 @@
+if (frappe.db.exists("Employee",doc.employee)):
+    
+    # frappe.msgprint(doc.department);
+    # frappe.msgprint(doc.designation);
+    # frappe.msgprint(doc.employee);
+    a=frappe.db.sql("""SELECT employee,name from `tabEmployee Shareable Details` WHERE employee=%s""",(doc.employee),as_dict=True)
+    # frappe.msgprint((a[0].name));
+    # frappe.db.sql("""UPDATE `tabEmployee Shareable Details` SET department=%s,designation=%s,status=%s WHERE name=%s""",(doc.department,doc.designation,doc.status,a[0].name))
+    frappe.db.set_value("Employee Shareable Details",a[0].name,{
+        "department" : doc.department,
+        "designation" : doc.designation,
+        "status" : doc.status
+    })
+else:
+    
+    if doc.department :
+        dept=doc.department
+    else :
+        dept=" "
+    if doc.designation :
+        desgn=doc.designation
+    else :
+        desgn=" "
+    frappe.get_doc(dict(
+            doctype = 'Employee Shareable Details',
+            employee = doc.employee,
+            employee_name = doc.employee_name,
+            date_of_birth = doc.date_of_birth,
+            date_of_joining = doc.date_of_joining,
+            department = dept,
+            designation = desgn,
+            status = doc.status,
+        )).insert()

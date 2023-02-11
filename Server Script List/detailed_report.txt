@@ -1,0 +1,19 @@
+# eid=frappe.db.get_value('Employee', {'user_id': frappe.session.user}, ['name'])
+# eid = frappe.db.sql("""select name from `tabEmployee` where user_id = %s""",(frappe.session.user),as_dict=1)
+data=frappe.db.sql("""SELECT
+        employee as Employee, employee_name as EmployeeName, Date(time) as WorkDate,
+        MONTHNAME(Date(time)) as Month,
+        cast(TIME(min(time)) as time(0)) as FirstIn,
+        IF(TIMEDIFF(max(time),min(time))=0,'Miss Out',cast(TIME(max(time)) as time(0)) ) as LastOut,
+        IF(TIMEDIFF(min(time),shift_start)>0,cast(TIMEDIFF(min(time),shift_start) as time(0)),' ') as LateIn,
+        IF(Date(time)=CURDATE(),' ',IF(TIMEDIFF(shift_end,max(time))>0,cast(TIMEDIFF(shift_end,max(time)) as time(0)),' ')) as EarlyOut,
+        IF(TIMEDIFF(max(time),min(time))=0,' ',cast(TIMEDIFF(max(time),min(time)) as time(0))) as Duration,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(device_id,':',2),':',-1) as Location
+        FROM
+        `tabEmployee Checkin`
+        WHERE Date(time)=CURDATE() OR Date(time)=CURDATE()-1
+        GROUP BY
+        Date(time) DESC, employee_name ASC""",as_dict=True)
+
+frappe.response["message"]=data
+

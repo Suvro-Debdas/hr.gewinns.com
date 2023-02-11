@@ -1,0 +1,20 @@
+eid = frappe.db.sql("""select name from `tabEmployee` where user_id = %s""",(frappe.session.user),as_dict=1)
+data=frappe.db.sql("""SELECT
+e.image  ,e.employee_name ,
+a.asset_name , a.category as category, a.serial_number,
+a.model_number , a.status ,a.asset_owner ,
+e.department ,a.item_name ,a.item_code ,
+a.asset_category,a.policy_number ,
+c.employee ,c.assigned_on ,c.assigned_till 
+FROM
+`tabAsset and Service Management` as a
+INNER JOIN
+`tabAsset and Service Table` as c
+ON a.name=c.parent
+INNER JOIN 
+`tabEmployee` as e
+ON c.employee =e.employee
+WHERE
+c.employee=%s
+ORDER BY c.employee;""",(eid[0].name),as_dict=True)
+frappe.response["message"]=data

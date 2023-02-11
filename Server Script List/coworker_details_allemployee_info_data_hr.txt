@@ -1,0 +1,1 @@
+frappe.response["message"]=frappe.db.sql("SELECT * FROM `tabEmployee Shareable Details` as a INNER JOIN `tabEmployee` as b ON a.employee = b.employee WHERE b.status = 'Active'",as_dict=True)

@@ -1,0 +1,4 @@
+eid=frappe.db.get_value('Employee', {'user_id': frappe.session.user}, ['name'])
+frappe.msgprint(eid);
+frappe.db.set_value('Employee', eid, 'agreed_hrpolicy', 'Yes')
+frappe.response["message"]='success'
