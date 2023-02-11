@@ -1,0 +1,124 @@
+frappe.ui.form.on('DVR', {
+	refresh(frm) {
+		// your code here
+		console.log(frm);
+
+            
+		//frm.doc.employee=frappe.user_id;
+		
+	},
+	onload : function(frm){//alert("hi");console.log(frappe);
+	        var url=`/api/resource/Employee/?filters=[["user_id","=","${frappe.session.user}"]]`;
+        //alert(url);
+        fetch(url).then((r)=>r.json()).then((js)=>{console.log(js);
+                //alert(js);
+            //frm.doc.employee=js.data[0].name;
+            //frm.refresh();
+            frm.set_value("employee", js.data[0].name);
+        });
+	        
+	    
+	},
+	employee:function(frm){
+	    let count=0;
+        let watchId;
+        let geoLoc;
+        const options = {
+        enableHighAccuracy: true,
+        maximumAge: 30000,
+        timeout: 27000
+        };
+        //alert(frm.doc.employee);
+        geoLoc=navigator.geolocation;
+        watchId = geoLoc.watchPosition(success, error, options);
+	    
+		
+		function success(position) {
+            count+=1;
+            //alert(count);
+            if (count===1){
+                
+                //var latlon=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                frm.doc.latitude=position.coords.latitude;
+		        frm.doc.longitude=position.coords.longitude;
+		        var Latlong=position.coords.latitude+','+position.coords.longitude;
+		        frappe.call({method :'gewin_payroll.api.getLocationAddress',
+    //frappe.call('gewin_payroll.api.testfunction')
+                    args : {latlong : Latlong},
+                    callback :function(r1) {//alert(r1.message);
+                    console.log(frm.doc.employee);
+                        frm.doc.address=r1.message;
+                        frm.refresh();
+                    }
+		            
+		        });
+		        
+                frm.refresh();
+                //var Latlong=position.coords.latitude+','+position.coords.longitude;
+                //alert(watchId);
+                geoLoc.clearWatch(watchId);
+                }    
+            }// end success
+            
+            function error(error) {
+      switch(error.code) {
+    case error.PERMISSION_DENIED:
+      alert("As you have denied the request for Geolocation. So lat/long will not be available");
+            break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+      alert("The request to get user location timed out.");
+      break;
+    case error.UNKNOWN_ERROR:
+      alert("An unknown error occurred.");
+      break;
+  }
+    }//end of error function
+	},
+// 	after_submit:function(frm){
+	   // var Latlong=frm.doc.latitude+','+frm.doc.longitude;
+	   // //alert(Latlong);
+	   // //console.log(frm);
+	   // //console.log(frm.doc.employee);
+	   // frappe.call({method :'gewin_payroll.api.getLocationAddress',
+    // //frappe.call('gewin_payroll.api.testfunction')
+    // args : {latlong : Latlong},
+    // callback :function(r1) {alert(r1.message);console.log(frm.doc.employee);
+    //     device_id=frm.doc.latitude+"|"+frm.doc.longitude+"|00"+ ":"+r1.message+":none";
+	   // frappe.call({method:'erpnext.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field',
+    //         args : {employee_field_value:frm.doc.employee,
+    //                 timestamp:moment().format("yyyy-MM-DD HH:mm:ss"),
+    //                 device_id:device_id,
+    //                 log_type:"OUT",
+    //                 },
+    //                 callback : (r)=>{console.log(r);
+    //                     //get_checkin_and_display(name);
+    //                 }
+    //         });
+        
+    // }
+    // });
+	    
+//	}
+
+
+q29:function(frm){
+    //alert("hi");
+    // alert(frm.doc.q29);
+    frm.set_df_property('q30', 'reqd',((frm.doc.q29 === 'Fully') || (frm.doc.q29 === 'Partly')) ? 1 : 0);
+    frm.set_df_property('q41', 'hidden',(frm.doc.q29 === 'Will not pay') ? 0 : 1);
+    frm.set_df_property('q41', 'reqd',(frm.doc.q29 === 'Will not pay') ? 1 : 0);
+},
+
+q25:function(frm){
+    //alert("hi");
+    // alert(frm.doc.q29);
+    frm.set_df_property('q26', 'reqd',(frm.doc.q25 === 'Yes') ? 1 : 0);
+},
+
+
+
+	
+});
