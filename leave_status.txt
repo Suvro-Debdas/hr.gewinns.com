@@ -1,0 +1,2 @@
+data=frappe.db.sql("""SELECT status FROM `tabLeave Application` GROUP BY status;""",as_dict=True)
+frappe.response["message"]=data

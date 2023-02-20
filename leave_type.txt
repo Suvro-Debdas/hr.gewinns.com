@@ -1,0 +1,2 @@
+data=frappe.db.sql("""SELECT * FROM `tabLeave Type` GROUP BY leave_type_name;""",as_dict=True)
+frappe.response["message"]=data

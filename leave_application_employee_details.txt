@@ -1,0 +1,9 @@
+eid = frappe.db.sql("""select name from `tabEmployee` where user_id = %s""",(frappe.session.user),as_dict=1)
+data=frappe.db.sql("""SELECT
+employee, employee_name,department,leave_approver,company,letter_head,count(name)+1 as count,YEAR(posting_date) as year
+FROM
+`tabLeave Application`
+WHERE
+employee=%s
+""",(eid[0].name),as_dict=True)
+frappe.response["message"]=data
