@@ -1,0 +1,3 @@
+data=frappe.db.sql("""SELECT * FROM `tabHoliday`""",as_dict=True)
+
+frappe.response["message"]=data
