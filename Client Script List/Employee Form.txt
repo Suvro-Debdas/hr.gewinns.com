@@ -2,12 +2,12 @@ frappe.ui.form.on('Employee', {
     refresh(frm) {
 	    if (frm.doc.salary_structure){
     		frm.add_custom_button(__("Create Tax Exemption Declaration"),function(){
-    		    frappe.route_options = {"employee":frm.doc.name}
-    			frappe.set_route("Form","Employee Tax Exemption Declaration","new-employee-tax-exemption-declaration")
+    		    frappe.route_options = {"employee":frm.doc.name};
+    			frappe.set_route("Form","Employee Tax Exemption Declaration","new-employee-tax-exemption-declaration");
     		}).addClass("btn-danger").css({'color':'white','font-weight': 'bold'});
 	    }
 	},
-	validate: function(frm){
+	date_of_birth: function(frm){
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -19,7 +19,6 @@ frappe.ui.form.on('Employee', {
             cur_frm.refresh_fields();
             frappe.throw("Cannot select future date.");
         }
-        
 	    //calculate age on trigger of dob
 	    var dob_entry = frm.doc.date_of_birth;
 	    var split_dob = dob_entry.split("-");
@@ -34,6 +33,278 @@ frappe.ui.form.on('Employee', {
         //set calculated age in age field
         cur_frm.set_value('emp_age',age);
         cur_frm.refresh_fields();
+	},
+	
+// 	Validation for UAN Number
+	
+	provident_fund_account: function(frm){
+	   // if ((frm.doc.provident_fund_account).length!=12){
+	   //     frappe.msgprint('UAN Number should contain 12 numeric digits');
+	   // }
+	    for( var i=0;i<(frm.doc.provident_fund_account).length;i++){
+	       // console.log(frm.doc.provident_fund_account[i]);
+	       // console.log((frm.doc.provident_fund_account).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.provident_fund_account[i]));
+	        if((isDigit(frm.doc.provident_fund_account[i]))==false || (frm.doc.provident_fund_account).length!=12){
+	            $('input[data-fieldname = provident_fund_account]').css("border","2px solid red");
+	        } // if statement ends here
+	        
+	        else{
+	            $('input[data-fieldname = provident_fund_account]').css("border","none");
+	        } // else statement ends here
+	    } // for loop ends here
 	    
-	}
-})
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+	}, // first function ends here
+	
+	
+// 	Validation for ESI Number
+	
+	esi: function(frm){
+
+	    for( var i=0;i<(frm.doc.esi).length;i++){
+	       // console.log(frm.doc.esi[i]);
+	       // console.log((frm.doc.esi).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.esi[i]));
+	        if((isDigit(frm.doc.esi[i]))==false || (frm.doc.esi).length!=10){
+	             $('input[data-fieldname = esi]').css("border","2px solid red");
+	        } // if statement ends here
+	        
+	        else{
+	            $('input[data-fieldname = esi]').css("border","none");
+	        } // else statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+	}, // first function ends here
+	
+// 	Validation for Aadhaar Number
+	
+	aadhaar: function(frm){
+	   // if ((frm.doc.aadhaar).length!=12){
+	   //     frappe.msgprint('UAN Number should contain 12 numeric digits');
+	   // }
+	    for( var i=0;i<(frm.doc.aadhaar).length;i++){
+	       // console.log(frm.doc.aadhaar[i]);
+	       // console.log((frm.doc.aadhaar).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.aadhaar[i]));
+	        if((isDigit(frm.doc.aadhaar[i]))==false || (frm.doc.aadhaar).length!=12){
+	            $('input[data-fieldname = aadhaar]').css("border","2px solid red");
+	        } // if statement ends here
+	        
+	        else{
+	            $('input[data-fieldname = aadhaar]').css("border","none");
+	        } // else statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+	}, // first function ends here
+	
+// 	Validation for Mobile Number
+	
+	cell_number: function(frm){
+
+	    for( var i=0;i<(frm.doc.cell_number).length;i++){
+	       // console.log(frm.doc.cell_number[i]);
+	       // console.log((frm.doc.cell_number).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.cell_number[i]));
+	        if((isDigit(frm.doc.cell_number[i]))==false || (frm.doc.cell_number).length!=10){
+	             $('input[data-fieldname = cell_number]').css("border","2px solid red");
+	        } // if statement ends here
+	        
+	        else{
+	            $('input[data-fieldname = cell_number]').css("border","none");
+	        } // else statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+	}, // first function ends here	
+	
+// 	Validation for PAN Number
+	
+	pan_number: function(frm){
+	    
+	   var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+	    
+	    if(regex.test(frm.doc.pan_number.toUpperCase()) == false || (frm.doc.pan_number).length!=10){
+	    
+	        $('input[data-fieldname = pan_number]').css("border","2px solid red");
+	        
+	     } // if statement ends here
+	        
+	     else{
+	            $('input[data-fieldname = pan_number]').css("border","none");
+	            
+	      } // else statement ends here
+	    
+	}, // first function ends here	
+	
+// 	Validation for Postal Code
+	
+	postal_code: function(frm){
+	    
+	    for( var i=0;i<(frm.doc.postal_code).length;i++){
+	       // console.log(frm.doc.postal_code[i]);
+	       // console.log((frm.doc.postal_code).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.postal_code[i]));
+	        if((isDigit(frm.doc.postal_code[i]))==false || (frm.doc.postal_code).length!=6){
+	             $('input[data-fieldname = postal_code]').css("border","2px solid red");
+	        } // if statement ends here
+	        
+	        else{
+	            $('input[data-fieldname = postal_code]').css("border","none");
+	        } // else statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+	}, // first function ends here	
+
+
+// Validation of fields at the time of saving the application
+
+    validate: function(frm){
+        
+    // Validation for UAN Number
+        
+        for( var i=0;i<(frm.doc.provident_fund_account).length;i++){
+	       // console.log(frm.doc.provident_fund_account[i]);
+	       // console.log((frm.doc.provident_fund_account).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.provident_fund_account[i]));
+	        if((isDigit(frm.doc.provident_fund_account[i]))==false || (frm.doc.provident_fund_account).length!=12){
+	            frappe.throw("Enter 12 digit UAN Number");
+	        } // if statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+	    
+	// 	Validation for ESI Number
+
+	    for( var i=0;i<(frm.doc.esi).length;i++){
+	       // console.log(frm.doc.esi[i]);
+	       // console.log((frm.doc.esi).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.esi[i]));
+	        if((isDigit(frm.doc.esi[i]))==false || (frm.doc.esi).length!=10){
+	             frappe.throw("Enter 10 digit ESI Number");
+	        } // if statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+    // 	Validation for Aadhaar Number
+	
+	    for( var i=0;i<(frm.doc.aadhaar).length;i++){
+	       // console.log(frm.doc.aadhaar[i]);
+	       // console.log((frm.doc.aadhaar).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.aadhaar[i]));
+	        if((isDigit(frm.doc.aadhaar[i]))==false || (frm.doc.aadhaar).length!=12){
+	            frappe.throw("Enter 12 digit Aadhaar Number");
+	        } // if statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here
+	    
+    // 	Validation for Mobile Number
+
+	    for( var i=0;i<(frm.doc.cell_number).length;i++){
+	       // console.log(frm.doc.cell_number[i]);
+	       // console.log((frm.doc.cell_number).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.cell_number[i]));
+	        if((isDigit(frm.doc.cell_number[i]))==false || (frm.doc.cell_number).length!=10){
+	             frappe.throw("Enter 10 digit Mobile Number");
+	        } // if statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here    
+	    
+	// Validation for PAN Number
+	    
+	   var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+	    
+	    if(regex.test(frm.doc.pan_number.toUpperCase()) == false || (frm.doc.pan_number).length!=10){
+	    
+	        frappe.throw("Enter PAN Number in proper format");
+	        
+	     } // if statement ends here
+	  
+	// 	Validation for Postal Code
+	
+	    for( var i=0;i<(frm.doc.postal_code).length;i++){
+	       // console.log(frm.doc.postal_code[i]);
+	       // console.log((frm.doc.postal_code).charCodeAt(i));
+	       // console.log(isDigit(frm.doc.postal_code[i]));
+	        if((isDigit(frm.doc.postal_code[i]))==false || (frm.doc.postal_code).length!=6){
+	             frappe.throw("Enter 6 digit postal code");
+	        } // if statement ends here
+	    } // for loop ends here
+	    
+	    function isDigit(c){
+	        var txt=false;
+	       if(c.charCodeAt(0)>47 && c.charCodeAt(0)<59){
+	           txt = true;
+	       } // if statement ends here
+	       return txt;
+	    } // second function ends here    
+
+    } // function validation ends here
+
+});
